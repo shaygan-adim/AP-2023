@@ -2,16 +2,24 @@ package Model;
 
 public class Block extends PhysicalObject{
     // Fields
-    private Item itemInside;
+    private Item[] itemsInside;
+    private BlockType blockType;
+    private boolean visible = true;
 
     // Constructor
-    public Block(int[] coordinates, Item itemInside) {
-        super(coordinates,80, 80);
-        this.itemInside = itemInside;
+    public Block(int[] coordinates, BlockType blockType,Item[] itemsInside) {
+        super(coordinates,60, 60);
+        this.blockType = blockType;
+        this.itemsInside = itemsInside;
+
     }
     // Setters
-    public void setItemInside(Item itemInside) {this.itemInside = itemInside;}
+    public void setItemsInside(Item[] itemsInside) {this.itemsInside = itemsInside;}
+    public boolean isVisible() {return visible;}
+    public void setBlockType(BlockType blockType) {this.blockType = blockType;}
 
     // Getters
-    public Item getItemInside() {return itemInside;}
+    public Item[] getItemsInside() {return itemsInside;}
+    public BlockType getBlockType() {return blockType;}
+    public void setVisible(boolean visible) {this.visible = visible;}
 }

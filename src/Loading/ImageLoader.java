@@ -32,9 +32,12 @@ abstract public class ImageLoader {
     private static Image toadRight1Image,toadRight2Image,toadRight3Image,toadRight4Image;
     private static Image toadLeft1Image,toadLeft2Image,toadLeft3Image,toadLeft4Image;
     private static Image plantImage;
-    private static Image itemBlock,regularBlock,emptyBlock;
+    private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image L1P1Image;
     private static Image L1P2Image;
+    private static Image levelBackground;
+    private static Image pipeImage;
+    private static Image pitImage;
     private static ImageIcon icon;
     private static ImageIcon yImage;
     private static ImageIcon nImage;
@@ -61,7 +64,7 @@ abstract public class ImageLoader {
         ImageLoader.passedImage = ImageIO.read(new File("src/Loading/Graphics/Backgrounds/Passed.jpg"));
 
         // Loading in game characters
-        ImageLoader.marioInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioInGame.png"));
+        ImageLoader.marioInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioInGame1.png"));
         ImageLoader.luigiInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiInGame.png"));
         ImageLoader.princessInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Princess/PrincessInGame.png"));
         ImageLoader.yoshiInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Yoshi/YoshiInGame.png"));
@@ -117,23 +120,29 @@ abstract public class ImageLoader {
         ImageLoader.toadLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft3.png"));
         ImageLoader.toadLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft4.png"));
 
-        ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
+        ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump1.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
         ImageLoader.princessJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Princess/PrincessJump.png"));
         ImageLoader.yoshiJumpRightImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Yoshi/YoshiJumpRight.png"));
         ImageLoader.yoshiJumpLeftImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Yoshi/YoshiJumpLeft.png"));
         ImageLoader.toadJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadJump.png"));
 
-        ImageLoader.plantImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Plant/Plant.png"));
+        ImageLoader.plantImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Plant/Plant2.png"));
 
         // Loading blocks
         ImageLoader.regularBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/RegularBlock.png"));
         ImageLoader.itemBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/ItemBlock.png"));
         ImageLoader.emptyBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/EmptyBlock.png"));
+        ImageLoader.slimeBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/SlimeBlock.png"));
 
-        // Loading levels
-        ImageLoader.L1P1Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P111.jpg"));
-        ImageLoader.L1P2Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P222.jpg"));
+//        // Loading levels
+//        ImageLoader.L1P1Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P111.jpg"));
+//        ImageLoader.L1P2Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P222.jpg"));
+
+        // Loading level's stuff
+        ImageLoader.levelBackground = ImageIO.read(new File("src/Loading/Graphics/Levels/Background.jpg"));
+        ImageLoader.pipeImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Other/Pipe.png"));
+        ImageLoader.pitImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Other/Pit.png"));
 
         // Loading other stuff
         ImageLoader.yImage = new ImageIcon("src/Loading/Graphics/Other/Y.png");
@@ -223,8 +232,12 @@ abstract public class ImageLoader {
     public static Image getItemBlock() {return itemBlock;}
     public static Image getRegularBlock() {return regularBlock;}
     public static Image getEmptyBlock() {return emptyBlock;}
+    public static Image getSlimeBlock() {return slimeBlock;}
     public static Image getL1P1Image() {return L1P1Image;}
     public static Image getL1P2Image() {return L1P2Image;}
+    public static Image getLevelBackground() {return levelBackground;}
+    public static Image getPipeImage() {return pipeImage;}
+    public static Image getPitImage() {return pitImage;}
     public static ImageIcon getyImage() {return yImage;}
     public static ImageIcon getnImage() {return nImage;}
     public static ImageIcon getCoinImage() {return coinImage;}

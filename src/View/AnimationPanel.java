@@ -90,14 +90,33 @@ public class AnimationPanel extends JPanel {
             }
 
             // Drawing the background
-            g.drawImage(this.levelImage[level.getActivePart().getId()],drawingInteger+150,0,5120,800,this);
+//            g.drawImage(this.levelImage[level.getActivePart().getId()],drawingInteger+150,0,5120,800,this);
+            g.drawImage(ImageLoader.getLevelBackground(),0,0,1280,800,this);
+
+            // Drawing the Pits
+            for (int i = 0 ; i<level.getActivePart().getFloors().length-1 ; i++){
+                g.drawImage(ImageLoader.getPitImage(),drawingInteger+150+level.getActivePart().getFloors()[i].getX()+level.getActivePart().getFloors()[i].getWidth(),level.getActivePart().getFloors()[0].getY(),level.getActivePart().getFloors()[i+1].getX()-level.getActivePart().getFloors()[i].getX()-level.getActivePart().getFloors()[i].getWidth(),level.getActivePart().getFloors()[0].getHeight(),this);
+            }
 
             // Drawing the blocks
             for (Block block : this.level.getActivePart().getBlocks()){
-                if (block.getItemInside()!=null)
-                    g.drawImage(ImageLoader.getItemBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
-                else
+                if ((block.getBlockType()==BlockType.COIN || block.getBlockType()==BlockType.COINS || block.getBlockType()==BlockType.SIMPLE) && block.isVisible())
                     g.drawImage(ImageLoader.getRegularBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+                if (block.getBlockType()==BlockType.EMPTY)
+                    g.drawImage(ImageLoader.getEmptyBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+                if (block.getBlockType()==BlockType.QUESTION)
+                    g.drawImage(ImageLoader.getItemBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+                if (block.getBlockType()==BlockType.SLIME)
+                    g.drawImage(ImageLoader.getSlimeBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+                //                if (block.getItemsInside()!=null)
+//                    g.drawImage(ImageLoader.getItemBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+//                else
+//                    g.drawImage(ImageLoader.getRegularBlock(),drawingInteger+block.getX()+150,block.getY(),block.getWidth(),block.getHeight(),this);
+            }
+
+            // Drawing the pipes
+            for (Pipe pipe : level.getActivePart().getPipes()){
+                g.drawImage(ImageLoader.getPipeImage(),drawingInteger+pipe.getX()+150,pipe.getY(),pipe.getWidth(),pipe.getHeight(),this);
             }
             // Drawing the enemies
             for (Enemy enemy : level.getActivePart().getEnemies()){

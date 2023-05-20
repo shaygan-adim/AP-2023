@@ -10,7 +10,7 @@ public class Part {
     private final Pipe[] pipes;
     private final Enemy[] enemies;
     private final Hero[] heroes;
-    private final Coin[] coins;
+    private Coin[] coins;
     private final int[] endY;
     private final int time;
     private final Stopwatch stopwatch = new Stopwatch(1);
@@ -89,6 +89,13 @@ public class Part {
             double[] coordinates = {x,y};
             this.coins[i].setCoordinates(coordinates);
         }
+    }
+    // Methods
+    public void addBlockCoin(Coin coin){
+        Coin[] coins2 = new Coin[this.coins.length+1];
+        coins2[coins2.length-1] = coin;
+        for (int i = 0 ; i<this.coins.length ; i++) coins2[i] = this.coins[i];
+        this.coins = coins2;
     }
 
     // Setters

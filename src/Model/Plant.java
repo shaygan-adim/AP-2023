@@ -9,7 +9,7 @@ public class Plant extends Enemy{
 
     // Constructor
     public Plant(int lives,Pipe pipe,int timePeriod) {
-        super(lives, null, 123, 172, null);
+        super(lives, null, 55, 77, null);
         this.pipe = pipe;
         this.timePeriod = timePeriod;
     }

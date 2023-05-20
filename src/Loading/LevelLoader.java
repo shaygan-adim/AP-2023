@@ -34,13 +34,28 @@ abstract public class LevelLoader {
             for (int i = 0 ; i<blocksNumber ; i++){
                 line = br.readLine();
                 splitedLine = line.split(",");
-                Item item = null;
-                int margin = 0;
-                if (line.charAt(0)=='C'){
-                    item = new Coin(null);
-                    margin++;
+                Item[] items = null;
+                int margin = 2;
+                if (line.startsWith("SI")){
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.SIMPLE,items);
                 }
-                blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},item);
+                if (line.startsWith("CO")){
+                    items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin)), Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.COIN,items);
+                }
+                if (line.startsWith("EM")){
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.EMPTY,items);
+                }
+                if (line.startsWith("CS")){
+                    items = new Item[]{new Coin(new double[]{-10,-10}),new Coin(new double[]{-10,-10}),new Coin(new double[]{-10,-10}),new Coin(new double[]{-10,-10}),new Coin(new double[]{-10,-10})};
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.COINS,items);
+                }
+                if (line.startsWith("QU")){
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.QUESTION,items);
+                }
+                if (line.startsWith("SL")){
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.SLIME,items);
+                }
             }
             int pipesNumber = Integer.valueOf(br.readLine());
             Pipe[] pipes = new Pipe[pipesNumber];
@@ -58,7 +73,7 @@ abstract public class LevelLoader {
                 pipes[i] = new Pipe(new int[]{Integer.valueOf(splitedLine[0].substring(margin)),Integer.valueOf(splitedLine[1])},plant);
                 if (plant!=null) {
                     plant.setPipe(pipes[i]);
-                    plant.setCoordinates(new double[]{pipes[i].getCoordinates()[0]+pipes[i].getWidth()/2-172/2,pipes[i].getCoordinates()[1]-123});
+                    plant.setCoordinates(new double[]{pipes[i].getCoordinates()[0]+pipes[i].getWidth()/2-77/2,pipes[i].getCoordinates()[1]-55});
                 }
             }
             br.close();

@@ -32,30 +32,61 @@ public class PhysicsHandler {
             }
             // Handling the physics of blocks
             for (Block block : level.getActivePart().getBlocks()){
-                if (hero.getY()-hero.getVy()*dt>=block.getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<block.getY()+block.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()) {
-                    hero.setStandingOnSomething(true);
-                }
-                else{
-                    n++;
-                }
-                if (hero.getY()- hero.getVy()*dt<block.getY()+block.getHeight() && hero.getY()>=block.getY()-hero.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()){
-                    hero.setVy(0);
-                    hero.setY(hero.getY()+5);
-                    if (block.getItemInside() instanceof Coin){
-                        if (((Coin) block.getItemInside()).isVisible()){
-                            hero.addCoin();
-                            hero.addScore(100);
-                            ((Coin) block.getItemInside()).setVisible(false);
-                            changed=true;
+                    if (block.isVisible()&& hero.getY()-hero.getVy()*dt>=block.getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<block.getY()+block.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()) {
+                        if (block.getBlockType() == BlockType.SLIME && Math.abs(hero.getVy())>5) {
+                            n++;
+                            if (Math.abs(hero.getVy())<45){
+                                hero.setVy(-hero.getVy()*1.2);
+                            }
+                            else{
+                                hero.setVy(-hero.getVy());
+                            }
+                        }
+                        else{
+                            hero.setStandingOnSomething(true);
                         }
                     }
-                }
-                if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+ hero.getWidth()+hero.getVx()*dt>block.getX() && hero.getX()<block.getX()){
-                    hero.setVx(0);
-                }
-                if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+hero.getVx()*dt<block.getX()+ block.getWidth() && hero.getX()+ hero.getWidth()>block.getX()+block.getWidth()){
-                    hero.setVx(0);
-                }
+                    else{
+                        n++;
+                    }
+                    if (block.isVisible() && hero.getY()- hero.getVy()*dt<block.getY()+block.getHeight() && hero.getY()>=block.getY()-hero.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()){
+                        hero.setVy(0);
+                        hero.setY(hero.getY()+5);
+                        System.out.println(block.getBlockType());
+                        if (block.getBlockType()==BlockType.SIMPLE){
+                            hero.addScore(100);
+                            block.setVisible(false);
+                            changed=true;
+                        }
+                        if (block.getBlockType()==BlockType.COIN){
+                            block.setBlockType(BlockType.SIMPLE);
+                            ((Coin) block.getItemsInside()[0]).setVisible(true);
+                            level.getActivePart().addBlockCoin((Coin) block.getItemsInside()[0]);
+                            hero.addScore(100);
+                            changed=true;
+                        }
+                        if (block.getBlockType()==BlockType.COINS){
+                            if (block.getItemsInside().length==1){
+                                block.setBlockType(BlockType.EMPTY);
+                            }
+                            block.setItemsInside(new Item[block.getItemsInside().length-1]);
+                            hero.addCoin();
+                            hero.addScore(100);
+                            changed=true;
+                        }
+                        if (block.getBlockType()==BlockType.QUESTION){
+                            hero.addScore(100);
+                            block.setBlockType(BlockType.EMPTY);
+                            changed=true;
+                        }
+
+                    }
+                    if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+ hero.getWidth()+hero.getVx()*dt>block.getX() && hero.getX()<block.getX()){
+                        hero.setVx(0);
+                    }
+                    if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+hero.getVx()*dt<block.getX()+ block.getWidth() && hero.getX()+ hero.getWidth()>block.getX()+block.getWidth()){
+                        hero.setVx(0);
+                    }
             }
 
             // Handling the physics of pipes
@@ -115,7 +146,6 @@ public class PhysicsHandler {
         updateCoins();
         updatePlants();
         updateActivePart();
-        // TODO
         if (changed){
             if (level.getActivePart().getId()==0){
                 if (this.user.getActiveSlot()==1){
@@ -264,14 +294,14 @@ public class PhysicsHandler {
         if (hero.getLives()>=2){
             hero.setLives(hero.getLives()-1);
             hero.setCoordinates(new double[]{150,200});
-            for (Coin coin : this.level.getActivePart().getCoins()){
-                coin.setVisible(true);
-            }
-            for (Block block : this.level.getActivePart().getBlocks()){
-                if (block.getItemInside() instanceof Coin){
-                    ((Coin) block.getItemInside()).setVisible(true);
-                }
-            }
+//            for (Coin coin : this.level.getActivePart().getCoins()){
+//                coin.setVisible(true);
+//            }
+//            for (Block block : this.level.getActivePart().getBlocks()){
+//                if (block.getItemInside() instanceof Coin){
+//                    ((Coin) block.getItemInside()).setVisible(true);
+//                }
+//            }
             if (this.level.getActivePart().getId()==0){
                 this.level.getActivePart().getHeroes()[0].setScore(0);
             }

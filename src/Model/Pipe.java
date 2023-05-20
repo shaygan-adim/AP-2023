@@ -6,7 +6,7 @@ public class Pipe extends PhysicalObject{
 
     // Constructor
     public Pipe(int[] coordinates, Plant plant) {
-        super(coordinates, 150, 150);
+        super(coordinates, 112, 112);
         this.plantInside = plant;
     }
 

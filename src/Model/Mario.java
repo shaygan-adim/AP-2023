@@ -5,7 +5,7 @@ public class Mario extends Hero{
     private int frameNumber = 0;
     private static int frameDelay = 10;
     public Mario(int lives) {
-        super(lives,125,80);
+        super(lives,94,60);
     }
     // Methods
     public void addFrame(){
