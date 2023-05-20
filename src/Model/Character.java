@@ -4,7 +4,7 @@ abstract public class Character {
     // Fields
     private int lives;
     private double[] coordinates;
-    private final int height,width;
+    protected int height,width;
     private double[] velocity;
 
     // Constructor
@@ -17,10 +17,6 @@ abstract public class Character {
     }
 
     // Methods
-    public boolean isAlive(){return this.lives>0;}
-    public void addLife(){this.lives++;}
-    public void killLife(){this.lives--;}
-    public void kill(){this.lives=0;}
     public void addX(double deltaX){this.coordinates[0]+=deltaX;}
     public void addY(double deltaY){this.coordinates[1]+=deltaY;}
 
@@ -29,7 +25,6 @@ abstract public class Character {
     public double[] getCoordinates() {return coordinates;}
     public int getHeight() {return height;}
     public int getWidth() {return width;}
-    public double[] getVelocity() {return velocity;}
     public double getX(){return this.coordinates[0];}
     public double getY(){return this.coordinates[1];}
     public double getVx(){return this.velocity[0];}

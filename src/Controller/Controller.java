@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
 
 public class Controller implements KeyListener{
     // Fields
-    private boolean[] keyPressed = {false,false};
+    private boolean[] keyPressed = {false,false,false};
     private Part part;
     private PhysicsHandler physicsHandler;
 
@@ -22,7 +22,8 @@ public class Controller implements KeyListener{
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'w'){
-            physicsHandler.jump();
+            this.physicsHandler.jump();
+            this.physicsHandler.stand();
         }
     }
     @Override
@@ -30,10 +31,16 @@ public class Controller implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_D || keyPressed[0]){
             keyPressed[0] = true;
             this.physicsHandler.right();
+            this.physicsHandler.stand();
         }
         if (e.getKeyCode() == KeyEvent.VK_A || keyPressed[1]){
             keyPressed[1] = true;
             this.physicsHandler.left();
+            this.physicsHandler.stand();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S || keyPressed[2]){
+            keyPressed[2] = true;
+            this.physicsHandler.seat();
         }
     }
     @Override
@@ -45,6 +52,10 @@ public class Controller implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_A){
             keyPressed[1] = false;
             this.physicsHandler.stop();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_S){
+            keyPressed[2] = false;
+            this.physicsHandler.stand();
         }
     }
 }

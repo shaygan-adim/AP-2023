@@ -32,7 +32,7 @@ public class PhysicsHandler {
             }
             // Handling the physics of blocks
             for (Block block : level.getActivePart().getBlocks()){
-                    if (block.isVisible()&& hero.getY()-hero.getVy()*dt>=block.getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<block.getY()+block.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()) {
+                    if (block.isVisible() && hero.getY()-hero.getVy()*dt>=block.getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<block.getY()+block.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()) {
                         if (block.getBlockType() == BlockType.SLIME && Math.abs(hero.getVy())>5) {
                             n++;
                             if (Math.abs(hero.getVy())<45){
@@ -53,7 +53,7 @@ public class PhysicsHandler {
                         hero.setVy(0);
                         hero.setY(hero.getY()+5);
                         System.out.println(block.getBlockType());
-                        if (block.getBlockType()==BlockType.SIMPLE){
+                        if (block.getBlockType()==BlockType.SIMPLE && hero.getMode()!=HeroMode.MINI){
                             hero.addScore(100);
                             block.setVisible(false);
                             changed=true;
@@ -81,10 +81,10 @@ public class PhysicsHandler {
                         }
 
                     }
-                    if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+ hero.getWidth()+hero.getVx()*dt>block.getX() && hero.getX()<block.getX()){
+                    if (block.isVisible() && hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+ hero.getWidth()+hero.getVx()*dt>block.getX() && hero.getX()<block.getX()){
                         hero.setVx(0);
                     }
-                    if (hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+hero.getVx()*dt<block.getX()+ block.getWidth() && hero.getX()+ hero.getWidth()>block.getX()+block.getWidth()){
+                    if (block.isVisible() && hero.getY()+hero.getHeight()>block.getY() && hero.getY()<block.getY()+block.getHeight() && hero.getX()+hero.getVx()*dt<block.getX()+ block.getWidth() && hero.getX()+ hero.getWidth()>block.getX()+block.getWidth()){
                         hero.setVx(0);
                     }
             }
@@ -206,10 +206,19 @@ public class PhysicsHandler {
         level.getActivePart().getHeroes()[0].setVx(40);
     }
     public void stop(){
+
         level.getActivePart().getHeroes()[0].setVx(0);
     }
     public void left(){
         level.getActivePart().getHeroes()[0].setVx(-40);
+    }
+    public void seat(){
+        if (level.getActivePart().getHeroes()[0].isStandingOnSomething()){
+            level.getActivePart().getHeroes()[0].setSeating(true);
+        }
+    }
+    public void stand(){
+        level.getActivePart().getHeroes()[0].setSeating(false);
     }
 
     public void updateCoins(){

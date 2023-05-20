@@ -101,7 +101,7 @@ public class Game extends JFrame {
         });
 
         // Setting main panel up
-        this.mainPanel = new AnimationPanel(this.level, new Image[]{ImageLoader.getL1P1Image(),ImageLoader.getL1P2Image()},this.physicsHandler,this);
+        this.mainPanel = new AnimationPanel(this.level,null,this.physicsHandler,this);
         this.mainPanel.setLayout(null);
         this.setContentPane(this.mainPanel);
 

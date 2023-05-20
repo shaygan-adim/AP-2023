@@ -16,7 +16,7 @@ abstract public class ImageLoader {
     private static Image gameOverImage;
     private static Image passedImage;
     private static Image marioInGameImage,luigiInGameImage,princessInGameImage,yoshiInGameImage,toadInGameImage;
-    private static Image marioJumpImage;
+    private static Image marioJumpImage,marioSeatImage;
     private static Image luigiJumpImage;
     private static Image princessJumpImage;
     private static Image yoshiJumpLeftImage,yoshiJumpRightImage;
@@ -33,8 +33,6 @@ abstract public class ImageLoader {
     private static Image toadLeft1Image,toadLeft2Image,toadLeft3Image,toadLeft4Image;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
-    private static Image L1P1Image;
-    private static Image L1P2Image;
     private static Image levelBackground;
     private static Image pipeImage;
     private static Image pitImage;
@@ -64,7 +62,7 @@ abstract public class ImageLoader {
         ImageLoader.passedImage = ImageIO.read(new File("src/Loading/Graphics/Backgrounds/Passed.jpg"));
 
         // Loading in game characters
-        ImageLoader.marioInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioInGame1.png"));
+        ImageLoader.marioInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioInGame.png"));
         ImageLoader.luigiInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiInGame.png"));
         ImageLoader.princessInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Princess/PrincessInGame.png"));
         ImageLoader.yoshiInGameImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Yoshi/YoshiInGame.png"));
@@ -120,7 +118,8 @@ abstract public class ImageLoader {
         ImageLoader.toadLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft3.png"));
         ImageLoader.toadLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft4.png"));
 
-        ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump1.png"));
+        ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
+        ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
         ImageLoader.princessJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Princess/PrincessJump.png"));
         ImageLoader.yoshiJumpRightImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Yoshi/YoshiJumpRight.png"));
@@ -134,10 +133,6 @@ abstract public class ImageLoader {
         ImageLoader.itemBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/ItemBlock.png"));
         ImageLoader.emptyBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/EmptyBlock.png"));
         ImageLoader.slimeBlock = ImageIO.read(new File("src/Loading/Graphics/Levels/Blocks/SlimeBlock.png"));
-
-//        // Loading levels
-//        ImageLoader.L1P1Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P111.jpg"));
-//        ImageLoader.L1P2Image = ImageIO.read(new File("src/Loading/Graphics/Levels/L111P222.jpg"));
 
         // Loading level's stuff
         ImageLoader.levelBackground = ImageIO.read(new File("src/Loading/Graphics/Levels/Background.jpg"));
@@ -217,6 +212,7 @@ abstract public class ImageLoader {
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }
+    public static Image getMarioSeatImage() {return marioSeatImage;}
     public static Image getLuigiJumpImage() {
         return luigiJumpImage;
     }
@@ -233,8 +229,6 @@ abstract public class ImageLoader {
     public static Image getRegularBlock() {return regularBlock;}
     public static Image getEmptyBlock() {return emptyBlock;}
     public static Image getSlimeBlock() {return slimeBlock;}
-    public static Image getL1P1Image() {return L1P1Image;}
-    public static Image getL1P2Image() {return L1P2Image;}
     public static Image getLevelBackground() {return levelBackground;}
     public static Image getPipeImage() {return pipeImage;}
     public static Image getPitImage() {return pitImage;}
