@@ -98,10 +98,15 @@ public class AnimationPanel extends JPanel {
                 }
             }
 
-            // Drawing the coins
-            for (Coin coin : level.getActivePart().getCoins()){
-                if (coin.isVisible()){
-                    g.drawImage(ImageLoader.getCoinInGameImage(),drawingInteger+150+(int)coin.getCoordinates()[0],(int)coin.getCoordinates()[1],coin.getWidth(),coin.getHeight(),this);
+            // Drawing the Items
+            for (Item item : level.getActivePart().getItems()){
+                if (item.isVisible()){
+                    if (item instanceof Coin) {
+                        g.drawImage(ImageLoader.getCoinInGameImage(),drawingInteger+150+(int)item.getCoordinates()[0],(int)item.getCoordinates()[1],item.getWidth(),item.getHeight(),this);
+                    }
+                    if (item instanceof Flower){
+                        g.drawImage(ImageLoader.getFlowerImage(),drawingInteger+150+(int)item.getCoordinates()[0],(int)item.getCoordinates()[1],item.getWidth(),item.getHeight(),this);
+                    }
                 }
             }
 

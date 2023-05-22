@@ -56,6 +56,10 @@ abstract public class Hero extends Character{
     public void setMode(HeroMode mode) {
         this.mode = mode;
         updateDimensions();
+        if (this.mode != HeroMode.MINI){
+            setY(getY()-50);
+            System.out.println("BAHARE IS AHMAGH");
+        }
     }
 
     // Getters

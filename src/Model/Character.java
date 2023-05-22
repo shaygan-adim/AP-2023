@@ -5,7 +5,7 @@ abstract public class Character {
     private int lives;
     private double[] coordinates;
     protected int height,width;
-    private double[] velocity;
+    private final double[] velocity;
 
     // Constructor
     public Character(int lives, double[] coordinates, int height, int width,double[] velocity){

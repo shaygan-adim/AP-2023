@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Part {
@@ -11,6 +13,7 @@ public class Part {
     private final Enemy[] enemies;
     private final Hero[] heroes;
     private Coin[] coins;
+    private List<Item> items =  new ArrayList<>();
     private final int[] endY;
     private final int time;
     private final Stopwatch stopwatch = new Stopwatch(1);
@@ -88,10 +91,12 @@ public class Part {
             }
             double[] coordinates = {x,y};
             this.coins[i].setCoordinates(coordinates);
+            this.items.add(this.coins[i]);
         }
     }
     // Methods
     public void addBlockCoin(Coin coin){
+        this.items.add(coin);
         Coin[] coins2 = new Coin[this.coins.length+1];
         coins2[coins2.length-1] = coin;
         for (int i = 0 ; i<this.coins.length ; i++) coins2[i] = this.coins[i];
@@ -108,7 +113,8 @@ public class Part {
     public Pipe[] getPipes() {return pipes;}
     public Enemy[] getEnemies() {return enemies;}
     public Hero[] getHeroes() {return heroes;}
-    public Coin[] getCoins() {return coins;}
+//    public Coin[] getCoins() {return coins;}
+    public List<Item> getItems() {return items;}
     public int[] getEndY() {return endY;}
     public int getFinalScore() {return finalScore;}
     public Stopwatch getStopwatch() {return stopwatch;}

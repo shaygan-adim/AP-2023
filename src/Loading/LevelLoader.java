@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 abstract public class LevelLoader {
     // Methods
@@ -40,7 +41,7 @@ abstract public class LevelLoader {
                     blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.SIMPLE,items);
                 }
                 if (line.startsWith("CO")){
-                    items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin)), Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
                     blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.COIN,items);
                 }
                 if (line.startsWith("EM")){
@@ -51,6 +52,14 @@ abstract public class LevelLoader {
                     blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.COINS,items);
                 }
                 if (line.startsWith("QU")){
+                    Random random = new Random();
+                    double randomNum = random.nextDouble();
+                    if (randomNum>0.5){
+                        items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    }
+                    else{
+                        items = new Item[]{new Flower(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    }
                     blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.QUESTION,items);
                 }
                 if (line.startsWith("SL")){

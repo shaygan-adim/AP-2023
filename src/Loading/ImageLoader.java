@@ -43,6 +43,7 @@ abstract public class ImageLoader {
     private static ImageIcon coinBiggerImage;
     private static ImageIcon highscoreImage;
     private static Image coinInGameImage;
+    private static Image flowerImage;
     private static ImageIcon heartImage;
     private static ImageIcon scoreImage;
     private static ImageIcon timeImage;
@@ -138,6 +139,10 @@ abstract public class ImageLoader {
         ImageLoader.levelBackground = ImageIO.read(new File("src/Loading/Graphics/Levels/Background.jpg"));
         ImageLoader.pipeImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Other/Pipe.png"));
         ImageLoader.pitImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Other/Pit.png"));
+
+        // Loading Items
+        ImageLoader.coinInGameImage = ImageIO.read(new File("src/Loading/Graphics/Other/CoinInGAme.png"));
+        ImageLoader.flowerImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Items/Flower.png"));
 
         // Loading other stuff
         ImageLoader.yImage = new ImageIcon("src/Loading/Graphics/Other/Y.png");
@@ -238,6 +243,7 @@ abstract public class ImageLoader {
     public static ImageIcon getCoinBiggerImage() {return coinBiggerImage;}
     public static ImageIcon getHighscoreImage() {return highscoreImage;}
     public static Image getCoinInGameImage() {return coinInGameImage;}
+    public static Image getFlowerImage() {return flowerImage;}
     public static ImageIcon getHeartImage() {return heartImage;}
     public static ImageIcon getScoreImage() {return scoreImage;}
     public static ImageIcon getTimeImage() {return timeImage;}
