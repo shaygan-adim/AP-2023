@@ -107,6 +107,12 @@ public class AnimationPanel extends JPanel {
                     if (item instanceof Flower){
                         g.drawImage(ImageLoader.getFlowerImage(),drawingInteger+150+(int)item.getCoordinates()[0],(int)item.getCoordinates()[1],item.getWidth(),item.getHeight(),this);
                     }
+                    if (item instanceof Mushroom){
+                        g.drawImage(ImageLoader.getMushroomImage(),drawingInteger+150+(int)item.getCoordinates()[0],(int)item.getCoordinates()[1],item.getWidth(),item.getHeight(),this);
+                    }
+                    if (item instanceof Star){
+                        g.drawImage(ImageLoader.getStarImage(),drawingInteger+150+(int)item.getCoordinates()[0],(int)item.getCoordinates()[1],item.getWidth(),item.getHeight(),this);
+                    }
                 }
             }
 
@@ -311,6 +317,9 @@ public class AnimationPanel extends JPanel {
                             g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                         }
                     }
+                }
+                if (hero.isShieldActivated()){
+                    g.drawImage(ImageLoader.getShieldImage(),X-60,(int) hero.getY()-40,200,200,this);
                 }
             }
         }

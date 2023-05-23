@@ -44,10 +44,13 @@ abstract public class ImageLoader {
     private static ImageIcon highscoreImage;
     private static Image coinInGameImage;
     private static Image flowerImage;
+    private static Image mushroomImage;
+    private static Image starImage;
     private static ImageIcon heartImage;
     private static ImageIcon scoreImage;
     private static ImageIcon timeImage;
     private static ImageIcon goldImage,silverImage,bronzeImage,rankImage;
+    private static Image shieldImage;
     private static ImageIcon marioImage,luigiImage,princessImage,yoshiImage,toadImage;
     private static ImageIcon marioSmallImage,luigiSmallImage,princessSmallImage,yoshiSmallImage,toadSmallImage;
 
@@ -143,6 +146,8 @@ abstract public class ImageLoader {
         // Loading Items
         ImageLoader.coinInGameImage = ImageIO.read(new File("src/Loading/Graphics/Other/CoinInGAme.png"));
         ImageLoader.flowerImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Items/Flower.png"));
+        ImageLoader.mushroomImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Items/Mushroom.png"));
+        ImageLoader.starImage = ImageIO.read(new File("src/Loading/Graphics/Levels/Items/Star.png"));
 
         // Loading other stuff
         ImageLoader.yImage = new ImageIcon("src/Loading/Graphics/Other/Y.png");
@@ -158,6 +163,7 @@ abstract public class ImageLoader {
         ImageLoader.silverImage = new ImageIcon("src/Loading/Graphics/Other/Silver.png");
         ImageLoader.bronzeImage = new ImageIcon("src/Loading/Graphics/Other/Bronze.png");
         ImageLoader.rankImage = new ImageIcon("src/Loading/Graphics/Other/Rank.png");
+        ImageLoader.shieldImage = ImageIO.read(new File("src/Loading/Graphics/Other/Shield.png"));
         ImageLoader.marioImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/Mario.png");
         ImageLoader.marioSmallImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/MarioSmall.png");
         ImageLoader.luigiImage = new ImageIcon("src/Loading/Graphics/Characters/Luigi/Luigi.png");
@@ -244,6 +250,8 @@ abstract public class ImageLoader {
     public static ImageIcon getHighscoreImage() {return highscoreImage;}
     public static Image getCoinInGameImage() {return coinInGameImage;}
     public static Image getFlowerImage() {return flowerImage;}
+    public static Image getMushroomImage() {return mushroomImage;}
+    public static Image getStarImage() {return starImage;}
     public static ImageIcon getHeartImage() {return heartImage;}
     public static ImageIcon getScoreImage() {return scoreImage;}
     public static ImageIcon getTimeImage() {return timeImage;}
@@ -251,6 +259,7 @@ abstract public class ImageLoader {
     public static ImageIcon getSilverImage() {return silverImage;}
     public static ImageIcon getBronzeImage() {return bronzeImage;}
     public static ImageIcon getRankImage() {return rankImage;}
+    public static Image getShieldImage() {return shieldImage;}
     public static ImageIcon getMarioImage() {return marioImage;}
     public static ImageIcon getMarioSmallImage() {return marioSmallImage;}
     public static ImageIcon getLuigiImage() {return luigiImage;}

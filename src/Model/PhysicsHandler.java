@@ -22,34 +22,107 @@ public class PhysicsHandler {
 
         // Physics of Items
         for (Item item : this.level.getActivePart().getItems()){
-            item.addVy(g*dt);
-            int n = 0;
+            if (item.isVisible()){
+                if (item instanceof Mushroom){
+                    if (((Mushroom) item).getStopwatch().passedTime()>3 && !((Mushroom) item).isActivated()){
+                        item.setVx(10);
+                        item.setVy(10);
+                        ((Mushroom) item).setActivated(true);
+                    }
+                }
+                if (item instanceof Star){
+                    if (((Star) item).getStopwatch().passedTime()>3 && !((Star) item).isActivated()){
+                        ((Star) item).getStopwatch().start();
+                        item.setVx(10);
+                        item.setVy(10);
+                        ((Star) item).setActivated(true);
+                    }
+                    if (((Star) item).getStopwatch().passedTime()>1 && ((Star) item).isActivated() && ((Star) item).isStandingOnSomething()){
+                        ((Star) item).getStopwatch().start();
+                        item.setVy(20);
+                    }
+                }
+                item.addVy(g*dt);
+                int n = 0;
 
-            // Handling the physics of blocks
-            for (Block block : level.getActivePart().getBlocks()) {
-                if (!(block.isVisible() && item.getY() - item.getVy() * dt >= block.getY() - item.getHeight() && item.getY() + item.getHeight() < block.getY() + block.getHeight() && item.getX() > block.getX() - item.getWidth() && item.getX() < block.getX() + block.getWidth())) {
-                    n++;
+                // Handling the physics of blocks
+                for (Block block : level.getActivePart().getBlocks()) {
+                    if (!(block.isVisible() && item.getY() - item.getVy() * dt >= block.getY() - item.getHeight() && item.getY() + item.getHeight() < block.getY() + block.getHeight() && item.getX() > block.getX() - item.getWidth() && item.getX() < block.getX() + block.getWidth())) {
+                        n++;
+                    }
+                    else{
+                        if (item instanceof Star){
+                            ((Star) item).setStandingOnSomething(true);
+                        }
+                    }
+                    if (item instanceof Mushroom || item instanceof Star){
+                        if (block.isVisible() && item.getY()+item.getHeight()>block.getY() && item.getY()<block.getY()+block.getHeight() && item.getX()+ item.getWidth()+item.getVx()*dt>block.getX() && item.getX()<block.getX()){
+                            item.setVx(-item.getVx());
+                        }
+                        if (block.isVisible() && item.getY()+item.getHeight()>block.getY() && item.getY()<block.getY()+block.getHeight() && item.getX()+item.getVx()*dt<block.getX()+ block.getWidth() && item.getX()+ item.getWidth()>block.getX()+block.getWidth()){
+                            item.setVx(-item.getVx());
+                        }
+                    }
+                }
+
+                // Handling the physics of pipes
+                for (Pipe pipe : level.getActivePart().getPipes()) {
+                    if (!(item.getY() - item.getVy() * dt >= pipe.getY() - item.getHeight() && item.getY() + item.getHeight() < pipe.getY() + pipe.getHeight() && item.getX() > pipe.getX() - item.getWidth() && item.getX() < pipe.getX() + pipe.getWidth())) {
+                        n++;
+                    }
+                    else{
+                        if (item instanceof Star){
+                            ((Star) item).setStandingOnSomething(true);
+                        }
+                    }
+                    if (item instanceof Mushroom || item instanceof Star){
+                        if (item.getY()+item.getHeight()>pipe.getY() && item.getY()<pipe.getY()+pipe.getHeight() && item.getX()+ item.getWidth()+item.getVx()*dt>pipe.getX() && item.getX()<pipe.getX()){
+                            item.setVx(-item.getVx());
+                        }
+                        if (item.getY()+item.getHeight()>pipe.getY() && item.getY()<pipe.getY()+pipe.getHeight() && item.getX()+item.getVx()*dt<pipe.getX()+ pipe.getWidth() && item.getX()+ item.getWidth()>pipe.getX()+pipe.getWidth()){
+                            item.setVx(-item.getVx());
+                        }
+                    }
+                }
+
+                // Handling the physics of floors
+                int N = 0;
+                for (Floor floor : level.getActivePart().getFloors()) {
+                    if (!(item.getY() - item.getVy() * dt >= floor.getY() - item.getHeight() && item.getY() + item.getHeight() < floor.getY() + floor.getHeight() && item.getX() > floor.getX() - item.getWidth() && item.getX() < floor.getX() + floor.getWidth())) {
+                        n++;
+                        N++;
+                    }
+                    else{
+                        if (item instanceof Star){
+                            ((Star) item).setStandingOnSomething(true);
+                        }
+                    }
+                    if (item instanceof Mushroom || item instanceof Star){
+                        if (item.getY()+item.getHeight()>floor.getY() && item.getY()<floor.getY()+floor.getHeight() && item.getX()+ item.getWidth()+item.getVx()*dt>floor.getX() && item.getX()<floor.getX()){
+                            item.setVx(-item.getVx());
+                        }
+                        if (item.getY()+item.getHeight()>floor.getY() && item.getY()<floor.getY()+floor.getHeight() && item.getX()+item.getVx()*dt<floor.getX()+ floor.getWidth() && item.getX()+ item.getWidth()>floor.getX()+floor.getWidth()){
+                            item.setVx(-item.getVx());
+                        }
+                    }
+                }
+                if (N==this.level.getActivePart().getFloors().length && item.getY()+item.getHeight()/2>this.level.getActivePart().getFloors()[0].getY()){
+                    item.setVisible(false);
+                }
+                if (!(n==level.getActivePart().getFloors().length+ level.getActivePart().getBlocks().length+ level.getActivePart().getPipes().length)){
+                    item.setVy(0);
+                }
+                else{
+                    if (item instanceof Star){
+                        ((Star) item).setStandingOnSomething(true);
+                    }
+                }
+                item.addY(-item.getVy()*dt);
+                item.addX(item.getVx()*dt);
+                if (item.getX()<0){
+                    item.setVisible(false);
                 }
             }
-
-            // Handling the physics of pipes
-            for (Pipe pipe : level.getActivePart().getPipes()) {
-                if (!(item.getY() - item.getVy() * dt >= pipe.getY() - item.getHeight() && item.getY() + item.getHeight() < pipe.getY() + pipe.getHeight() && item.getX() > pipe.getX() - item.getWidth() && item.getX() < pipe.getX() + pipe.getWidth())) {
-                    n++;
-                }
-            }
-
-            // Handling the physics of floors
-            for (Floor floor : level.getActivePart().getFloors()) {
-                if (!(item.getY() - item.getVy() * dt >= floor.getY() - item.getHeight() && item.getY() + item.getHeight() < floor.getY() + floor.getHeight() && item.getX() > floor.getX() - item.getWidth() && item.getX() < floor.getX() + floor.getWidth())) {
-                    n++;
-                }
-            }
-
-            if (!(n==level.getActivePart().getFloors().length+ level.getActivePart().getBlocks().length+ level.getActivePart().getPipes().length)){
-                item.setVy(0);
-            }
-            item.addY(-item.getVy()*dt);
         }
 
         // Physics of Heroes
@@ -110,8 +183,14 @@ public class PhysicsHandler {
                         }
                         if (block.getBlockType()==BlockType.QUESTION){
                             block.getItemsInside()[0].setVisible(true);
+                            if (block.getItemsInside()[0] instanceof Mushroom){
+                                ((Mushroom) block.getItemsInside()[0]).getStopwatch().start();
+                            }
+                            if (block.getItemsInside()[0] instanceof Star){
+                                ((Star) block.getItemsInside()[0]).getStopwatch().start();
+                            }
                             this.level.getActivePart().getItems().add(block.getItemsInside()[0]);
-                            hero.addScore(100);
+                            hero.addScore(25);
                             block.setBlockType(BlockType.EMPTY);
                             changed=true;
                         }
@@ -259,6 +338,9 @@ public class PhysicsHandler {
 
     public void itemsCollisionCheck(){
         for (Hero hero : this.level.getActivePart().getHeroes()){
+            if (hero.getStopwatchForShield().passedTime()>15){
+                hero.setShieldActivated(false);
+            }
             for (int i = 0; i< level.getActivePart().getItems().size() ; i++){
                 if (level.getActivePart().getItems().get(i).isVisible() && level.getActivePart().getItems().get(i).getX()+ level.getActivePart().getItems().get(i).getWidth()> hero.getX() && level.getActivePart().getItems().get(i).getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getItems().get(i).getY()+ level.getActivePart().getItems().get(i).getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getItems().get(i).getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
                     level.getActivePart().getItems().get(i).setVisible(false);
@@ -270,6 +352,19 @@ public class PhysicsHandler {
                         if (hero.getMode() == HeroMode.MINI){
                             hero.setMode(HeroMode.MEGA);
                         }
+                    }
+                    if (level.getActivePart().getItems().get(i) instanceof Mushroom){
+                        hero.addScore(100);
+                        if (hero.getMode() == HeroMode.MINI){
+                            hero.setMode(HeroMode.MEGA);
+                        }
+                    }
+                    if (level.getActivePart().getItems().get(i) instanceof Star){
+                        hero.addScore(150);
+                        if (hero.getMode() == HeroMode.MINI){
+                            hero.setMode(HeroMode.MEGA);
+                        }
+                        hero.setShieldActivated(true);
                     }
                     this.changed = true;
                 }
@@ -347,14 +442,6 @@ public class PhysicsHandler {
         if (hero.getLives()>=2){
             hero.setLives(hero.getLives()-1);
             hero.setCoordinates(new double[]{150,200});
-//            for (Coin coin : this.level.getActivePart().getCoins()){
-//                coin.setVisible(true);
-//            }
-//            for (Block block : this.level.getActivePart().getBlocks()){
-//                if (block.getItemInside() instanceof Coin){
-//                    ((Coin) block.getItemInside()).setVisible(true);
-//                }
-//            }
             if (this.level.getActivePart().getId()==0){
                 this.level.getActivePart().getHeroes()[0].setScore(0);
             }

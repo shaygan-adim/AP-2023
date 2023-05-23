@@ -8,6 +8,8 @@ abstract public class Hero extends Character{
     private boolean jumping = false;
     private boolean seating = false;
     private HeroMode mode = HeroMode.MINI;
+    private boolean shieldActivated = false;
+    private final Stopwatch stopwatchForShield = new Stopwatch(1);
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -58,8 +60,14 @@ abstract public class Hero extends Character{
         updateDimensions();
         if (this.mode != HeroMode.MINI){
             setY(getY()-50);
-            System.out.println("BAHARE IS AHMAGH");
+            setVy(20);
         }
+    }
+    public void setShieldActivated(boolean shieldActivated) {
+        if (shieldActivated){
+            stopwatchForShield.start();
+        }
+        this.shieldActivated = shieldActivated;
     }
 
     // Getters
@@ -69,4 +77,6 @@ abstract public class Hero extends Character{
     public boolean isStandingOnSomething() {return standingOnSomething;}
     public boolean isJumping() {return jumping;}
     public boolean isSeating() {return seating;}
+    public boolean isShieldActivated() {return shieldActivated;}
+    public Stopwatch getStopwatchForShield() {return stopwatchForShield;}
 }

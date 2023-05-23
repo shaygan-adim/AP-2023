@@ -54,11 +54,17 @@ abstract public class LevelLoader {
                 if (line.startsWith("QU")){
                     Random random = new Random();
                     double randomNum = random.nextDouble();
-                    if (randomNum>0.5){
+                    if (randomNum<0.25){
                         items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
                     }
+                    else if (randomNum<0.50){
+                        items = new Item[]{new Flower(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+7, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    }
+                    else if (randomNum<0.75){
+                        items = new Item[]{new Mushroom(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+7, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                    }
                     else{
-                        items = new Item[]{new Flower(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
+                        items = new Item[]{new Star(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+7, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};
                     }
                     blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.QUESTION,items);
                 }
