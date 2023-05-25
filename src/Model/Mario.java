@@ -12,9 +12,6 @@ public class Mario extends Hero{
         frameNumber++;
         frameNumber%=4;
     }
-    public void resetFrame(){
-        frameNumber=0;
-    }
     // Getters
     public int getFrameNumber() {return frameNumber;}
     public static int getFrameDelay() {return frameDelay;}

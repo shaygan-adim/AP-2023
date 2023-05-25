@@ -113,7 +113,6 @@ public class Part {
     public Pipe[] getPipes() {return pipes;}
     public Enemy[] getEnemies() {return enemies;}
     public Hero[] getHeroes() {return heroes;}
-//    public Coin[] getCoins() {return coins;}
     public List<Item> getItems() {return items;}
     public int[] getEndY() {return endY;}
     public int getFinalScore() {return finalScore;}

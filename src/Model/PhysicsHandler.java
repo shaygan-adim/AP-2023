@@ -114,13 +114,120 @@ public class PhysicsHandler {
                 }
                 else{
                     if (item instanceof Star){
-                        ((Star) item).setStandingOnSomething(true);
+                        ((Star) item).setStandingOnSomething(false);
                     }
                 }
                 item.addY(-item.getVy()*dt);
                 item.addX(item.getVx()*dt);
                 if (item.getX()<0){
                     item.setVisible(false);
+                }
+            }
+        }
+
+        //Physics of Enemies
+        for (Enemy enemy : this.level.getActivePart().getEnemies()){
+            if (enemy.isVisible() && !(enemy instanceof Plant)){
+                enemy.setStandingOnSomething(false);
+                enemy.addVy(g*dt);
+                int n = 0;
+                int nr = 0;
+                int nl = 0;
+
+                // Handling the physics of blocks
+                for (Block block : level.getActivePart().getBlocks()) {
+                    if (!(block.isVisible() && enemy.getY() - enemy.getVy() * dt >= block.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < block.getY() + block.getHeight() && enemy.getX() > block.getX() - enemy.getWidth() && enemy.getX() < block.getX() + block.getWidth())) {
+                        n++;
+                    }
+                    else{
+                        enemy.setStandingOnSomething(true);
+                    }
+                    if (!(block.isVisible() && enemy.getY() - enemy.getVy() * dt >= block.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < block.getY() + block.getHeight() && enemy.getX()+enemy.getWidth() > block.getX() - enemy.getWidth() && enemy.getX()+enemy.getWidth() < block.getX() + block.getWidth())) {
+                        if (enemy.getVx()>0){
+                            nr++;
+                        }
+                    }
+                    if (!(block.isVisible() && enemy.getY() - enemy.getVy() * dt >= block.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < block.getY() + block.getHeight() && enemy.getX()-enemy.getWidth() > block.getX() - enemy.getWidth() && enemy.getX()-enemy.getWidth() < block.getX() + block.getWidth())) {
+                        if (enemy.getVx()<0){
+                            nl++;
+                        }
+                    }
+                    if (block.isVisible() && enemy.getY()+enemy.getHeight()>block.getY() && enemy.getY()<block.getY()+block.getHeight() && enemy.getX()+ enemy.getWidth()+enemy.getVx()*dt>block.getX() && enemy.getX()<block.getX()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                    if (block.isVisible() && enemy.getY()+enemy.getHeight()>block.getY() && enemy.getY()<block.getY()+block.getHeight() && enemy.getX()+enemy.getVx()*dt<block.getX()+ block.getWidth() && enemy.getX()+ enemy.getWidth()>block.getX()+block.getWidth()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                }
+
+                // Handling the physics of pipes
+                for (Pipe pipe : level.getActivePart().getPipes()) {
+                    if (!(enemy.getY() - enemy.getVy() * dt >= pipe.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < pipe.getY() + pipe.getHeight() && enemy.getX() > pipe.getX() - enemy.getWidth() && enemy.getX() < pipe.getX() + pipe.getWidth())) {
+                        n++;
+                    }
+                    else{
+                        enemy.setStandingOnSomething(true);
+                    }
+                    if (!(enemy.getY() - enemy.getVy() * dt >= pipe.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < pipe.getY() + pipe.getHeight() && enemy.getX()+enemy.getWidth() > pipe.getX() - enemy.getWidth() && enemy.getX()+enemy.getWidth() < pipe.getX() + pipe.getWidth())) {
+                        if (enemy.getVx()>0){
+                            nr++;
+                        }
+                    }
+                    if (!(enemy.getY() - enemy.getVy() * dt >= pipe.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < pipe.getY() + pipe.getHeight() && enemy.getX()-enemy.getWidth() > pipe.getX() - enemy.getWidth() && enemy.getX()-enemy.getWidth() < pipe.getX() + pipe.getWidth())) {
+                        if (enemy.getVx()<0){
+                            nl++;
+                        }
+                    }
+                    if (enemy.getY()+enemy.getHeight()>pipe.getY() && enemy.getY()<pipe.getY()+pipe.getHeight() && enemy.getX()+ enemy.getWidth()+enemy.getVx()*dt>pipe.getX() && enemy.getX()<pipe.getX()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                    if (enemy.getY()+enemy.getHeight()>pipe.getY() && enemy.getY()<pipe.getY()+pipe.getHeight() && enemy.getX()+enemy.getVx()*dt<pipe.getX()+ pipe.getWidth() && enemy.getX()+ enemy.getWidth()>pipe.getX()+pipe.getWidth()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                }
+
+                // Handling the physics of floors
+                int N = 0;
+                for (Floor floor : level.getActivePart().getFloors()) {
+                    if (!(enemy.getY() - enemy.getVy() * dt >= floor.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < floor.getY() + floor.getHeight() && enemy.getX() > floor.getX() - enemy.getWidth() && enemy.getX() < floor.getX() + floor.getWidth())) {
+                        n++;
+                        N++;
+                    }
+                    else{
+                        enemy.setStandingOnSomething(true);
+                    }
+                    if (!(enemy.getY() - enemy.getVy() * dt >= floor.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < floor.getY() + floor.getHeight() && enemy.getX()+enemy.getWidth() > floor.getX() - enemy.getWidth() && enemy.getX()+enemy.getWidth() < floor.getX() + floor.getWidth())) {
+                        if (enemy.getVx()>0){
+                            nr++;
+                        }
+                    }
+                    if (!(enemy.getY() - enemy.getVy() * dt >= floor.getY() - enemy.getHeight() && enemy.getY() + enemy.getHeight() < floor.getY() + floor.getHeight() && enemy.getX()-enemy.getWidth() > floor.getX() - enemy.getWidth() && enemy.getX()-enemy.getWidth() < floor.getX() + floor.getWidth())) {
+                        if (enemy.getVx()<0){
+                            nl++;
+                        }
+                    }
+                    if (enemy.getY()+enemy.getHeight()>floor.getY() && enemy.getY()<floor.getY()+floor.getHeight() && enemy.getX()+ enemy.getWidth()+enemy.getVx()*dt>floor.getX() && enemy.getX()<floor.getX()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                    if (enemy.getY()+enemy.getHeight()>floor.getY() && enemy.getY()<floor.getY()+floor.getHeight() && enemy.getX()+enemy.getVx()*dt<floor.getX()+ floor.getWidth() && enemy.getX()+ enemy.getWidth()>floor.getX()+floor.getWidth()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                }
+                if (N==this.level.getActivePart().getFloors().length && enemy.getY()+enemy.getHeight()/2>this.level.getActivePart().getFloors()[0].getY()){
+                    enemy.setVisible(false);
+                }
+                if (!(n==level.getActivePart().getFloors().length+ level.getActivePart().getBlocks().length+ level.getActivePart().getPipes().length)){
+                    enemy.setVy(0);
+                }
+                if (nr==level.getActivePart().getFloors().length+ level.getActivePart().getBlocks().length+ level.getActivePart().getPipes().length || nl==level.getActivePart().getFloors().length+ level.getActivePart().getBlocks().length+ level.getActivePart().getPipes().length){
+                    if (enemy.isStandingOnSomething()){
+                        enemy.setVx(-enemy.getVx());
+                    }
+                }
+                enemy.addY(-enemy.getVy()*dt);
+                enemy.addX(enemy.getVx()*dt);
+                if (enemy.getX()<0){
+                    enemy.setVisible(false);
                 }
             }
         }
@@ -257,7 +364,6 @@ public class PhysicsHandler {
             else hero.setVx(0);
         }
         checkEnemies();
-//        updateCoins();
         itemsCollisionCheck();
         updatePlants();
         updateActivePart();
@@ -374,8 +480,38 @@ public class PhysicsHandler {
     public void checkEnemies(){
         for (Hero hero : this.level.getActivePart().getHeroes()){
             for (int i = 0; i< level.getActivePart().getEnemies().length ; i++){
-                if (((Plant)level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX() && level.getActivePart().getEnemies()[i].getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getEnemies()[i].getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
-                    die(hero);
+                if (hero.isShieldActivated()){
+                    if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()-60 && level.getActivePart().getEnemies()[i].getX()< hero.getX()-60+ 200 && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> hero.getY()-40 && level.getActivePart().getEnemies()[i].getY()< hero.getY()-40+ 200){
+                        (level.getActivePart().getEnemies()[i]).setVisible(false);
+                        hero.setShieldActivated(false);
+                        if (level.getActivePart().getEnemies()[i] instanceof Goomba){
+                            hero.addScore(100);
+                        }
+                        if (level.getActivePart().getEnemies()[i] instanceof Plant){
+                            hero.addScore(100);
+                            ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
+                        }
+                    }
+                }
+                else{
+                    if ((level.getActivePart().getEnemies()[i]) instanceof Goomba && ((Goomba)level.getActivePart().getEnemies()[i]).isDeadActivated()){
+                        if (((Goomba)level.getActivePart().getEnemies()[i]).getDeathStopwatch().passedTime()>400){
+                            level.getActivePart().getEnemies()[i].setVisible(false);
+                        }
+                    }
+                    if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX() && level.getActivePart().getEnemies()[i].getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getEnemies()[i].getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
+                        if (!(level.getActivePart().getEnemies()[i] instanceof Plant) && (hero.getY()-hero.getVy()*dt>=level.getActivePart().getEnemies()[i].getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<level.getActivePart().getEnemies()[i].getY()+level.getActivePart().getEnemies()[i].getHeight() && hero.getX()>level.getActivePart().getEnemies()[i].getX()-hero.getWidth() && hero.getX()<level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth())) {
+                            if (level.getActivePart().getEnemies()[i] instanceof Goomba){
+                                ((Goomba) level.getActivePart().getEnemies()[i]).getDeathStopwatch().start();
+                                ((Goomba) level.getActivePart().getEnemies()[i]).setDeadActivated(true);
+                                hero.addScore(100);
+                                hero.setVy(20);
+                            }
+                        }
+                        else{
+                            die(hero);
+                        }
+                    }
                 }
             }
         }
@@ -383,14 +519,14 @@ public class PhysicsHandler {
 
     public void updatePlants(){
         for (Enemy enemy : level.getActivePart().getEnemies()){
-            if (enemy instanceof Plant){
+            if (enemy instanceof Plant && !((Plant) enemy).isDead()){
                 if (((Plant) enemy).getStopwatch().passedTime()> ((Plant) enemy).getTimePeriod()){
                     ((Plant) enemy).getStopwatch().start();
-                    if (((Plant) enemy).isVisible()){
-                        ((Plant) enemy).setVisible(false);
+                    if (enemy.isVisible()){
+                        enemy.setVisible(false);
                     }
                     else{
-                        ((Plant) enemy).setVisible(true);
+                        enemy.setVisible(true);
                     }
                 }
             }

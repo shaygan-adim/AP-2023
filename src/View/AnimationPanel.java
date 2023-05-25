@@ -91,9 +91,25 @@ public class AnimationPanel extends JPanel {
             }
             // Drawing the enemies
             for (Enemy enemy : level.getActivePart().getEnemies()){
-                if (enemy instanceof Plant){
-                    if (((Plant) enemy).isVisible()){
-                        g.drawImage(ImageLoader.getPlantImage(),(int)(enemy.getX()-(int) level.getActivePart().getHeroes()[0].getX()+150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                if (enemy.isVisible()) {
+                    if (enemy instanceof Plant) {
+                        g.drawImage(ImageLoader.getPlantImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                    }
+                    if (enemy instanceof Goomba) {
+                        if (((Goomba) enemy).isDeadActivated()){
+                            g.drawImage(ImageLoader.getGoombaDeadImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                        }
+                        else{
+                            if (enemy.getVx()>0){
+                                g.drawImage(ImageLoader.getGoombaRightImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            else {
+                                g.drawImage(ImageLoader.getGoombaLeftImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            if (iterator%Goomba.getFrameDelay()==0){
+                                ((Goomba) enemy).addFrame();
+                            }
+                        }
                     }
                 }
             }

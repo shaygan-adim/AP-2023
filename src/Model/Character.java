@@ -19,6 +19,8 @@ abstract public class Character {
     // Methods
     public void addX(double deltaX){this.coordinates[0]+=deltaX;}
     public void addY(double deltaY){this.coordinates[1]+=deltaY;}
+    public void addVx(double deltaX){this.velocity[0]+=deltaX;}
+    public void addVy(double deltaY){this.velocity[1]+=deltaY;}
 
     // Getters
     public int getLives() {return lives;}

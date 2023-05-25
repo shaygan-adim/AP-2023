@@ -5,16 +5,16 @@ public class Luigi extends Hero{
     private int frameNumber = 0;
     private static int frameDelay = 10;
     private static int price = 250;
+
+    // Constructor
     public Luigi(int lives) {
         super(lives,125,80);
     }
+
     // Methods
     public void addFrame(){
         frameNumber++;
         frameNumber%=4;
-    }
-    public void resetFrame(){
-        frameNumber=0;
     }
     // Getters
     public int getFrameNumber() {return frameNumber;}

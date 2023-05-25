@@ -31,6 +31,9 @@ abstract public class ImageLoader {
     private static Image yoshiLeft1Image,yoshiLeft2Image,yoshiLeft3Image,yoshiLeft4Image;
     private static Image toadRight1Image,toadRight2Image,toadRight3Image,toadRight4Image;
     private static Image toadLeft1Image,toadLeft2Image,toadLeft3Image,toadLeft4Image;
+    private static Image goombaRight1Image,goombaRight2Image,goombaRight3Image,goombaRight4Image,goombaRight5Image,goombaRight6Image;
+    private static Image goombaLeft1Image,goombaLeft2Image,goombaLeft3Image,goombaLeft4Image,goombaLeft5Image,goombaLeft6Image;
+    private static Image goombaDeadImage;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -121,6 +124,22 @@ abstract public class ImageLoader {
         ImageLoader.toadLeft2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft2.png"));
         ImageLoader.toadLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft3.png"));
         ImageLoader.toadLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Toad/ToadLeft4.png"));
+
+        ImageLoader.goombaRight1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight1.png"));
+        ImageLoader.goombaRight2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight2.png"));
+        ImageLoader.goombaRight3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight3.png"));
+        ImageLoader.goombaRight4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight4.png"));
+        ImageLoader.goombaRight5Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight5.png"));
+        ImageLoader.goombaRight6Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaRight6.png"));
+
+        ImageLoader.goombaLeft1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft1.png"));
+        ImageLoader.goombaLeft2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft2.png"));
+        ImageLoader.goombaLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft3.png"));
+        ImageLoader.goombaLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft4.png"));
+        ImageLoader.goombaLeft5Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft5.png"));
+        ImageLoader.goombaLeft6Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaLeft6.png"));
+
+        ImageLoader.goombaDeadImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaDead.png"));
 
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
@@ -220,6 +239,13 @@ abstract public class ImageLoader {
     public static Image[] getToadLeftImages(){
         return new Image[]{toadLeft1Image,toadLeft2Image,toadLeft3Image,toadLeft4Image};
     }
+    public static Image[] getGoombaRightImages(){
+        return new Image[]{goombaRight1Image,goombaRight2Image,goombaRight3Image,goombaRight4Image,goombaRight5Image,goombaRight6Image};
+    }
+    public static Image[] getGoombaLeftImages(){
+        return new Image[]{goombaLeft1Image,goombaLeft2Image,goombaLeft3Image,goombaLeft4Image,goombaLeft5Image,goombaLeft6Image};
+    }
+    public static Image getGoombaDeadImage() {return goombaDeadImage;}
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }

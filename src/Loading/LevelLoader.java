@@ -91,6 +91,15 @@ abstract public class LevelLoader {
                     plant.setCoordinates(new double[]{pipes[i].getCoordinates()[0]+pipes[i].getWidth()/2-77/2,pipes[i].getCoordinates()[1]-55});
                 }
             }
+            int enemyNumber = Integer.valueOf(br.readLine());
+            for (int i = 0 ; i<enemyNumber ; i++){
+                line = br.readLine();
+                splitedLine = line.split(" ");
+                if (line.charAt(0)=='G'){
+                    Goomba goomba = new Goomba(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
+                    enemyList.add(goomba);
+                }
+            }
             br.close();
             fr.close();
             objects[0] = blocks;
