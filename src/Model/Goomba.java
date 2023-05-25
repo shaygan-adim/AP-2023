@@ -9,7 +9,7 @@ public class Goomba extends Enemy{
 
     // Constructor
     public Goomba(int lives, double[] coordinates) {
-        super(lives, coordinates, 60,50, new double[]{5,0});
+        super(lives, coordinates, 60,55, new double[]{5,0});
     }
 
     // Methods

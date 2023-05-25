@@ -34,6 +34,9 @@ abstract public class ImageLoader {
     private static Image goombaRight1Image,goombaRight2Image,goombaRight3Image,goombaRight4Image,goombaRight5Image,goombaRight6Image;
     private static Image goombaLeft1Image,goombaLeft2Image,goombaLeft3Image,goombaLeft4Image,goombaLeft5Image,goombaLeft6Image;
     private static Image goombaDeadImage;
+    private static Image koopaRight1Image,koopaRight2Image;
+    private static Image koopaLeft1Image,koopaLeft2Image;
+    private static Image koopaShellImage;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -141,6 +144,14 @@ abstract public class ImageLoader {
 
         ImageLoader.goombaDeadImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Goomba/GoombaDead.png"));
 
+        ImageLoader.koopaRight1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaRight1.png"));
+        ImageLoader.koopaRight2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaRight2.png"));
+
+        ImageLoader.koopaLeft1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaLeft1.png"));
+        ImageLoader.koopaLeft2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaLeft2.png"));
+
+        ImageLoader.koopaShellImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaShell.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -246,6 +257,13 @@ abstract public class ImageLoader {
         return new Image[]{goombaLeft1Image,goombaLeft2Image,goombaLeft3Image,goombaLeft4Image,goombaLeft5Image,goombaLeft6Image};
     }
     public static Image getGoombaDeadImage() {return goombaDeadImage;}
+    public static Image[] getKoopaRightImages(){
+        return new Image[]{koopaRight1Image,koopaRight2Image};
+    }
+    public static Image[] getKoopaLeftImages(){
+        return new Image[]{koopaLeft1Image,koopaLeft2Image};
+    }
+    public static Image getKoopaShellImage() {return koopaShellImage;}
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }

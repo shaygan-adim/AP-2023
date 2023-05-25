@@ -111,6 +111,22 @@ public class AnimationPanel extends JPanel {
                             }
                         }
                     }
+                    if (enemy instanceof Koopa){
+                        if (((Koopa) enemy).isDeadActivated()){
+                            g.drawImage(ImageLoader.getKoopaShellImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                        }
+                        else{
+                            if (enemy.getVx()>0){
+                                g.drawImage(ImageLoader.getKoopaRightImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            else {
+                                g.drawImage(ImageLoader.getKoopaLeftImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            if (iterator%Koopa.getFrameDelay()==0){
+                                ((Koopa) enemy).addFrame();
+                            }
+                        }
+                    }
                 }
             }
 

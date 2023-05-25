@@ -99,6 +99,10 @@ abstract public class LevelLoader {
                     Goomba goomba = new Goomba(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
                     enemyList.add(goomba);
                 }
+                if (line.charAt(0)=='K'){
+                    Koopa koopa = new Koopa(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
+                    enemyList.add(koopa);
+                }
             }
             br.close();
             fr.close();
