@@ -10,6 +10,10 @@ abstract public class Hero extends Character{
     private HeroMode mode = HeroMode.MINI;
     private boolean shieldActivated = false;
     private final Stopwatch stopwatchForShield = new Stopwatch(1);
+    private final Stopwatch stopwatchForTransitioning = new Stopwatch(1000);
+    private int fireFrameNumber = 0;
+    private static int fireFrameDelay = 10;
+    private boolean transitioning = false;
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -37,6 +41,10 @@ abstract public class Hero extends Character{
                 height = 125;
             }
         }
+    }
+    public void addFireFrame(){
+        fireFrameNumber++;
+        fireFrameNumber%=4;
     }
 
     // Setters
@@ -69,6 +77,10 @@ abstract public class Hero extends Character{
         }
         this.shieldActivated = shieldActivated;
     }
+    public void setTransitioning(boolean transitioning) {
+        this.transitioning = transitioning;
+        stopwatchForTransitioning.start();
+    }
 
     // Getters
     public int getScore() {return score;}
@@ -79,4 +91,8 @@ abstract public class Hero extends Character{
     public boolean isSeating() {return seating;}
     public boolean isShieldActivated() {return shieldActivated;}
     public Stopwatch getStopwatchForShield() {return stopwatchForShield;}
+    public int getFireFrameNumber() {return fireFrameNumber;}
+    public static int getFireFrameDelay() {return fireFrameDelay;}
+    public boolean isTransitioning() {return transitioning;}
+    public Stopwatch getStopwatchForTransitioning() {return stopwatchForTransitioning;}
 }

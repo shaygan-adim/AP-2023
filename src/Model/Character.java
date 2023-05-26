@@ -1,11 +1,15 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 abstract public class Character {
     // Fields
     private int lives;
     private double[] coordinates;
     protected int height,width;
     private final double[] velocity;
+    private List<Shot> shots = new ArrayList<>();
 
     // Constructor
     public Character(int lives, double[] coordinates, int height, int width,double[] velocity){
@@ -31,6 +35,7 @@ abstract public class Character {
     public double getY(){return this.coordinates[1];}
     public double getVx(){return this.velocity[0];}
     public double getVy(){return this.velocity[1];}
+    public List<Shot> getShots() {return shots;}
 
     // Setters
     public void setLives(int lives) {this.lives = lives;}

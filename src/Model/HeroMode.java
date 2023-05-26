@@ -1,3 +1,3 @@
 package Model;
 
-public enum HeroMode {MINI , MEGA , GUN}
+public enum HeroMode {MINI , MEGA , FIRE}

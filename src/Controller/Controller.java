@@ -25,6 +25,12 @@ public class Controller implements KeyListener{
             this.physicsHandler.jump();
             this.physicsHandler.stand();
         }
+        if (e.getKeyChar() == '.'){
+            this.physicsHandler.shoot(true);
+        }
+        if (e.getKeyChar() == ','){
+            this.physicsHandler.shoot(false);
+        }
     }
     @Override
     public void keyPressed(KeyEvent e) {

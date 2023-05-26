@@ -61,6 +61,9 @@ abstract public class ImageLoader {
     private static ImageIcon timeImage;
     private static ImageIcon goldImage,silverImage,bronzeImage,rankImage;
     private static Image shieldImage;
+    private static Image heroFireGround1,heroFireGround2,heroFireGround3,heroFireGround4;
+    private static Image heroFirePreImage;
+    private static Image fireBallImage,fireBallTaleImage;
     private static ImageIcon marioImage,luigiImage,princessImage,yoshiImage,toadImage;
     private static ImageIcon marioSmallImage,luigiSmallImage,princessSmallImage,yoshiSmallImage,toadSmallImage;
 
@@ -218,6 +221,13 @@ abstract public class ImageLoader {
         ImageLoader.bronzeImage = new ImageIcon("src/Loading/Graphics/Other/Bronze.png");
         ImageLoader.rankImage = new ImageIcon("src/Loading/Graphics/Other/Rank.png");
         ImageLoader.shieldImage = ImageIO.read(new File("src/Loading/Graphics/Other/Shield.png"));
+        ImageLoader.heroFireGround1 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground1.png"));
+        ImageLoader.heroFireGround2 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground2.png"));
+        ImageLoader.heroFireGround3 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground3.png"));
+        ImageLoader.heroFireGround4 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground4.png"));
+        ImageLoader.heroFirePreImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/PreFireBall.png"));
+        ImageLoader.fireBallImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBall.png"));
+        ImageLoader.fireBallTaleImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBallTale.png"));
         ImageLoader.marioImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/Mario.png");
         ImageLoader.marioSmallImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/MarioSmall.png");
         ImageLoader.luigiImage = new ImageIcon("src/Loading/Graphics/Characters/Luigi/Luigi.png");
@@ -340,6 +350,12 @@ abstract public class ImageLoader {
     public static ImageIcon getBronzeImage() {return bronzeImage;}
     public static ImageIcon getRankImage() {return rankImage;}
     public static Image getShieldImage() {return shieldImage;}
+    public static Image[] getHeroFireGroundImages(){
+        return new Image[]{heroFireGround1,heroFireGround2,heroFireGround3,heroFireGround4};
+    }
+    public static Image getHeroFirePreImage() {return heroFirePreImage;}
+    public static Image getFireBallImage() {return fireBallImage;}
+    public static Image getFireBallTaleImage() {return fireBallTaleImage;}
     public static ImageIcon getMarioImage() {return marioImage;}
     public static ImageIcon getMarioSmallImage() {return marioSmallImage;}
     public static ImageIcon getLuigiImage() {return luigiImage;}

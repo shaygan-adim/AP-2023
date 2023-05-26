@@ -5,6 +5,7 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Field;
 
 public class AnimationPanel extends JPanel {
     // Fields
@@ -174,208 +175,234 @@ public class AnimationPanel extends JPanel {
 
             // Drawing the heroes
             for (Hero hero : level.getActivePart().getHeroes()){
-                int X = 150;
-                if (hero.getX()>=4002){
-                    X = 150-4002+(int) level.getActivePart().getHeroes()[0].getX();
-                }
-                if (hero.isSeating()){
-                    if (hero instanceof Mario){
-                        g.drawImage(ImageLoader.getMarioSeatImage(),X,(int)hero.getY(),hero.getWidth(),hero.getHeight(),this);
+                if (!(hero.isTransitioning() && iterator%2==0)){
+                    int X = 150;
+                    if (hero.getX()>=4002){
+                        X = 150-4002+(int) level.getActivePart().getHeroes()[0].getX();
                     }
-                }
-                else{
-                    if (hero.getVy()==0){
-                        if (hero.getVx()==0){
-                            if (hero.isStandingOnSomething()){
+                    if (hero.isSeating()){
+                        if (hero instanceof Mario){
+                            g.drawImage(ImageLoader.getMarioSeatImage(),X,(int)hero.getY(),hero.getWidth(),hero.getHeight(),this);
+                        }
+                    }
+                    else{
+                        if (hero.getVy()==0){
+                            if (hero.getVx()==0){
+                                if (hero.isStandingOnSomething()){
+                                    if (hero instanceof Mario){
+                                        g.drawImage(ImageLoader.getMarioInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(), this);
+                                    }
+                                    if (hero instanceof Luigi){
+                                        g.drawImage(ImageLoader.getLuigiInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Princess){
+                                        g.drawImage(ImageLoader.getPrincessInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Yoshi){
+                                        g.drawImage(ImageLoader.getYoshiInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Toad){
+                                        g.drawImage(ImageLoader.getToadInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                }
+                                else{
+                                    if (hero instanceof Mario){
+                                        g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Luigi){
+                                        g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Princess){
+                                        g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                    if (hero instanceof Yoshi){
+                                        if (level.getActivePart().getHeroes()[0].getVx()>=0){
+                                            g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
+                                    }
+                                    if (hero instanceof Toad){
+                                        g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                }
+                            }
+                            else if (hero.getVx()>0){
                                 if (hero instanceof Mario){
-                                    g.drawImage(ImageLoader.getMarioInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(), this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getMarioRightImages()[((Mario) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Mario.getFrameDelay()==0){
+                                            ((Mario) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
                                 }
                                 if (hero instanceof Luigi){
-                                    g.drawImage(ImageLoader.getLuigiInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getLuigiRightImages()[((Luigi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Luigi.getFrameDelay()==0){
+                                            ((Luigi) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
                                 }
                                 if (hero instanceof Princess){
-                                    g.drawImage(ImageLoader.getPrincessInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getPrincessRightImages()[((Princess) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Princess.getFrameDelay()==0){
+                                            ((Princess) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
                                 }
                                 if (hero instanceof Yoshi){
-                                    g.drawImage(ImageLoader.getYoshiInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getYoshiRightImages()[((Yoshi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Yoshi.getFrameDelay()==0){
+                                            ((Yoshi) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        if (level.getActivePart().getHeroes()[0].getVx()>=0){
+                                            g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
+                                    }
                                 }
                                 if (hero instanceof Toad){
-                                    g.drawImage(ImageLoader.getToadInGameImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getToadRightImages()[((Toad) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Toad.getFrameDelay()==0){
+                                            ((Toad) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
                                 }
                             }
                             else{
                                 if (hero instanceof Mario){
-                                    g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                                if (hero instanceof Luigi){
-                                    g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                                if (hero instanceof Princess){
-                                    g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                                if (hero instanceof Yoshi){
-                                    if (level.getActivePart().getHeroes()[0].getVx()>=0){
-                                        g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getMarioLeftImages()[((Mario) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Mario.getFrameDelay()==0){
+                                            ((Mario) hero).addFrame();
+                                        }
                                     }
                                     else{
-                                        g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                }
+                                if (hero instanceof Luigi){
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getLuigiLeftImages()[((Luigi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Luigi.getFrameDelay()==0){
+                                            ((Luigi) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                }
+                                if (hero instanceof Princess){
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getPrincessLeftImages()[((Princess) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Princess.getFrameDelay()==0){
+                                            ((Princess) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    }
+                                }
+                                if (hero instanceof Yoshi){
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getYoshiLeftImages()[((Yoshi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Yoshi.getFrameDelay()==0){
+                                            ((Yoshi) hero).addFrame();
+                                        }
+                                    }
+                                    else{
+                                        if (level.getActivePart().getHeroes()[0].getVx()>=0){
+                                            g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        }
                                     }
                                 }
                                 if (hero instanceof Toad){
-                                    g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                            }
-                        }
-                        else if (hero.getVx()>0){
-                            if (hero instanceof Mario){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getMarioRightImages()[((Mario) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Mario.getFrameDelay()==0){
-                                        ((Mario) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                            }
-                            if (hero instanceof Luigi){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getLuigiRightImages()[((Luigi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Luigi.getFrameDelay()==0){
-                                        ((Luigi) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                            }
-                            if (hero instanceof Princess){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getPrincessRightImages()[((Princess) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Princess.getFrameDelay()==0){
-                                        ((Princess) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
-                            }
-                            if (hero instanceof Yoshi){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getYoshiRightImages()[((Yoshi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Yoshi.getFrameDelay()==0){
-                                        ((Yoshi) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    if (level.getActivePart().getHeroes()[0].getVx()>=0){
-                                        g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                    if (hero.isStandingOnSomething()){
+                                        g.drawImage(ImageLoader.getToadLeftImages()[((Toad) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        if (iterator%Toad.getFrameDelay()==0){
+                                            ((Toad) hero).addFrame();
+                                        }
                                     }
                                     else{
-                                        g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                                        g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                                     }
-                                }
-                            }
-                            if (hero instanceof Toad){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getToadRightImages()[((Toad) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Toad.getFrameDelay()==0){
-                                        ((Toad) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                                 }
                             }
                         }
                         else{
                             if (hero instanceof Mario){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getMarioLeftImages()[((Mario) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Mario.getFrameDelay()==0){
-                                        ((Mario) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
+                                g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                             }
                             if (hero instanceof Luigi){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getLuigiLeftImages()[((Luigi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Luigi.getFrameDelay()==0){
-                                        ((Luigi) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
+                                g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                             }
                             if (hero instanceof Princess){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getPrincessLeftImages()[((Princess) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Princess.getFrameDelay()==0){
-                                        ((Princess) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
+                                g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                             }
                             if (hero instanceof Yoshi){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getYoshiLeftImages()[((Yoshi) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Yoshi.getFrameDelay()==0){
-                                        ((Yoshi) hero).addFrame();
-                                    }
+                                if (level.getActivePart().getHeroes()[0].getVx()>=0){
+                                    g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                                 }
                                 else{
-                                    if (level.getActivePart().getHeroes()[0].getVx()>=0){
-                                        g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    }
-                                    else{
-                                        g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    }
+                                    g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                                 }
                             }
                             if (hero instanceof Toad){
-                                if (hero.isStandingOnSomething()){
-                                    g.drawImage(ImageLoader.getToadLeftImages()[((Toad) hero).getFrameNumber()],X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                    if (iterator%Toad.getFrameDelay()==0){
-                                        ((Toad) hero).addFrame();
-                                    }
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                                }
+                                g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
                             }
                         }
                     }
-                    else{
-                        if (hero instanceof Mario){
-                            g.drawImage(ImageLoader.getMarioJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                        }
-                        if (hero instanceof Luigi){
-                            g.drawImage(ImageLoader.getLuigiJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                        }
-                        if (hero instanceof Princess){
-                            g.drawImage(ImageLoader.getPrincessJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                        }
-                        if (hero instanceof Yoshi){
-                            if (level.getActivePart().getHeroes()[0].getVx()>=0){
-                                g.drawImage(ImageLoader.getYoshiJumpRightImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
-                            }
-                            else{
-                                g.drawImage(ImageLoader.getYoshiJumpLeftImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                    if (hero.getMode()==HeroMode.FIRE){
+                        boolean draw = true;
+                        for (Shot shot : hero.getShots()){
+                            if (shot instanceof FireBall && shot.isVisible()){
+                                draw = false;
                             }
                         }
-                        if (hero instanceof Toad){
-                            g.drawImage(ImageLoader.getToadJumpImage(),X,(int)hero.getY(),hero.getWidth(), hero.getHeight(),this);
+                        if (draw){
+                            g.drawImage(ImageLoader.getHeroFirePreImage(),X-15,(int) hero.getY()-40,30,48,this);
+                        }
+                        if (hero.isStandingOnSomething()){
+                            g.drawImage(ImageLoader.getHeroFireGroundImages()[hero.getFireFrameNumber()], X,(int) hero.getY()+hero.getHeight()-35,80,35,this);
+                            if (iterator%Hero.getFireFrameDelay()==0){
+                                hero.addFireFrame();
+                            }
                         }
                     }
-                }
-                if (hero.isShieldActivated()){
-                    g.drawImage(ImageLoader.getShieldImage(),X-60,(int) hero.getY()-40,200,200,this);
+                    for (Shot shot : hero.getShots()){
+                        if (shot.isVisible()){
+                            if (shot instanceof FireBall){
+                                g.drawImage(ImageLoader.getFireBallImage(),drawingInteger+150+shot.getX(),shot.getY(),shot.getWidth(), shot.getHeight(), this);
+                            }
+                        }
+                    }
+                    if (hero.isShieldActivated()){
+                        g.drawImage(ImageLoader.getShieldImage(),X-60,(int) hero.getY()-40,200,200,this);
+                    }
                 }
             }
         }
