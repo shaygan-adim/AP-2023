@@ -127,6 +127,30 @@ public class AnimationPanel extends JPanel {
                             }
                         }
                     }
+                    if (enemy instanceof Spiny){
+                        if (((Spiny) enemy).isRunActivated()){
+                            if (enemy.getVx()>0){
+                                g.drawImage(ImageLoader.getSpinyRightRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            else {
+                                g.drawImage(ImageLoader.getSpinyLeftRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            if (iterator%(Spiny.getFrameDelay()-8)==0){
+                                ((Spiny) enemy).addFrame();
+                            }
+                        }
+                        else {
+                            if (enemy.getVx()>0){
+                                g.drawImage(ImageLoader.getSpinyRightImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            else {
+                                g.drawImage(ImageLoader.getSpinyLeftImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            }
+                            if (iterator%Spiny.getFrameDelay()==0){
+                                ((Spiny) enemy).addFrame();
+                            }
+                        }
+                    }
                 }
             }
 

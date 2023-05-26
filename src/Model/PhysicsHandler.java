@@ -130,6 +130,43 @@ public class PhysicsHandler {
             if (enemy.isVisible() && !(enemy instanceof Plant)){
                 enemy.setStandingOnSomething(false);
                 enemy.addVy(g*dt);
+                if (enemy instanceof Spiny){
+                    if (enemy.getY()+enemy.getHeight()>level.getActivePart().getHeroes()[0].getY() && enemy.getY()<level.getActivePart().getHeroes()[0].getY()+level.getActivePart().getHeroes()[0].getHeight()){
+                        if (Math.pow(enemy.getX()+enemy.getWidth()/2-level.getActivePart().getHeroes()[0].getX()-level.getActivePart().getHeroes()[0].getWidth()/2,2)+Math.pow(enemy.getY()+enemy.getHeight()/2-level.getActivePart().getHeroes()[0].getY()-level.getActivePart().getHeroes()[0].getHeight()/2,2)<Math.pow(5*level.getActivePart().getBlocks()[0].getHeight(),2)){
+                            if (!((Spiny) enemy).isRunActivated()){
+                                if (enemy.getX()+enemy.getWidth()/2>level.getActivePart().getHeroes()[0].getX()+level.getActivePart().getHeroes()[0].getWidth()/2){
+                                    enemy.setVx(-5);
+                                }
+                                else{
+                                    enemy.setVx(5);
+                                }
+                            }
+                            ((Spiny) enemy).setRunActivated(true);
+                        }
+                        else{
+                            ((Spiny) enemy).setRunActivated(false);
+                        }
+                    }
+                    else{
+                        ((Spiny) enemy).setRunActivated(false);
+                    }
+                    if (((Spiny) enemy).isRunActivated()){
+                        if (enemy.getVx()>0){
+                            enemy.addVx(Spiny.getAcceleration()*dt);
+                        }
+                        else{
+                            enemy.addVx(-Spiny.getAcceleration()*dt);
+                        }
+                    }
+                    else{
+                        if (enemy.getVx()>0){
+                            enemy.setVx(2.5);
+                        }
+                        else{
+                            enemy.setVx(-2.5);
+                        }
+                    }
+                }
                 int n = 0;
                 int nr = 0;
                 int nl = 0;
@@ -494,6 +531,9 @@ public class PhysicsHandler {
                             hero.addScore(100);
                             ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
                         }
+                        if (level.getActivePart().getEnemies()[i] instanceof Spiny){
+                            hero.addScore(300);
+                        }
                     }
                 }
                 else{
@@ -503,7 +543,7 @@ public class PhysicsHandler {
                         }
                     }
                     if ((level.getActivePart().getEnemies()[i].isVisible()) && (level.getActivePart().getEnemies()[i]) instanceof Koopa && ((Koopa)level.getActivePart().getEnemies()[i]).isDeadActivated()){
-                        if (((Koopa)level.getActivePart().getEnemies()[i]).getDeathStopwatch().passedTime()>650){
+                        if (((Koopa)level.getActivePart().getEnemies()[i]).getDeathStopwatch().passedTime()>850){
                             level.getActivePart().getEnemies()[i].setVx(0);
                         }
                         if (((Koopa)level.getActivePart().getEnemies()[i]).getDeathStopwatch().passedTime()>3500){
@@ -511,7 +551,7 @@ public class PhysicsHandler {
                         }
                     }
                     if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX() && level.getActivePart().getEnemies()[i].getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getEnemies()[i].getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
-                        if (hero.getY()+ hero.getHeight()-10<level.getActivePart().getEnemies()[i].getY() && !(level.getActivePart().getEnemies()[i] instanceof Plant) && (hero.getY()-hero.getVy()*dt>=level.getActivePart().getEnemies()[i].getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<level.getActivePart().getEnemies()[i].getY()+level.getActivePart().getEnemies()[i].getHeight() && hero.getX()>level.getActivePart().getEnemies()[i].getX()-hero.getWidth() && hero.getX()<level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth())) {
+                        if (hero.getY()+ hero.getHeight()-10<level.getActivePart().getEnemies()[i].getY() && !(level.getActivePart().getEnemies()[i] instanceof Plant || level.getActivePart().getEnemies()[i] instanceof Spiny) && (hero.getY()-hero.getVy()*dt>=level.getActivePart().getEnemies()[i].getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<level.getActivePart().getEnemies()[i].getY()+level.getActivePart().getEnemies()[i].getHeight() && hero.getX()>level.getActivePart().getEnemies()[i].getX()-hero.getWidth() && hero.getX()<level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth())) {
                             if (level.getActivePart().getEnemies()[i] instanceof Goomba){
                                 ((Goomba) level.getActivePart().getEnemies()[i]).getDeathStopwatch().start();
                                 ((Goomba) level.getActivePart().getEnemies()[i]).setDeadActivated(true);
@@ -524,13 +564,7 @@ public class PhysicsHandler {
                                     hero.addScore(200);
                                 }
                                 else{
-                                    if (hero.getX()+hero.getWidth()/2<level.getActivePart().getEnemies()[i].getX()+level.getActivePart().getEnemies()[i].getWidth()/2){
-                                        ((Koopa) level.getActivePart().getEnemies()[i]).setDeadActivated(true,true);
-                                    }
-                                    else{
-                                        ((Koopa) level.getActivePart().getEnemies()[i]).setDeadActivated(true,false);
-                                    }
-
+                                    ((Koopa) level.getActivePart().getEnemies()[i]).setDeadActivated(true, hero.getX() + hero.getWidth() / 2 < level.getActivePart().getEnemies()[i].getX() + level.getActivePart().getEnemies()[i].getWidth() / 2);
                                 }
                                 hero.setVy(20);
                             }
@@ -605,12 +639,6 @@ public class PhysicsHandler {
         if (hero.getLives()>=2){
             hero.setLives(hero.getLives()-1);
             hero.setCoordinates(new double[]{150,200});
-            if (this.level.getActivePart().getId()==0){
-                this.level.getActivePart().getHeroes()[0].setScore(0);
-            }
-            else{
-                this.level.getActivePart().getHeroes()[0].setScore(this.level.getParts()[this.level.getActivePart().getId()-1].getFinalScore());
-            }
         }
         else{
             this.level.addTime((int)this.level.getActivePart().getStopwatch().passedTime());

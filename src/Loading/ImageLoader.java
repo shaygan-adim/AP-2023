@@ -37,6 +37,10 @@ abstract public class ImageLoader {
     private static Image koopaRight1Image,koopaRight2Image;
     private static Image koopaLeft1Image,koopaLeft2Image;
     private static Image koopaShellImage;
+    private static Image spinyRight1Image,spinyRight2Image,spinyRight3Image,spinyRight4Image;
+    private static Image spinyLeft1Image,spinyLeft2Image,spinyLeft3Image,spinyLeft4Image;
+    private static Image spinyRightRun1Image,spinyRightRun2Image,spinyRightRun3Image,spinyRightRun4Image;
+    private static Image spinyLeftRun1Image,spinyLeftRun2Image,spinyLeftRun3Image,spinyLeftRun4Image;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -152,6 +156,26 @@ abstract public class ImageLoader {
 
         ImageLoader.koopaShellImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Koopa/KoopaShell.png"));
 
+        ImageLoader.spinyRight1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight1.png"));
+        ImageLoader.spinyRight2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight2.png"));
+        ImageLoader.spinyRight3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight3.png"));
+        ImageLoader.spinyRight4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight4.png"));
+
+        ImageLoader.spinyLeft1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft1.png"));
+        ImageLoader.spinyLeft2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft2.png"));
+        ImageLoader.spinyLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft3.png"));
+        ImageLoader.spinyLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft4.png"));
+
+        ImageLoader.spinyRightRun1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRightRun1.png"));
+        ImageLoader.spinyRightRun2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight1.png"));
+        ImageLoader.spinyRightRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRightRun3.png"));
+        ImageLoader.spinyRightRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyRight1.png"));
+
+        ImageLoader.spinyLeftRun1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeftRun1.png"));
+        ImageLoader.spinyLeftRun2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft1.png"));
+        ImageLoader.spinyLeftRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeftRun3.png"));
+        ImageLoader.spinyLeftRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft1.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -264,6 +288,18 @@ abstract public class ImageLoader {
         return new Image[]{koopaLeft1Image,koopaLeft2Image};
     }
     public static Image getKoopaShellImage() {return koopaShellImage;}
+    public static Image[] getSpinyRightImages(){
+        return new Image[]{spinyRight1Image,spinyRight2Image,spinyRight3Image,spinyRight4Image};
+    }
+    public static Image[] getSpinyLeftImages(){
+        return new Image[]{spinyLeft1Image,spinyLeft2Image,spinyLeft3Image,spinyLeft4Image};
+    }
+    public static Image[] getSpinyRightRunImages(){
+        return new Image[]{spinyRightRun1Image,spinyRightRun2Image,spinyRightRun3Image,spinyRightRun4Image};
+    }
+    public static Image[] getSpinyLeftRunImages(){
+        return new Image[]{spinyLeftRun1Image,spinyLeftRun2Image,spinyLeftRun3Image,spinyLeftRun4Image};
+    }
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }

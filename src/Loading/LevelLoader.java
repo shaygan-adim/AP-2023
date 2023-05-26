@@ -103,6 +103,10 @@ abstract public class LevelLoader {
                     Koopa koopa = new Koopa(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
                     enemyList.add(koopa);
                 }
+                if (line.charAt(0)=='S'){
+                    Spiny spiny = new Spiny(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
+                    enemyList.add(spiny);
+                }
             }
             br.close();
             fr.close();
