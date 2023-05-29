@@ -2,14 +2,13 @@ package Model;
 
 public class FireBall extends Shot{
     // Fields
-    private static final int period = 700;
-    private static final int coolDown = 700;
+    private static final int period = 437;
 
     // Constructor
     public FireBall(int[] coordinates,boolean right) {
-        super(coordinates, 40, 40, 50);
+        super(coordinates, 40, 40, 80);
         if (!right){
-            setVelocity(-50);
+            setVelocity(-80);
         }
         getStopwatch().start();
     }

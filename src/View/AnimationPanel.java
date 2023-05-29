@@ -2,6 +2,7 @@ package View;
 
 import Loading.ImageLoader;
 import Model.*;
+import com.sun.source.tree.SwitchExpressionTree;
 
 import javax.swing.*;
 import java.awt.*;
@@ -397,11 +398,33 @@ public class AnimationPanel extends JPanel {
                         if (shot.isVisible()){
                             if (shot instanceof FireBall){
                                 g.drawImage(ImageLoader.getFireBallImage(),drawingInteger+150+shot.getX(),shot.getY(),shot.getWidth(), shot.getHeight(), this);
+                                if (shot.getVelocity()>0){
+                                    g.drawImage(ImageLoader.getFireBallTaleImage(),drawingInteger+150+shot.getX()-100,shot.getY(), 100, shot.getHeight(), this);
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getFireBallTaleImage(),drawingInteger+150+shot.getX()+shot.getWidth(),shot.getY(), 100, shot.getHeight(), this);
+                                }
+                            }
+                            if (shot instanceof Sword){
+                                g.drawImage(ImageLoader.getSwordImage(),drawingInteger+150+shot.getX(),shot.getY(),shot.getWidth(), shot.getHeight(), this);
                             }
                         }
                     }
                     if (hero.isShieldActivated()){
                         g.drawImage(ImageLoader.getShieldImage(),X-60,(int) hero.getY()-40,200,200,this);
+                    }
+                }
+            }
+            Hero myHero = level.getActivePart().getHeroes()[0];
+            int X = 150;
+            if (myHero.getX()>=4002){
+                X = 150-4002+(int) myHero.getX();
+            }
+            if (myHero.isSwordActivated()){
+                if (myHero.getStopwatchForLightning().passedTime()<800){
+                    g.drawImage(ImageLoader.getLightningImages()[myHero.getLightningFrameNumber()], X+100,0,(int)((myHero.getY()+myHero.getHeight())*125/772),(int)myHero.getY()+myHero.getHeight()+10,this);
+                    if (iterator%Hero.getLightningFrameDelay()==0){
+                        myHero.addLightningFrame();
                     }
                 }
             }

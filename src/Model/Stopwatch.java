@@ -3,7 +3,8 @@ package Model;
 public class Stopwatch {
     // Fields
     private long startTime;
-    private int unit;
+    private final int unit;
+    private boolean started = false;
 
 
     // Constructor
@@ -14,6 +15,7 @@ public class Stopwatch {
     // Methods
     public void start(){
         this.startTime = System.currentTimeMillis();
+        started=true;
     }
     public long passedTime(){
         if (unit==1){
@@ -21,7 +23,10 @@ public class Stopwatch {
         }
         return System.currentTimeMillis()-this.startTime;
     }
-    public void sleep(int delay){
-        this.startTime += delay;
+    public void stop(){
+        started = false;
     }
+
+    // Getters
+    public boolean isStarted() {return started;}
 }

@@ -2,29 +2,25 @@ package Controller;
 
 import Model.Part;
 import Model.PhysicsHandler;
+import Model.Stopwatch;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Controller implements KeyListener{
     // Fields
-    private boolean[] keyPressed = {false,false,false};
-    private Part part;
+    private boolean[] keyPressed = {false,false,false,false};
     private PhysicsHandler physicsHandler;
+    private Stopwatch stopwatch = new Stopwatch(1000);
 
     // Constructor
-    public Controller(Part part, PhysicsHandler physicsHandler){
-        this.part = part;
+    public Controller( PhysicsHandler physicsHandler){
         this.physicsHandler = physicsHandler;
     }
 
     // Methods
     @Override
     public void keyTyped(KeyEvent e) {
-        if (e.getKeyChar() == 'w'){
-            this.physicsHandler.jump();
-            this.physicsHandler.stand();
-        }
         if (e.getKeyChar() == '.'){
             this.physicsHandler.shoot(true);
         }
@@ -46,7 +42,35 @@ public class Controller implements KeyListener{
         }
         if (e.getKeyCode() == KeyEvent.VK_S || keyPressed[2]){
             keyPressed[2] = true;
-            this.physicsHandler.seat();
+            if (keyPressed[3]){
+                physicsHandler.stand();
+                if (!stopwatch.isStarted()){
+                    stopwatch.start();
+                }
+            }
+            else{
+                this.physicsHandler.seat();
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W || keyPressed[3]){
+            keyPressed[3] = true;
+            if (keyPressed[2]){
+                if (!stopwatch.isStarted()){
+                    stopwatch.start();
+                }
+            }
+            else{
+                this.physicsHandler.jump();
+                this.physicsHandler.stand();
+            }
+            if (stopwatch.isStarted()){
+                if (stopwatch.passedTime()>2000){
+                    physicsHandler.stop();
+                    physicsHandler.stand();
+                    physicsHandler.swordOperation();
+                    stopwatch.stop();
+                }
+            }
         }
     }
     @Override
@@ -62,6 +86,11 @@ public class Controller implements KeyListener{
         if (e.getKeyCode() == KeyEvent.VK_S){
             keyPressed[2] = false;
             this.physicsHandler.stand();
+            stopwatch.stop();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W){
+            keyPressed[3] = false;
+            stopwatch.stop();
         }
     }
 }

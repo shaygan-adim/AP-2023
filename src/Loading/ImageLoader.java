@@ -64,6 +64,8 @@ abstract public class ImageLoader {
     private static Image heroFireGround1,heroFireGround2,heroFireGround3,heroFireGround4;
     private static Image heroFirePreImage;
     private static Image fireBallImage,fireBallTaleImage;
+    private static Image swordImage;
+    private static Image lightning1Image,lightning2Image,lightning3Image,lightning4Image;
     private static ImageIcon marioImage,luigiImage,princessImage,yoshiImage,toadImage;
     private static ImageIcon marioSmallImage,luigiSmallImage,princessSmallImage,yoshiSmallImage,toadSmallImage;
 
@@ -228,6 +230,11 @@ abstract public class ImageLoader {
         ImageLoader.heroFirePreImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/PreFireBall.png"));
         ImageLoader.fireBallImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBall.png"));
         ImageLoader.fireBallTaleImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBallTale.png"));
+        ImageLoader.swordImage = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Sword.png"));
+        ImageLoader.lightning1Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning1.png"));
+        ImageLoader.lightning2Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning2.png"));
+        ImageLoader.lightning3Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning3.png"));
+        ImageLoader.lightning4Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning4.png"));
         ImageLoader.marioImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/Mario.png");
         ImageLoader.marioSmallImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/MarioSmall.png");
         ImageLoader.luigiImage = new ImageIcon("src/Loading/Graphics/Characters/Luigi/Luigi.png");
@@ -356,6 +363,10 @@ abstract public class ImageLoader {
     public static Image getHeroFirePreImage() {return heroFirePreImage;}
     public static Image getFireBallImage() {return fireBallImage;}
     public static Image getFireBallTaleImage() {return fireBallTaleImage;}
+    public static Image getSwordImage() {return swordImage;}
+    public static Image[] getLightningImages(){
+        return new Image[]{lightning1Image,lightning2Image,lightning3Image,lightning4Image};
+    }
     public static ImageIcon getMarioImage() {return marioImage;}
     public static ImageIcon getMarioSmallImage() {return marioSmallImage;}
     public static ImageIcon getLuigiImage() {return luigiImage;}

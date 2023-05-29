@@ -24,7 +24,7 @@ public class Game extends JFrame {
         this.level = level;
         this.user = user;
         physicsHandler = new PhysicsHandler(level,user);
-        this.controller = new Controller(level.getActivePart(),this.physicsHandler);
+        this.controller = new Controller(this.physicsHandler);
         this.addKeyListener(this.controller);
         initFrame();
         initAnimation();

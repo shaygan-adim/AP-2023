@@ -20,13 +20,32 @@ public class PhysicsHandler {
     public void updatePhysics(){
         changed = false;
         // Physics of shots
+        if (level.getActivePart().getHeroes()[0].isSwordActivated() && level.getActivePart().getHeroes()[0].getStopwatchForLightning().passedTime()>800){
+            int x = (int)level.getActivePart().getHeroes()[0].getX()+80;
+            int y = (int)level.getActivePart().getHeroes()[0].getY()+50;
+            if (level.getActivePart().getHeroes()[0].getMode() == HeroMode.MINI){
+                y = (int)level.getActivePart().getHeroes()[0].getY()+20;
+                x = (int)level.getActivePart().getHeroes()[0].getX()+50;
+            }
+            level.getActivePart().getHeroes()[0].getShots().add(new Sword(new int[]{x,y}));
+            level.getActivePart().getHeroes()[0].setSwordActivated(false);
+        }
         for (Hero hero : level.getActivePart().getHeroes()){
             for (Shot shot : hero.getShots()){
-                if (shot instanceof FireBall && shot.getStopwatch().passedTime()>FireBall.getPeriod()){
-                    shot.setVisible(false);
-                }
                 if (shot.isVisible()){
-                    shot.addToX((int) (shot.getVelocity()*dt));
+                    if (shot instanceof FireBall && shot.getStopwatch().passedTime()>FireBall.getPeriod()){
+                        shot.setVisible(false);
+                    }
+                    if (shot instanceof Sword && shot.getX()<hero.getX()+hero.getWidth()){
+                        shot.setVisible(false);
+                        hero.getStopwatchForCooldown().start();
+                    }
+                    if (shot.isVisible()){
+                        if (shot instanceof Sword){
+                            shot.setVelocity(shot.getVelocity()-Sword.getAcceleration()*dt);
+                        }
+                        shot.addToX((int) (shot.getVelocity()*dt));
+                    }
                 }
             }
         }
@@ -479,25 +498,32 @@ public class PhysicsHandler {
         }
     }
     public void jump(){
-        if (level.getActivePart().getHeroes()[0].getVy()==0 && level.getActivePart().getHeroes()[0].isStandingOnSomething()){
-            level.getActivePart().getHeroes()[0].setY(level.getActivePart().getHeroes()[0].getY()-5);
-            level.getActivePart().getHeroes()[0].setVy(45);
-            level.getActivePart().getHeroes()[0].setJumping(true);
+        if (!level.getActivePart().getHeroes()[0].isSwordActivated()){
+            if (level.getActivePart().getHeroes()[0].getVy()==0 && level.getActivePart().getHeroes()[0].isStandingOnSomething()){
+                level.getActivePart().getHeroes()[0].setY(level.getActivePart().getHeroes()[0].getY()-5);
+                level.getActivePart().getHeroes()[0].setVy(45);
+                level.getActivePart().getHeroes()[0].setJumping(true);
+            }
         }
     }
     public void right(){
-        level.getActivePart().getHeroes()[0].setVx(40);
+        if (!level.getActivePart().getHeroes()[0].isSwordActivated()) {
+            level.getActivePart().getHeroes()[0].setVx(40);
+        }
     }
     public void stop(){
-
         level.getActivePart().getHeroes()[0].setVx(0);
     }
     public void left(){
-        level.getActivePart().getHeroes()[0].setVx(-40);
+        if (!level.getActivePart().getHeroes()[0].isSwordActivated()) {
+            level.getActivePart().getHeroes()[0].setVx(-40);
+        }
     }
     public void seat(){
-        if (level.getActivePart().getHeroes()[0].isStandingOnSomething()){
-            level.getActivePart().getHeroes()[0].setSeating(true);
+        if (!level.getActivePart().getHeroes()[0].isSwordActivated()) {
+            if (level.getActivePart().getHeroes()[0].isStandingOnSomething()) {
+                level.getActivePart().getHeroes()[0].setSeating(true);
+            }
         }
     }
     public void stand(){
@@ -517,6 +543,15 @@ public class PhysicsHandler {
                     level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()-20,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
                 }
             }
+        }
+    }
+    public void swordOperation(){
+        if (!level.getActivePart().getHeroes()[0].isSwordActivated() && level.getActivePart().getHeroes()[0].getStopwatchForCooldown().passedTime()>3000){
+            if (level.getActivePart().getHeroes()[0].getCoin()>=3){
+                level.getActivePart().getHeroes()[0].addCoin(-3);
+                level.getActivePart().getHeroes()[0].setSwordActivated(true);
+            }
+
         }
     }
     public void shotsCollisionCheck(){
@@ -605,6 +640,24 @@ public class PhysicsHandler {
         for (Hero hero : this.level.getActivePart().getHeroes()){
             if (!hero.isTransitioning()){
                 for (int i = 0; i< level.getActivePart().getEnemies().length ; i++){
+                    if (hero.isSwordActivated()){
+                        if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()+100 && level.getActivePart().getEnemies()[i].getX()< hero.getX()+100+(int)((hero.getY()+hero.getHeight())*125/772) && level.getActivePart().getEnemies()[i].getY()<hero.getY()+hero.getHeight()){
+                            (level.getActivePart().getEnemies()[i]).setVisible(false);
+                            if (level.getActivePart().getEnemies()[i] instanceof Goomba){
+                                hero.addScore(100);
+                            }
+                            if (level.getActivePart().getEnemies()[i] instanceof Koopa){
+                                hero.addScore(200);
+                            }
+                            if (level.getActivePart().getEnemies()[i] instanceof Plant){
+                                hero.addScore(100);
+                                ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
+                            }
+                            if (level.getActivePart().getEnemies()[i] instanceof Spiny){
+                                hero.addScore(300);
+                            }
+                        }
+                    }
                     if (hero.isShieldActivated()){
                         if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()-60 && level.getActivePart().getEnemies()[i].getX()< hero.getX()-60+ 200 && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> hero.getY()-40 && level.getActivePart().getEnemies()[i].getY()< hero.getY()-40+ 200){
                             (level.getActivePart().getEnemies()[i]).setVisible(false);
@@ -725,6 +778,9 @@ public class PhysicsHandler {
        }
     }
     public void die(Hero hero){
+        if (hero.isShieldActivated()){
+            hero.setShieldActivated(false);
+        }
         if (hero.getMode()==HeroMode.FIRE){
             hero.setMode(HeroMode.MEGA);
             hero.setTransitioning(true);

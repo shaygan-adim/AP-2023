@@ -11,9 +11,17 @@ abstract public class Hero extends Character{
     private boolean shieldActivated = false;
     private final Stopwatch stopwatchForShield = new Stopwatch(1);
     private final Stopwatch stopwatchForTransitioning = new Stopwatch(1000);
+    private final Stopwatch stopwatchForLightning = new Stopwatch(1000);
+    private final Stopwatch stopwatchForCooldown = new Stopwatch(1000);
+    {
+        stopwatchForCooldown.start();
+    }
     private int fireFrameNumber = 0;
-    private static int fireFrameDelay = 10;
+    private static final int fireFrameDelay = 10;
     private boolean transitioning = false;
+    private boolean swordActivated = false;
+    private int lightningFrameNumber = 0;
+    private static final int lightningFrameDelay = 10;
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -45,6 +53,10 @@ abstract public class Hero extends Character{
     public void addFireFrame(){
         fireFrameNumber++;
         fireFrameNumber%=4;
+    }
+    public void addLightningFrame(){
+        lightningFrameNumber++;
+        lightningFrameNumber%=4;
     }
 
     // Setters
@@ -81,6 +93,10 @@ abstract public class Hero extends Character{
         this.transitioning = transitioning;
         stopwatchForTransitioning.start();
     }
+    public void setSwordActivated(boolean swordActivated) {
+        stopwatchForLightning.start();
+        this.swordActivated = swordActivated;
+    }
 
     // Getters
     public int getScore() {return score;}
@@ -95,4 +111,9 @@ abstract public class Hero extends Character{
     public static int getFireFrameDelay() {return fireFrameDelay;}
     public boolean isTransitioning() {return transitioning;}
     public Stopwatch getStopwatchForTransitioning() {return stopwatchForTransitioning;}
+    public boolean isSwordActivated() {return swordActivated;}
+    public int getLightningFrameNumber() {return lightningFrameNumber;}
+    public static int getLightningFrameDelay() {return lightningFrameDelay;}
+    public Stopwatch getStopwatchForLightning() {return stopwatchForLightning;}
+    public Stopwatch getStopwatchForCooldown() {return stopwatchForCooldown;}
 }
