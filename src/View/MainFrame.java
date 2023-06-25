@@ -40,5 +40,5 @@ abstract public class MainFrame extends JFrame {
         this.mainPanel.setLayout(null);
         this.setContentPane(this.mainPanel);
     }
-    abstract void initComponents();
+    public abstract void initComponents();
 }

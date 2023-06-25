@@ -1,6 +1,6 @@
 import Loading.ImageLoader;
 import Loading.UserLoader;
-import View.FirstPage;
+import View.EntryFrames.FirstPage;
 
 import java.io.IOException;
 

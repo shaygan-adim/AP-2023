@@ -1,6 +1,17 @@
 package Loading;
 
-import Model.*;
+import Model.Characters.Enemies.Goomba;
+import Model.Characters.Enemies.Koopa;
+import Model.Characters.Enemies.Plant;
+import Model.Characters.Enemies.Spiny;
+import Model.Characters.Enemies.Enemy;
+import Model.Characters.Heroes.Hero;
+import Model.Items.*;
+import Model.Levels.Part;
+import Model.Physics.Block;
+import Model.Physics.BlockType;
+import Model.Physics.Floor;
+import Model.Physics.Pipe;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,7 +49,7 @@ abstract public class LevelLoader {
                 Item[] items = null;
                 int margin = 2;
                 if (line.startsWith("SI")){
-                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))},BlockType.SIMPLE,items);
+                    blocks[i] = new Block(new int[]{Integer.valueOf(splitedLine[0].substring(1+margin)),Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))}, BlockType.SIMPLE,items);
                 }
                 if (line.startsWith("CO")){
                     items = new Item[]{new Coin(new double[]{Integer.valueOf(splitedLine[0].substring(1+margin))+12, Integer.valueOf(splitedLine[1].substring(0,splitedLine[1].length()-1))-50})};

@@ -1,17 +1,16 @@
 package Controller;
 
-import Model.Part;
-import Model.PhysicsHandler;
-import Model.Stopwatch;
+import Logic.PhysicsHandler;
+import Logic.Stopwatch;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Controller implements KeyListener{
     // Fields
-    private boolean[] keyPressed = {false,false,false,false};
-    private PhysicsHandler physicsHandler;
-    private Stopwatch stopwatch = new Stopwatch(1000);
+    private final boolean[] keyPressed = {false,false,false,false};
+    private final PhysicsHandler physicsHandler;
+    private final Stopwatch stopwatch = new Stopwatch(1000);
 
     // Constructor
     public Controller( PhysicsHandler physicsHandler){
