@@ -41,6 +41,10 @@ abstract public class ImageLoader {
     private static Image spinyLeft1Image,spinyLeft2Image,spinyLeft3Image,spinyLeft4Image;
     private static Image spinyRightRun1Image,spinyRightRun2Image,spinyRightRun3Image,spinyRightRun4Image;
     private static Image spinyLeftRun1Image,spinyLeftRun2Image,spinyLeftRun3Image,spinyLeftRun4Image;
+    private static Image bowserResting;
+    private static Image bowserStandingLeft,bowserStandingRight;
+    private static Image bowserRightRun1Image,bowserRightRun2Image,bowserRightRun3Image,bowserRightRun4Image;
+    private static Image bowserLeftRun1Image,bowserLeftRun2Image,bowserLeftRun3Image,bowserLeftRun4Image;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -181,6 +185,21 @@ abstract public class ImageLoader {
         ImageLoader.spinyLeftRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeftRun3.png"));
         ImageLoader.spinyLeftRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Spiny/SpinyLeft1.png"));
 
+        ImageLoader.bowserResting = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/WaitingBowser.png"));
+
+        ImageLoader.bowserStandingLeft = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/StandingBowserLeft.png"));
+        ImageLoader.bowserStandingRight = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/StandingBowserRight.png"));
+
+        ImageLoader.bowserRightRun1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserLeft1.png"));
+        ImageLoader.bowserRightRun2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserLeft2.png"));
+        ImageLoader.bowserRightRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserLeft3.png"));
+        ImageLoader.bowserRightRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserLeft4.png"));
+
+        ImageLoader.bowserLeftRun1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight1.png"));
+        ImageLoader.bowserLeftRun2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight2.png"));
+        ImageLoader.bowserLeftRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight3.png"));
+        ImageLoader.bowserLeftRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight4.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -317,6 +336,22 @@ abstract public class ImageLoader {
     public static Image[] getSpinyLeftRunImages(){
         return new Image[]{spinyLeftRun1Image,spinyLeftRun2Image,spinyLeftRun3Image,spinyLeftRun4Image};
     }
+    public static Image getBowserResting() {
+        return bowserResting;
+    }
+    public static Image getBowserStandingLeft() {
+        return bowserStandingLeft;
+    }
+    public static Image getBowserStandingRight() {
+        return bowserStandingRight;
+    }
+    public static Image[] getBowserRightRunImages(){
+        return new Image[]{bowserRightRun1Image,bowserRightRun2Image,bowserRightRun3Image,bowserRightRun4Image};
+    }
+    public static Image[] getBowserLeftRunImages(){
+        return new Image[]{bowserLeftRun1Image,bowserLeftRun2Image,bowserLeftRun3Image,bowserLeftRun4Image};
+    }
+
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }

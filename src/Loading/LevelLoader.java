@@ -1,10 +1,6 @@
 package Loading;
 
-import Model.Characters.Enemies.Goomba;
-import Model.Characters.Enemies.Koopa;
-import Model.Characters.Enemies.Plant;
-import Model.Characters.Enemies.Spiny;
-import Model.Characters.Enemies.Enemy;
+import Model.Characters.Enemies.*;
 import Model.Characters.Heroes.Hero;
 import Model.Items.*;
 import Model.Levels.Part;
@@ -117,6 +113,10 @@ abstract public class LevelLoader {
                 if (line.charAt(0)=='S'){
                     Spiny spiny = new Spiny(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
                     enemyList.add(spiny);
+                }
+                if (line.charAt(0)=='B'){
+                    Bowser bowser = new Bowser(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
+                    enemyList.add(bowser);
                 }
             }
             br.close();

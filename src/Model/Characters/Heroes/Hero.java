@@ -25,6 +25,8 @@ abstract public class Hero extends Character {
     private boolean swordActivated = false;
     private int lightningFrameNumber = 0;
     private static final int lightningFrameDelay = 10;
+    private boolean bossTrapped = false;
+    private int[] bossBoundries = null;
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -100,6 +102,12 @@ abstract public class Hero extends Character {
         stopwatchForLightning.start();
         this.swordActivated = swordActivated;
     }
+    public void setBossTrapped(boolean bossTrapped) {
+        this.bossTrapped = bossTrapped;
+    }
+    public void setBossBoundries(int[] bossBoundries) {
+        this.bossBoundries = bossBoundries;
+    }
 
     // Getters
     public int getScore() {return score;}
@@ -119,4 +127,10 @@ abstract public class Hero extends Character {
     public static int getLightningFrameDelay() {return lightningFrameDelay;}
     public Stopwatch getStopwatchForLightning() {return stopwatchForLightning;}
     public Stopwatch getStopwatchForCooldown() {return stopwatchForCooldown;}
+    public boolean isBossTrapped() {
+        return bossTrapped;
+    }
+    public int[] getBossBoundries() {
+        return bossBoundries;
+    }
 }

@@ -1,10 +1,6 @@
 package Logic;
 
-import Model.Characters.Enemies.Goomba;
-import Model.Characters.Enemies.Koopa;
-import Model.Characters.Enemies.Plant;
-import Model.Characters.Enemies.Spiny;
-import Model.Characters.Enemies.Enemy;
+import Model.Characters.Enemies.*;
 import Model.Characters.Heroes.Hero;
 import Model.Characters.Heroes.HeroMode;
 import Model.Items.*;
@@ -177,6 +173,9 @@ public class PhysicsHandler {
         //Physics of Enemies
         for (Enemy enemy : this.level.getActivePart().getEnemies()){
             if (enemy.isVisible() && !(enemy instanceof Plant)){
+                if (enemy instanceof Bowser){
+                    bossMechs((Bowser) enemy);
+                }
                 enemy.setStandingOnSomething(false);
                 enemy.addVy(g*dt);
                 if (enemy instanceof Spiny && !level.getActivePart().getHeroes()[0].isTransitioning()){
@@ -459,6 +458,9 @@ public class PhysicsHandler {
                 }
             }
             hero.addY(-hero.getVy()*dt);
+            if (hero.isBossTrapped() && (hero.getBossBoundries()[0]>hero.getX()+hero.getVx()*dt||hero.getX()+hero.getVx()*dt+hero.getWidth()>hero.getBossBoundries()[1])){
+                hero.setVx(0);
+            }
             if (hero.getX()+ hero.getVx()*dt>150) hero.addX(hero.getVx()*dt);
             else hero.setVx(0);
         }
@@ -754,6 +756,38 @@ public class PhysicsHandler {
             }
         }
     }
+    public void bossMechs(Bowser bowser){
+        Hero hero = level.getActivePart().getHeroes()[0];
+        if (!bowser.isTriggered()&&-hero.getX()+bowser.getX()<800){
+            bowser.setTriggered(true);
+            hero.setBossTrapped(true);
+            hero.setBossBoundries(new int[]{(int)hero.getX(),(int)hero.getX()+1280-70});
+        }
+        if (bowser.isTriggered()){
+            if (hero.getX()<bowser.getX()){
+                bowser.setToLeft(true);
+            }
+            else {
+                bowser.setToLeft(false);
+            }
+            boolean shouldRun = false;
+            if (bowser.isToLeft()){
+                if (Math.abs(hero.getX()-bowser.getX())>3*level.getActivePart().getBlocks()[0].getWidth()){
+                    bowser.setVx(-20);
+                    shouldRun = true;
+                }
+            }
+            else{
+                if (Math.abs(hero.getX()-bowser.getX()- bowser.getWidth())>3*level.getActivePart().getBlocks()[0].getWidth()){
+                    bowser.setVx(20);
+                    shouldRun = true;
+                }
+            }
+            if (!shouldRun){
+                bowser.setVx(0);
+            }
+        }
+    }
     public void updateActivePart(){
        if (this.level.getActivePart().getHeroes()[0].getX()>5019 && this.level.getActivePart().getHeroes()[0].getY()>this.level.getActivePart().getEndY()[0] && this.level.getActivePart().getHeroes()[0].getY()+this.level.getActivePart().getHeroes()[0].getHeight()/2<this.level.getActivePart().getEndY()[1]){
            if (this.level.getActivePart().getId()==this.level.getParts().length-1){
@@ -809,6 +843,16 @@ public class PhysicsHandler {
             hero.setTransitioning(true);
         }
         else{
+            if (hero.isBossTrapped()){
+                for (Enemy enemy : level.getActivePart().getEnemies()){
+                    if (enemy instanceof Bowser){
+                        ((Bowser) enemy).setTriggered(false);
+                        enemy.setX(((Bowser) enemy).getRestingX());
+                        enemy.setY(((Bowser) enemy).getRestingY());
+                    }
+                }
+            }
+            hero.setBossTrapped(false);
             if (hero.getLives()>=2){
                 hero.setLives(hero.getLives()-1);
                 hero.setCoordinates(new double[]{150,200});

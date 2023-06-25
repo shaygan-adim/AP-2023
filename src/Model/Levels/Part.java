@@ -22,7 +22,7 @@ public class Part {
     private final Enemy[] enemies;
     private final Hero[] heroes;
     private Coin[] coins;
-    private List<Item> items =  new ArrayList<>();
+    private final List<Item> items =  new ArrayList<>();
     private final int[] endY;
     private final int time;
     private final Stopwatch stopwatch = new Stopwatch(1);

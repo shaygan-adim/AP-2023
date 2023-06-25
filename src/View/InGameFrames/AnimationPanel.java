@@ -2,11 +2,7 @@ package View.InGameFrames;
 
 import Loading.ImageLoader;
 import Logic.PhysicsHandler;
-import Model.Characters.Enemies.Goomba;
-import Model.Characters.Enemies.Koopa;
-import Model.Characters.Enemies.Plant;
-import Model.Characters.Enemies.Spiny;
-import Model.Characters.Enemies.Enemy;
+import Model.Characters.Enemies.*;
 import Model.Characters.Heroes.Hero;
 import Model.Characters.Heroes.HeroMode;
 import Model.Characters.Heroes.*;
@@ -164,6 +160,35 @@ public class AnimationPanel extends JPanel {
                             }
                             if (iterator%Spiny.getFrameDelay()==0){
                                 ((Spiny) enemy).addFrame();
+                            }
+                        }
+                    }
+                    if (enemy instanceof Bowser){
+                        if (!((Bowser) enemy).isTriggered()){
+                            g.drawImage(ImageLoader.getBowserResting(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                        }
+                        else{
+                            if (((Bowser) enemy).isToLeft()){
+                                if (enemy.getVx()==0){
+                                    g.drawImage(ImageLoader.getBowserStandingLeft(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getBowserLeftRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    if (iterator%Bowser.getFrameDelay()==0){
+                                        ((Bowser) enemy).addRunningFrame();
+                                    }
+                                }
+                            }
+                            else{
+                                if (enemy.getVx()==0){
+                                    g.drawImage(ImageLoader.getBowserStandingRight(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getBowserRightRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    if (iterator%Bowser.getFrameDelay()==0){
+                                        ((Bowser) enemy).addRunningFrame();
+                                    }
+                                }
                             }
                         }
                     }
