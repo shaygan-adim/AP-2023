@@ -115,7 +115,7 @@ abstract public class LevelLoader {
                     enemyList.add(spiny);
                 }
                 if (line.charAt(0)=='B'){
-                    Bowser bowser = new Bowser(1,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
+                    Bowser bowser = new Bowser(20,new double[]{Double.valueOf(splitedLine[0].substring(1)),Double.valueOf(splitedLine[1])});
                     enemyList.add(bowser);
                 }
             }

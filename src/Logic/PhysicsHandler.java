@@ -16,6 +16,7 @@ import Model.Shots.Sword;
 import Model.User;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class PhysicsHandler {
     // Fields
@@ -581,21 +582,37 @@ public class PhysicsHandler {
                 // Enemies
                 for (Enemy enemy : level.getActivePart().getEnemies()){
                     if (enemy.isVisible() && shot.isVisible() && shot.getX()+ shot.getWidth()> enemy.getX() && shot.getX()< enemy.getX()+ enemy.getWidth() && shot.getY()+ shot.getHeight()> enemy.getY() && shot.getY()< enemy.getY()+ enemy.getHeight()){
-                        enemy.setVisible(false);
-                        if (enemy instanceof Goomba){
-                            hero.addScore(100);
+                        if (!(enemy instanceof Bowser)){
+                            enemy.setVisible(false);
+                            if (enemy instanceof Goomba){
+                                hero.addScore(100);
+                            }
+                            if (enemy instanceof Koopa){
+                                hero.addScore(200);
+                            }
+                            if (enemy instanceof Plant){
+                                hero.addScore(100);
+                            }
+                            if (enemy instanceof Spiny){
+                                hero.addScore(300);
+                            }
                         }
-                        if (enemy instanceof Koopa){
-                            hero.addScore(200);
+                        else{
+                            if (shot instanceof FireBall){
+                                if (enemy.getLives()>1){
+                                    enemy.setLives(enemy.getLives()-1);
+                                }
+                            }
+                            else{
+                                if (enemy.getLives()>2){
+                                    enemy.setLives(enemy.getLives()-2);
+                                }
+                            }
+                            enemy.setVx(0);
+                            enemy.setVy(0);
                         }
-                        if (enemy instanceof Plant){
-                            hero.addScore(100);
-                        }
-                        if (enemy instanceof Spiny){
-                            hero.addScore(300);
-                        }
-                        shot.setVisible(false);
                         this.changed = true;
+                        shot.setVisible(false);
                     }
                 }
                 // Blocks
@@ -663,38 +680,42 @@ public class PhysicsHandler {
                 for (int i = 0; i< level.getActivePart().getEnemies().length ; i++){
                     if (hero.isSwordActivated()){
                         if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()+100 && level.getActivePart().getEnemies()[i].getX()< hero.getX()+100+(int)((hero.getY()+hero.getHeight())*125/772) && level.getActivePart().getEnemies()[i].getY()<hero.getY()+hero.getHeight()){
-                            (level.getActivePart().getEnemies()[i]).setVisible(false);
-                            if (level.getActivePart().getEnemies()[i] instanceof Goomba){
-                                hero.addScore(100);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Koopa){
-                                hero.addScore(200);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Plant){
-                                hero.addScore(100);
-                                ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Spiny){
-                                hero.addScore(300);
+                            if (!(level.getActivePart().getEnemies()[i] instanceof Bowser)){
+                                (level.getActivePart().getEnemies()[i]).setVisible(false);
+                                if (level.getActivePart().getEnemies()[i] instanceof Goomba){
+                                    hero.addScore(100);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Koopa){
+                                    hero.addScore(200);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Plant){
+                                    hero.addScore(100);
+                                    ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Spiny){
+                                    hero.addScore(300);
+                                }
                             }
                         }
                     }
                     if (hero.isShieldActivated()){
                         if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()-60 && level.getActivePart().getEnemies()[i].getX()< hero.getX()-60+ 200 && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> hero.getY()-40 && level.getActivePart().getEnemies()[i].getY()< hero.getY()-40+ 200){
-                            (level.getActivePart().getEnemies()[i]).setVisible(false);
-                            hero.setShieldActivated(false);
-                            if (level.getActivePart().getEnemies()[i] instanceof Goomba){
-                                hero.addScore(100);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Koopa){
-                                hero.addScore(200);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Plant){
-                                hero.addScore(100);
-                                ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
-                            }
-                            if (level.getActivePart().getEnemies()[i] instanceof Spiny){
-                                hero.addScore(300);
+                            if (!(level.getActivePart().getEnemies()[i] instanceof Bowser)){
+                                (level.getActivePart().getEnemies()[i]).setVisible(false);
+                                hero.setShieldActivated(false);
+                                if (level.getActivePart().getEnemies()[i] instanceof Goomba){
+                                    hero.addScore(100);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Koopa){
+                                    hero.addScore(200);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Plant){
+                                    hero.addScore(100);
+                                    ((Plant) level.getActivePart().getEnemies()[i]).setDead(true);
+                                }
+                                if (level.getActivePart().getEnemies()[i] instanceof Spiny){
+                                    hero.addScore(300);
+                                }
                             }
                         }
                     }
@@ -730,6 +751,22 @@ public class PhysicsHandler {
                                     }
                                     hero.setVy(20);
                                 }
+                                if (level.getActivePart().getEnemies()[i] instanceof Bowser){
+                                    if (level.getActivePart().getEnemies()[i].getLives()>3){
+                                        level.getActivePart().getEnemies()[i].setLives(level.getActivePart().getEnemies()[i].getLives()-3);
+                                        Bowser bowser = (Bowser) level.getActivePart().getEnemies()[i];
+                                        if (hero.getX()+hero.getWidth()/2>bowser.getX()+ bowser.getWidth()/2){
+                                            hero.setX(bowser.getX()+ bowser.getWidth()+10);
+                                        }
+                                        else{
+                                            hero.setX(bowser.getX()- hero.getWidth()-10);
+                                        }
+                                        bowser.setDizzy(true);
+                                        bowser.getDizzyStopwatch().start();
+                                        bowser.setVx(0);
+                                        bowser.setVy(0);
+                                    }
+                                }
                             }
                             else{
                                 die(hero);
@@ -757,34 +794,83 @@ public class PhysicsHandler {
         }
     }
     public void bossMechs(Bowser bowser){
-        Hero hero = level.getActivePart().getHeroes()[0];
-        if (!bowser.isTriggered()&&-hero.getX()+bowser.getX()<800){
-            bowser.setTriggered(true);
-            hero.setBossTrapped(true);
-            hero.setBossBoundries(new int[]{(int)hero.getX(),(int)hero.getX()+1280-70});
-        }
-        if (bowser.isTriggered()){
-            if (hero.getX()<bowser.getX()){
-                bowser.setToLeft(true);
+        if (!bowser.isDizzy() || bowser.getDizzyStopwatch().passedTime()>1000){
+            Hero hero = level.getActivePart().getHeroes()[0];
+            boolean swift = true;
+            if (bowser.isToLeft()){
+                if (Math.abs(bowser.getX()-hero.getX())<7*level.getActivePart().getBlocks()[0].getWidth()){
+                    Random random = new Random();
+                    double ran = random.nextDouble();
+                    if (ran>Math.abs(bowser.getX()-hero.getX())/(7*level.getActivePart().getBlocks()[0].getWidth())){
+                        swift = false;
+                    }
+                }
             }
             else {
-                bowser.setToLeft(false);
-            }
-            boolean shouldRun = false;
-            if (bowser.isToLeft()){
-                if (Math.abs(hero.getX()-bowser.getX())>3*level.getActivePart().getBlocks()[0].getWidth()){
-                    bowser.setVx(-20);
-                    shouldRun = true;
+                if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())<7*level.getActivePart().getBlocks()[0].getWidth()){
+                    Random random = new Random();
+                    double ran = random.nextDouble();
+                    if (ran>Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())/(7*level.getActivePart().getBlocks()[0].getWidth())){
+                        swift = false;
+                    }
                 }
             }
-            else{
-                if (Math.abs(hero.getX()-bowser.getX()- bowser.getWidth())>3*level.getActivePart().getBlocks()[0].getWidth()){
-                    bowser.setVx(20);
-                    shouldRun = true;
+            if (swift) {
+                for (Shot shot : hero.getShots()) {
+                    if (shot instanceof FireBall){
+                        int newX;
+                        if (shot.getX() < bowser.getX()) {
+                            newX = (int) bowser.getX() - 150;
+                        } else {
+                            newX = (int) bowser.getX() + bowser.getWidth() + 150;
+                        }
+                        if (bowser.isVisible() && shot.isVisible() && shot.getX() + shot.getWidth() > newX && shot.getX() < newX + bowser.getWidth() && shot.getY() + shot.getHeight() > bowser.getY() && shot.getY() < bowser.getY() + bowser.getHeight()) {
+                            if (bowser.getVy() == 0) {
+                                bowser.setVy(63);
+                            }
+                        }
+                    }
                 }
             }
-            if (!shouldRun){
-                bowser.setVx(0);
+            bowser.setDizzy(false);
+            if (!bowser.isTriggered()&&-hero.getX()+bowser.getX()<800){
+                bowser.setTriggered(true);
+                hero.setBossTrapped(true);
+                hero.setBossBoundries(new int[]{(int)hero.getX(),(int)hero.getX()+1280-70});
+            }
+            if (bowser.isTriggered()){
+                if (hero.getX()<bowser.getX()){
+                    bowser.setToLeft(true);
+                }
+                else {
+                    bowser.setToLeft(false);
+                }
+                if (bowser.isToLeft()){
+                    if (Math.abs(hero.getX()-bowser.getX())>8*level.getActivePart().getBlocks()[0].getWidth()){
+                        bowser.setVx(-20);
+                        bowser.setRunning(true);
+                    }
+                }
+                else{
+                    if (Math.abs(hero.getX()-bowser.getX()- bowser.getWidth())>8*level.getActivePart().getBlocks()[0].getWidth()){
+                        bowser.setVx(20);
+                        bowser.setRunning(true);
+                    }
+                }
+                if (bowser.isRunning()){
+                    if (bowser.isToLeft()){
+                        if (Math.abs(hero.getX()-bowser.getX())<=5.5*level.getActivePart().getBlocks()[0].getWidth()){
+                            bowser.setVx(0);
+                            bowser.setRunning(false);
+                        }
+                    }
+                    else{
+                        if (Math.abs(hero.getX()-bowser.getX()- bowser.getWidth())<=5.5*level.getActivePart().getBlocks()[0].getWidth()){
+                            bowser.setVx(0);
+                            bowser.setRunning(false);
+                        }
+                    }
+                }
             }
         }
     }

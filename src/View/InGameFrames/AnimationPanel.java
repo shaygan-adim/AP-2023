@@ -168,6 +168,8 @@ public class AnimationPanel extends JPanel {
                             g.drawImage(ImageLoader.getBowserResting(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                         }
                         else{
+                            g.drawImage(ImageLoader.getHPOuterImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY()-50,enemy.getWidth(),20,this);
+                            g.drawImage(ImageLoader.getHPInnerImage(),(int)(enemy.getX() +drawingInteger + 150 + 38 ),(int) enemy.getY()-50+6,(int)(enemy.getWidth()*(double)212/254*enemy.getLives()/20),(int)((double)12/32*20),this);
                             if (((Bowser) enemy).isToLeft()){
                                 if (enemy.getVx()==0){
                                     g.drawImage(ImageLoader.getBowserStandingLeft(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
@@ -189,6 +191,14 @@ public class AnimationPanel extends JPanel {
                                         ((Bowser) enemy).addRunningFrame();
                                     }
                                 }
+                            }
+                        }
+                        if (((Bowser) enemy).isDizzy()){
+                            if (((Bowser) enemy).isToLeft()){
+                                g.drawImage(ImageLoader.getDizzyImage(),(int)(enemy.getX() +drawingInteger + 150 + 20),(int)enemy.getY()-30,enemy.getWidth()/3,(int)((double)1081/2463*enemy.getWidth()/3),this);
+                            }
+                            else{
+                                g.drawImage(ImageLoader.getDizzyImage(),(int)(enemy.getX() +drawingInteger + 150 + 2*enemy.getWidth()/3 - 20),(int)enemy.getY()-30,enemy.getWidth()/3,(int)((double)1081/2463*enemy.getWidth()/3),this);
                             }
                         }
                     }

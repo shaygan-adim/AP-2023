@@ -1,5 +1,7 @@
 package Model.Characters.Enemies;
 
+import Logic.Stopwatch;
+
 public class Bowser extends Enemy{
     // Fields
     private int runningFrameNumber = 0;
@@ -7,6 +9,9 @@ public class Bowser extends Enemy{
     private final double restingX,restingY;
     private boolean triggered = false;
     private boolean toLeft = true;
+    private boolean running = false;
+    private boolean dizzy = false;
+    private final Stopwatch dizzyStopwatch = new Stopwatch(1000);
 
     // Constructor
     public Bowser(int lives, double[] coordinates) {
@@ -29,6 +34,14 @@ public class Bowser extends Enemy{
         this.toLeft = toLeft;
     }
 
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public void setDizzy(boolean dizzy) {
+        this.dizzy = dizzy;
+    }
+
     // Getters
     public boolean isTriggered() {
         return triggered;
@@ -38,12 +51,19 @@ public class Bowser extends Enemy{
     }
     public int getRunningFrameNumber() {return runningFrameNumber;}
     public static int getFrameDelay() {return frameDelay;}
-
     public double getRestingX() {
         return restingX;
     }
-
     public double getRestingY() {
         return restingY;
+    }
+    public boolean isRunning() {
+        return running;
+    }
+    public boolean isDizzy() {
+        return dizzy;
+    }
+    public Stopwatch getDizzyStopwatch() {
+        return dizzyStopwatch;
     }
 }

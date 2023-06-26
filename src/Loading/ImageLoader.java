@@ -70,6 +70,8 @@ abstract public class ImageLoader {
     private static Image fireBallImage,fireBallTaleImage;
     private static Image swordImage;
     private static Image lightning1Image,lightning2Image,lightning3Image,lightning4Image;
+    private static Image HPInnerImage,HPOuterImage;
+    private static Image dizzyImage;
     private static ImageIcon marioImage,luigiImage,princessImage,yoshiImage,toadImage;
     private static ImageIcon marioSmallImage,luigiSmallImage,princessSmallImage,yoshiSmallImage,toadSmallImage;
 
@@ -254,6 +256,9 @@ abstract public class ImageLoader {
         ImageLoader.lightning2Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning2.png"));
         ImageLoader.lightning3Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning3.png"));
         ImageLoader.lightning4Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning4.png"));
+        ImageLoader.HPInnerImage = ImageIO.read(new File("src/Loading/Graphics/Other/HP/HPInner.png"));
+        ImageLoader.HPOuterImage = ImageIO.read(new File("src/Loading/Graphics/Other/HP/HPOuter.png"));
+        ImageLoader.dizzyImage = ImageIO.read(new File("src/Loading/Graphics/Other/HP/DizzyStars.png"));
         ImageLoader.marioImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/Mario.png");
         ImageLoader.marioSmallImage = new ImageIcon("src/Loading/Graphics/Characters/Mario/MarioSmall.png");
         ImageLoader.luigiImage = new ImageIcon("src/Loading/Graphics/Characters/Luigi/Luigi.png");
@@ -401,6 +406,15 @@ abstract public class ImageLoader {
     public static Image getSwordImage() {return swordImage;}
     public static Image[] getLightningImages(){
         return new Image[]{lightning1Image,lightning2Image,lightning3Image,lightning4Image};
+    }
+    public static Image getHPInnerImage() {
+        return HPInnerImage;
+    }
+    public static Image getHPOuterImage() {
+        return HPOuterImage;
+    }
+    public static Image getDizzyImage() {
+        return dizzyImage;
     }
     public static ImageIcon getMarioImage() {return marioImage;}
     public static ImageIcon getMarioSmallImage() {return marioSmallImage;}
