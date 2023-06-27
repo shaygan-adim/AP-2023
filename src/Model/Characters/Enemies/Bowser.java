@@ -12,10 +12,15 @@ public class Bowser extends Enemy{
     private boolean running = false;
     private boolean dizzy = false;
     private final Stopwatch dizzyStopwatch = new Stopwatch(1000);
+    private boolean grabAttacking = false;
+    private boolean grabHero = false;
+    private final Stopwatch attackStopwatch = new Stopwatch(1000);
+    private final Stopwatch grabAttackStopwatch = new Stopwatch(1000);
+    private int[] runTries = new int[2];
 
     // Constructor
     public Bowser(int lives, double[] coordinates) {
-        super(lives, coordinates, 222, 244, new double[]{0,0});
+        super(lives, coordinates, 244, 222, new double[]{0,0});
         restingX = coordinates[0];
         restingY = coordinates[1];
     }
@@ -25,21 +30,46 @@ public class Bowser extends Enemy{
         runningFrameNumber++;
         runningFrameNumber%=4;
     }
+    public void addRightTry(){
+        runTries[0]++;
+    }
+    public void addLeftTry(){
+        runTries[1]++;
+    }
+    public void resetTries(){
+        runTries = new int[2];
+    }
 
     // Setters
     public void setTriggered(boolean triggered) {
+        if (triggered){
+            width = 293;
+            attackStopwatch.start();
+        }
         this.triggered = triggered;
     }
     public void setToLeft(boolean toLeft) {
         this.toLeft = toLeft;
     }
-
     public void setRunning(boolean running) {
         this.running = running;
     }
-
     public void setDizzy(boolean dizzy) {
         this.dizzy = dizzy;
+    }
+    public void setGrabAttacking(boolean grabAttacking) {
+        this.grabAttacking = grabAttacking;
+    }
+    public void setGrabHero(boolean grabHero) {
+        this.grabHero = grabHero;
+        if (grabHero){
+            height=180;
+        }
+        else{
+            addY(180-244-10);
+            height=244;
+            resetTries();
+        }
     }
 
     // Getters
@@ -65,5 +95,20 @@ public class Bowser extends Enemy{
     }
     public Stopwatch getDizzyStopwatch() {
         return dizzyStopwatch;
+    }
+    public boolean isGrabAttacking() {
+        return grabAttacking;
+    }
+    public Stopwatch getAttackStopwatch() {
+        return attackStopwatch;
+    }
+    public Stopwatch getGrabAttackStopwatch() {
+        return grabAttackStopwatch;
+    }
+    public boolean isGrabHero() {
+        return grabHero;
+    }
+    public int[] getRunTries() {
+        return runTries;
     }
 }

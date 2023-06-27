@@ -45,6 +45,8 @@ abstract public class ImageLoader {
     private static Image bowserStandingLeft,bowserStandingRight;
     private static Image bowserRightRun1Image,bowserRightRun2Image,bowserRightRun3Image,bowserRightRun4Image;
     private static Image bowserLeftRun1Image,bowserLeftRun2Image,bowserLeftRun3Image,bowserLeftRun4Image;
+    private static Image bowserLeftJumpImage,bowserRightJumpImage;
+    private static Image bowserOnFloorLeftImage,bowserOnFloorRightImage;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -202,6 +204,12 @@ abstract public class ImageLoader {
         ImageLoader.bowserLeftRun3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight3.png"));
         ImageLoader.bowserLeftRun4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/RunningBowserRight4.png"));
 
+        ImageLoader.bowserLeftJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpingBowserLeft.png"));
+        ImageLoader.bowserRightJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpingBowserRight.png"));
+
+        ImageLoader.bowserOnFloorLeftImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/OnFloorBowserLeft.png"));
+        ImageLoader.bowserOnFloorRightImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/OnFloorBowserRight.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -356,7 +364,18 @@ abstract public class ImageLoader {
     public static Image[] getBowserLeftRunImages(){
         return new Image[]{bowserLeftRun1Image,bowserLeftRun2Image,bowserLeftRun3Image,bowserLeftRun4Image};
     }
-
+    public static Image getBowserLeftJumpImage() {
+        return bowserLeftJumpImage;
+    }
+    public static Image getBowserRightJumpImage() {
+        return bowserRightJumpImage;
+    }
+    public static Image getBowserOnFloorLeftImage() {
+        return bowserOnFloorLeftImage;
+    }
+    public static Image getBowserOnFloorRightImage() {
+        return bowserOnFloorRightImage;
+    }
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }

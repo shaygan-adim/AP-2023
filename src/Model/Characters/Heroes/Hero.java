@@ -7,6 +7,7 @@ abstract public class Hero extends Character {
     // Fields
     private int score = 0;
     private int coin = 0;
+    private boolean visible = true;
     private boolean standingOnSomething = false;
     private boolean jumping = false;
     private boolean seating = false;
@@ -108,6 +109,9 @@ abstract public class Hero extends Character {
     public void setBossBoundries(int[] bossBoundries) {
         this.bossBoundries = bossBoundries;
     }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     // Getters
     public int getScore() {return score;}
@@ -132,5 +136,8 @@ abstract public class Hero extends Character {
     }
     public int[] getBossBoundries() {
         return bossBoundries;
+    }
+    public boolean isVisible() {
+        return visible;
     }
 }
