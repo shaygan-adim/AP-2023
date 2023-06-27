@@ -20,6 +20,7 @@ abstract public class Hero extends Character {
     {
         stopwatchForCooldown.start();
     }
+    private final Stopwatch stopwatchForDizzy = new Stopwatch(1000);
     private int fireFrameNumber = 0;
     private static final int fireFrameDelay = 10;
     private boolean transitioning = false;
@@ -28,6 +29,7 @@ abstract public class Hero extends Character {
     private static final int lightningFrameDelay = 10;
     private boolean bossTrapped = false;
     private int[] bossBoundries = null;
+    private boolean dizzy = false;
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -112,6 +114,10 @@ abstract public class Hero extends Character {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
+    public void setDizzy(boolean dizzy) {
+        this.dizzy = dizzy;
+        System.out.println(dizzy);
+    }
 
     // Getters
     public int getScore() {return score;}
@@ -139,5 +145,11 @@ abstract public class Hero extends Character {
     }
     public boolean isVisible() {
         return visible;
+    }
+    public boolean isDizzy() {
+        return dizzy;
+    }
+    public Stopwatch getStopwatchForDizzy() {
+        return stopwatchForDizzy;
     }
 }

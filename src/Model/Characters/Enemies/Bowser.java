@@ -14,6 +14,7 @@ public class Bowser extends Enemy{
     private final Stopwatch dizzyStopwatch = new Stopwatch(1000);
     private boolean grabAttacking = false;
     private boolean grabHero = false;
+    private boolean jumpAttacking = false;
     private final Stopwatch attackStopwatch = new Stopwatch(1000);
     private final Stopwatch grabAttackStopwatch = new Stopwatch(1000);
     private int[] runTries = new int[2];
@@ -71,6 +72,15 @@ public class Bowser extends Enemy{
             resetTries();
         }
     }
+    public void setJumpAttacking(boolean jumpAttacking) {
+        this.jumpAttacking = jumpAttacking;
+        if (jumpAttacking){
+            height=316;
+        }
+        else{
+            height=244;
+        }
+    }
 
     // Getters
     public boolean isTriggered() {
@@ -110,5 +120,8 @@ public class Bowser extends Enemy{
     }
     public int[] getRunTries() {
         return runTries;
+    }
+    public boolean isJumpAttacking() {
+        return jumpAttacking;
     }
 }

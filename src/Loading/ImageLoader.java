@@ -47,6 +47,7 @@ abstract public class ImageLoader {
     private static Image bowserLeftRun1Image,bowserLeftRun2Image,bowserLeftRun3Image,bowserLeftRun4Image;
     private static Image bowserLeftJumpImage,bowserRightJumpImage;
     private static Image bowserOnFloorLeftImage,bowserOnFloorRightImage;
+    private static Image bowserJumpAttackUpImage,bowserJumpAttackDownImage;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -209,6 +210,9 @@ abstract public class ImageLoader {
 
         ImageLoader.bowserOnFloorLeftImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/OnFloorBowserLeft.png"));
         ImageLoader.bowserOnFloorRightImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/OnFloorBowserRight.png"));
+
+        ImageLoader.bowserJumpAttackUpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpAttackingUpBowser.png"));
+        ImageLoader.bowserJumpAttackDownImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpAttackingDownBowser.png"));
 
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
@@ -375,6 +379,12 @@ abstract public class ImageLoader {
     }
     public static Image getBowserOnFloorRightImage() {
         return bowserOnFloorRightImage;
+    }
+    public static Image getBowserJumpAttackUpImage() {
+        return bowserJumpAttackUpImage;
+    }
+    public static Image getBowserJumpAttackDownImage() {
+        return bowserJumpAttackDownImage;
     }
     public static Image getMarioJumpImage() {
         return marioJumpImage;

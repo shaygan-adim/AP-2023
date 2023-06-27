@@ -186,6 +186,14 @@ public class AnimationPanel extends JPanel {
                                     }
                                 }
                             }
+                            else if (((Bowser) enemy).isJumpAttacking()){
+                                if (enemy.getVy()>0){
+                                    g.drawImage(ImageLoader.getBowserJumpAttackUpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getBowserJumpAttackDownImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                            }
                             else{
                                 g.drawImage(ImageLoader.getHPOuterImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY()-50,enemy.getWidth(),20,this);
                                 g.drawImage(ImageLoader.getHPInnerImage(),(int)(enemy.getX() +drawingInteger + 150 + 38 ),(int) enemy.getY()-50+6,(int)(enemy.getWidth()*(double)212/254*enemy.getLives()/20),(int)((double)12/32*20),this);
@@ -479,6 +487,9 @@ public class AnimationPanel extends JPanel {
                                     g.drawImage(ImageLoader.getSwordImage(),drawingInteger+150+shot.getX(),shot.getY(),shot.getWidth(), shot.getHeight(), this);
                                 }
                             }
+                        }
+                        if (hero.isDizzy()){
+                            g.drawImage(ImageLoader.getDizzyImage(),drawingInteger+150+10+(int)hero.getX(),(int)hero.getY()-20,(int)(hero.getWidth()*(double)3/4),20,this);
                         }
                         if (hero.isShieldActivated()){
                             g.drawImage(ImageLoader.getShieldImage(),X-60,(int) hero.getY()-40,200,200,this);
