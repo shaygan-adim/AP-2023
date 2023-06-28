@@ -1,10 +1,7 @@
 package Model.Shots;
 
-import Model.Shots.Shot;
-
 public class Sword extends Shot {
     // Fields
-    private static final int period = 900;
     private static final int acceleration = 10;
 
     // Constructor
@@ -14,7 +11,6 @@ public class Sword extends Shot {
     }
 
     // Getters
-    public static int getPeriod(){return period;}
     public static int getAcceleration(){return acceleration;}
 
 }

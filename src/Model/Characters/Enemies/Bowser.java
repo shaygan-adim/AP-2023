@@ -1,23 +1,31 @@
 package Model.Characters.Enemies;
 
 import Logic.Stopwatch;
+import Model.Shots.BowserFireBall;
+import Model.Shots.Shot;
+
+import java.util.Random;
 
 public class Bowser extends Enemy{
     // Fields
     private int runningFrameNumber = 0;
+    private int firingFrameNumber = 0;
     private static int frameDelay = 20;
     private final double restingX,restingY;
     private boolean triggered = false;
     private boolean toLeft = true;
     private boolean running = false;
+    private Stopwatch attackReloadStopwatch = new Stopwatch(1000);
     private boolean dizzy = false;
     private final Stopwatch dizzyStopwatch = new Stopwatch(1000);
     private boolean grabAttacking = false;
     private boolean grabHero = false;
     private boolean jumpAttacking = false;
-    private final Stopwatch attackStopwatch = new Stopwatch(1000);
     private final Stopwatch grabAttackStopwatch = new Stopwatch(1000);
     private int[] runTries = new int[2];
+    private final Stopwatch[] reloadStopwatches = new Stopwatch[4];
+    private Shot shot = null;
+    private boolean fireBallAttacking = false;
 
     // Constructor
     public Bowser(int lives, double[] coordinates) {
@@ -30,6 +38,40 @@ public class Bowser extends Enemy{
     public void addRunningFrame(){
         runningFrameNumber++;
         runningFrameNumber%=4;
+    }
+    public void addFiringFrame(){
+        boolean dontDoAdding = false;
+        if (isToLeft()){
+            if (firingFrameNumber==3) {
+                if (new Random().nextDouble()>0.5){
+                    shot = new BowserFireBall(new int[]{(int)getX(),(int)getY()+50},false);
+                }
+                else{
+                    shot = new BowserFireBall(new int[]{(int)getX(),(int)getY()+100},false);
+                }
+                dontDoAdding=true;
+            }
+        }
+        else{
+            if (firingFrameNumber==3){
+                if (new Random().nextDouble()>0.5){
+                    shot = new BowserFireBall(new int[]{(int)getX(),(int)getY()+50},true);
+                }
+                else{
+                    shot = new BowserFireBall(new int[]{(int)getX(),(int)getY()+100},true);
+                }
+                dontDoAdding=true;
+            }
+        }
+        if (!dontDoAdding){
+            firingFrameNumber++;
+        }
+        else{
+            firingFrameNumber=0;
+            reloadStopwatches[2].start();
+            getAttackReloadStopwatch().start();
+            fireBallAttacking=false;
+        }
     }
     public void addRightTry(){
         runTries[0]++;
@@ -45,7 +87,15 @@ public class Bowser extends Enemy{
     public void setTriggered(boolean triggered) {
         if (triggered){
             width = 293;
-            attackStopwatch.start();
+            attackReloadStopwatch.start();
+            reloadStopwatches[0] = new Stopwatch(1000);
+            reloadStopwatches[1] = new Stopwatch(1000);
+            reloadStopwatches[2] = new Stopwatch(1000);
+            reloadStopwatches[3] = new Stopwatch(1000);
+            reloadStopwatches[0].start();
+            reloadStopwatches[1].start();
+            reloadStopwatches[2].start();
+            reloadStopwatches[3].start();
         }
         this.triggered = triggered;
     }
@@ -81,6 +131,12 @@ public class Bowser extends Enemy{
             height=244;
         }
     }
+    public void setShot(Shot shot) {
+        this.shot = shot;
+    }
+    public void setFireBallAttacking(boolean fireBallAttacking) {
+        this.fireBallAttacking = fireBallAttacking;
+    }
 
     // Getters
     public boolean isTriggered() {
@@ -109,9 +165,6 @@ public class Bowser extends Enemy{
     public boolean isGrabAttacking() {
         return grabAttacking;
     }
-    public Stopwatch getAttackStopwatch() {
-        return attackStopwatch;
-    }
     public Stopwatch getGrabAttackStopwatch() {
         return grabAttackStopwatch;
     }
@@ -123,5 +176,20 @@ public class Bowser extends Enemy{
     }
     public boolean isJumpAttacking() {
         return jumpAttacking;
+    }
+    public Stopwatch[] getReloadStopwatches() {
+        return reloadStopwatches;
+    }
+    public Shot getShot() {
+        return shot;
+    }
+    public boolean isFireBallAttacking() {
+        return fireBallAttacking;
+    }
+    public int getFiringFrameNumber() {
+        return firingFrameNumber;
+    }
+    public Stopwatch getAttackReloadStopwatch() {
+        return attackReloadStopwatch;
     }
 }

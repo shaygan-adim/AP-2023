@@ -116,7 +116,6 @@ abstract public class Hero extends Character {
     }
     public void setDizzy(boolean dizzy) {
         this.dizzy = dizzy;
-        System.out.println(dizzy);
     }
 
     // Getters

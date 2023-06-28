@@ -1,7 +1,5 @@
 package Model.Shots;
 
-import Model.Shots.Shot;
-
 public class FireBall extends Shot {
     // Fields
     private static final int period = 437;

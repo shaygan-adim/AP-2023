@@ -18,6 +18,9 @@ public class Stopwatch {
         started=true;
     }
     public long passedTime(){
+        if (!started){
+            return 0;
+        }
         if (unit==1){
             return (System.currentTimeMillis()-this.startTime)/1000;
         }

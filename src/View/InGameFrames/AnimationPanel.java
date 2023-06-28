@@ -194,6 +194,17 @@ public class AnimationPanel extends JPanel {
                                     g.drawImage(ImageLoader.getBowserJumpAttackDownImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                                 }
                             }
+                            else if (((Bowser) enemy).isFireBallAttacking()){
+                                if (((Bowser) enemy).isToLeft()){
+                                    g.drawImage(ImageLoader.getBowserLeftFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getBowserRightFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                }
+                                if (iterator%Bowser.getFrameDelay()*2==0){
+                                    ((Bowser) enemy).addFiringFrame();
+                                }
+                            }
                             else{
                                 g.drawImage(ImageLoader.getHPOuterImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY()-50,enemy.getWidth(),20,this);
                                 g.drawImage(ImageLoader.getHPInnerImage(),(int)(enemy.getX() +drawingInteger + 150 + 38 ),(int) enemy.getY()-50+6,(int)(enemy.getWidth()*(double)212/254*enemy.getLives()/20),(int)((double)12/32*20),this);
@@ -228,6 +239,9 @@ public class AnimationPanel extends JPanel {
                             else{
                                 g.drawImage(ImageLoader.getDizzyImage(),(int)(enemy.getX() +drawingInteger + 150 + 2*enemy.getWidth()/3 - 20),(int)enemy.getY()-30,enemy.getWidth()/3,(int)((double)1081/2463*enemy.getWidth()/3),this);
                             }
+                        }
+                        if (((Bowser) enemy).getShot()!=null){
+                            g.drawImage(ImageLoader.getBowserFireBallImage(),((Bowser) enemy).getShot().getX()+drawingInteger + 150,((Bowser) enemy).getShot().getY(),((Bowser) enemy).getShot().getWidth(),((Bowser) enemy).getShot().getHeight(),this);
                         }
                     }
                 }

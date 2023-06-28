@@ -48,6 +48,8 @@ abstract public class ImageLoader {
     private static Image bowserLeftJumpImage,bowserRightJumpImage;
     private static Image bowserOnFloorLeftImage,bowserOnFloorRightImage;
     private static Image bowserJumpAttackUpImage,bowserJumpAttackDownImage;
+    private static Image bowserRightFireBall1Image,bowserRightFireBall2Image,bowserRightFireBall3Image,bowserRightFireBall4Image;
+    private static Image bowserLeftFireBall1Image,bowserLeftFireBall2Image,bowserLeftFireBall3Image,bowserLeftFireBall4Image;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -71,6 +73,7 @@ abstract public class ImageLoader {
     private static Image heroFireGround1,heroFireGround2,heroFireGround3,heroFireGround4;
     private static Image heroFirePreImage;
     private static Image fireBallImage,fireBallTaleImage;
+    private static Image BowserFireBallImage;
     private static Image swordImage;
     private static Image lightning1Image,lightning2Image,lightning3Image,lightning4Image;
     private static Image HPInnerImage,HPOuterImage;
@@ -214,6 +217,16 @@ abstract public class ImageLoader {
         ImageLoader.bowserJumpAttackUpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpAttackingUpBowser.png"));
         ImageLoader.bowserJumpAttackDownImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/JumpAttackingDownBowser.png"));
 
+        ImageLoader.bowserRightFireBall1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserRight1.png"));
+        ImageLoader.bowserRightFireBall2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserRight2.png"));
+        ImageLoader.bowserRightFireBall3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserRight3.png"));
+        ImageLoader.bowserRightFireBall4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserRight4.png"));
+
+        ImageLoader.bowserLeftFireBall1Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserLeft1.png"));
+        ImageLoader.bowserLeftFireBall2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserLeft2.png"));
+        ImageLoader.bowserLeftFireBall3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserLeft3.png"));
+        ImageLoader.bowserLeftFireBall4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/FiringBowserLeft4.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -256,13 +269,14 @@ abstract public class ImageLoader {
         ImageLoader.bronzeImage = new ImageIcon("src/Loading/Graphics/Other/Bronze.png");
         ImageLoader.rankImage = new ImageIcon("src/Loading/Graphics/Other/Rank.png");
         ImageLoader.shieldImage = ImageIO.read(new File("src/Loading/Graphics/Other/Shield.png"));
-        ImageLoader.heroFireGround1 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground1.png"));
-        ImageLoader.heroFireGround2 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground2.png"));
-        ImageLoader.heroFireGround3 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground3.png"));
-        ImageLoader.heroFireGround4 = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/Ground4.png"));
-        ImageLoader.heroFirePreImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/PreFireBall.png"));
-        ImageLoader.fireBallImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBall.png"));
-        ImageLoader.fireBallTaleImage = ImageIO.read(new File("src/Loading/Graphics/Other/HeroFire/FireBallTale.png"));
+        ImageLoader.heroFireGround1 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Ground1.png"));
+        ImageLoader.heroFireGround2 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Ground2.png"));
+        ImageLoader.heroFireGround3 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Ground3.png"));
+        ImageLoader.heroFireGround4 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Ground4.png"));
+        ImageLoader.heroFirePreImage = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/PreFireBall.png"));
+        ImageLoader.fireBallImage = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/FireBall.png"));
+        ImageLoader.fireBallTaleImage = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/FireBallTale.png"));
+        ImageLoader.BowserFireBallImage = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/BowserFireBall.png"));
         ImageLoader.swordImage = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Sword.png"));
         ImageLoader.lightning1Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning1.png"));
         ImageLoader.lightning2Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning2.png"));
@@ -386,6 +400,12 @@ abstract public class ImageLoader {
     public static Image getBowserJumpAttackDownImage() {
         return bowserJumpAttackDownImage;
     }
+    public static Image[] getBowserLeftFiringImage(){
+        return new Image[]{bowserLeftFireBall1Image,bowserLeftFireBall2Image,bowserLeftFireBall3Image,bowserLeftFireBall4Image};
+    }
+    public static Image[] getBowserRightFiringImage(){
+        return new Image[]{bowserRightFireBall1Image,bowserRightFireBall2Image,bowserRightFireBall3Image,bowserRightFireBall4Image};
+    }
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }
@@ -432,6 +452,9 @@ abstract public class ImageLoader {
     public static Image getHeroFirePreImage() {return heroFirePreImage;}
     public static Image getFireBallImage() {return fireBallImage;}
     public static Image getFireBallTaleImage() {return fireBallTaleImage;}
+    public static Image getBowserFireBallImage() {
+        return BowserFireBallImage;
+    }
     public static Image getSwordImage() {return swordImage;}
     public static Image[] getLightningImages(){
         return new Image[]{lightning1Image,lightning2Image,lightning3Image,lightning4Image};
