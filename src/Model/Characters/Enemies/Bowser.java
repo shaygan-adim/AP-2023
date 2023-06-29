@@ -10,6 +10,8 @@ public class Bowser extends Enemy{
     // Fields
     private int runningFrameNumber = 0;
     private int firingFrameNumber = 0;
+    private int cutSceneFrameNumber = 0;
+    private int phase2FireFrameNumber = 0;
     private static int frameDelay = 20;
     private final double restingX,restingY;
     private boolean triggered = false;
@@ -26,6 +28,8 @@ public class Bowser extends Enemy{
     private final Stopwatch[] reloadStopwatches = new Stopwatch[4];
     private Shot shot = null;
     private boolean fireBallAttacking = false;
+    private boolean phase2Activated = false;
+    private boolean phase2Fire = false;
 
     // Constructor
     public Bowser(int lives, double[] coordinates) {
@@ -72,6 +76,19 @@ public class Bowser extends Enemy{
             getAttackReloadStopwatch().start();
             fireBallAttacking=false;
         }
+    }
+    public void addCutSceneFrame(){
+        if (cutSceneFrameNumber==9){
+            phase2Fire=true;
+            cutSceneFrameNumber=0;
+        }
+        else{
+            cutSceneFrameNumber++;
+        }
+    }
+    public void addPhase2FireFrame(){
+        phase2FireFrameNumber++;
+        phase2FireFrameNumber%=4;
     }
     public void addRightTry(){
         runTries[0]++;
@@ -137,6 +154,12 @@ public class Bowser extends Enemy{
     public void setFireBallAttacking(boolean fireBallAttacking) {
         this.fireBallAttacking = fireBallAttacking;
     }
+    public void setPhase2Activated(boolean phase2Activated) {
+        this.phase2Activated = phase2Activated;
+    }
+    public void setPhase2Fire(boolean phase2Fire) {
+        this.phase2Fire = phase2Fire;
+    }
 
     // Getters
     public boolean isTriggered() {
@@ -191,5 +214,17 @@ public class Bowser extends Enemy{
     }
     public Stopwatch getAttackReloadStopwatch() {
         return attackReloadStopwatch;
+    }
+    public int getCutSceneFrameNumber() {
+        return cutSceneFrameNumber;
+    }
+    public boolean isPhase2Activated() {
+        return phase2Activated;
+    }
+    public boolean isPhase2Fire() {
+        return phase2Fire;
+    }
+    public int getPhase2FireFrameNumber() {
+        return phase2FireFrameNumber;
     }
 }

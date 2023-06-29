@@ -80,6 +80,15 @@ public class AnimationPanel extends JPanel {
 
             g.drawImage(ImageLoader.getLevelBackground(),0,0,1280,800,this);
 
+            // Drawing boss fight fire
+            for (Enemy enemy : level.getActivePart().getEnemies()){
+                if (enemy instanceof Bowser){
+                    if (((Bowser) enemy).isPhase2Fire()){
+                        ///////////////////////////////////////////////
+                    }
+                }
+            }
+
             // Drawing the Pits
             for (int i = 0 ; i<level.getActivePart().getFloors().length-1 ; i++){
                 g.drawImage(ImageLoader.getPitImage(),drawingInteger+150+level.getActivePart().getFloors()[i].getX()+level.getActivePart().getFloors()[i].getWidth(),level.getActivePart().getFloors()[0].getY(),level.getActivePart().getFloors()[i+1].getX()-level.getActivePart().getFloors()[i].getX()-level.getActivePart().getFloors()[i].getWidth(),level.getActivePart().getFloors()[0].getHeight(),this);
@@ -164,69 +173,88 @@ public class AnimationPanel extends JPanel {
                         }
                     }
                     if (enemy instanceof Bowser){
+                        if (((Bowser) enemy).isPhase2Fire()){
+                            g.drawImage(ImageLoader.getBossfightFireGroundImages()[((Bowser) enemy).getPhase2FireFrameNumber()],level.getActivePart().getHeroes()[0].getBossBoundries()[0]+drawingInteger+150,level.getActivePart().getFloors()[0].getY()-ImageLoader.getBossfightFireGroundImages()[((Bowser) enemy).getPhase2FireFrameNumber()].getHeight(this),ImageLoader.getBossfightFireGroundImages()[iterator%4].getWidth(this),ImageLoader.getBossfightFireGroundImages()[iterator%4].getHeight(this),this);
+                            if (iterator%(Bowser.getFrameDelay())==0){
+                                ((Bowser) enemy).addPhase2FireFrame();
+                            }
+                        }
                         if (!((Bowser) enemy).isTriggered()){
                             g.drawImage(ImageLoader.getBowserResting(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                         }
                         else{
-                            if (((Bowser) enemy).isGrabAttacking()){
-                                if (!((Bowser) enemy).isGrabHero()){
-                                    if (((Bowser) enemy).isToLeft()){
-                                        g.drawImage(ImageLoader.getBowserLeftJumpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                    }
-                                    else{
-                                        g.drawImage(ImageLoader.getBowserRightJumpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                    }
-                                }
-                                else{
-                                    if (((Bowser) enemy).isToLeft()){
-                                        g.drawImage(ImageLoader.getBowserOnFloorLeftImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                    }
-                                    else{
-                                        g.drawImage(ImageLoader.getBowserOnFloorRightImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                    }
-                                }
-                            }
-                            else if (((Bowser) enemy).isJumpAttacking()){
-                                if (enemy.getVy()>0){
-                                    g.drawImage(ImageLoader.getBowserJumpAttackUpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                }
-                                else{
-                                    g.drawImage(ImageLoader.getBowserJumpAttackDownImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                }
-                            }
-                            else if (((Bowser) enemy).isFireBallAttacking()){
+                            if (((Bowser) enemy).isPhase2Activated() && !((Bowser) enemy).isPhase2Fire()){
                                 if (((Bowser) enemy).isToLeft()){
-                                    g.drawImage(ImageLoader.getBowserLeftFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    g.drawImage(ImageLoader.getBowserCutSceneLeftImage()[((Bowser) enemy).getCutSceneFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                                 }
                                 else{
-                                    g.drawImage(ImageLoader.getBowserRightFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    g.drawImage(ImageLoader.getBowserCutSceneRightImage()[((Bowser) enemy).getCutSceneFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                                 }
-                                if (iterator%Bowser.getFrameDelay()*2==0){
-                                    ((Bowser) enemy).addFiringFrame();
+                                if (iterator%(Bowser.getFrameDelay()+30)==0){
+                                    ((Bowser) enemy).addCutSceneFrame();
                                 }
                             }
                             else{
-                                g.drawImage(ImageLoader.getHPOuterImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY()-50,enemy.getWidth(),20,this);
-                                g.drawImage(ImageLoader.getHPInnerImage(),(int)(enemy.getX() +drawingInteger + 150 + 38 ),(int) enemy.getY()-50+6,(int)(enemy.getWidth()*(double)212/254*enemy.getLives()/20),(int)((double)12/32*20),this);
-                                if (((Bowser) enemy).isToLeft()){
-                                    if (enemy.getVx()==0){
-                                        g.drawImage(ImageLoader.getBowserStandingLeft(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                if (((Bowser) enemy).isGrabAttacking()){
+                                    if (!((Bowser) enemy).isGrabHero()){
+                                        if (((Bowser) enemy).isToLeft()){
+                                            g.drawImage(ImageLoader.getBowserLeftJumpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getBowserRightJumpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                        }
                                     }
                                     else{
-                                        g.drawImage(ImageLoader.getBowserLeftRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                        if (iterator%Bowser.getFrameDelay()==0){
-                                            ((Bowser) enemy).addRunningFrame();
+                                        if (((Bowser) enemy).isToLeft()){
+                                            g.drawImage(ImageLoader.getBowserOnFloorLeftImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getBowserOnFloorRightImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                                         }
                                     }
                                 }
-                                else{
-                                    if (enemy.getVx()==0){
-                                        g.drawImage(ImageLoader.getBowserStandingRight(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                else if (((Bowser) enemy).isJumpAttacking()){
+                                    if (enemy.getVy()>0){
+                                        g.drawImage(ImageLoader.getBowserJumpAttackUpImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
                                     }
                                     else{
-                                        g.drawImage(ImageLoader.getBowserRightRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
-                                        if (iterator%Bowser.getFrameDelay()==0){
-                                            ((Bowser) enemy).addRunningFrame();
+                                        g.drawImage(ImageLoader.getBowserJumpAttackDownImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    }
+                                }
+                                else if (((Bowser) enemy).isFireBallAttacking()){
+                                    if (((Bowser) enemy).isToLeft()){
+                                        g.drawImage(ImageLoader.getBowserLeftFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    }
+                                    else{
+                                        g.drawImage(ImageLoader.getBowserRightFiringImage()[((Bowser) enemy).getFiringFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                    }
+                                    if (iterator%(Bowser.getFrameDelay()+1)==0){
+                                        ((Bowser) enemy).addFiringFrame();
+                                    }
+                                }
+                                else{
+                                    g.drawImage(ImageLoader.getHPOuterImage(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY()-50,enemy.getWidth(),20,this);
+                                    g.drawImage(ImageLoader.getHPInnerImage(),(int)(enemy.getX() +drawingInteger + 150 + 38 ),(int) enemy.getY()-50+6,(int)(enemy.getWidth()*(double)212/254*enemy.getLives()/20),(int)((double)12/32*20),this);
+                                    if (((Bowser) enemy).isToLeft()){
+                                        if (enemy.getVx()==0){
+                                            g.drawImage(ImageLoader.getBowserStandingLeft(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getBowserLeftRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                            if (iterator%Bowser.getFrameDelay()==0){
+                                                ((Bowser) enemy).addRunningFrame();
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        if (enemy.getVx()==0){
+                                            g.drawImage(ImageLoader.getBowserStandingRight(),(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                        }
+                                        else{
+                                            g.drawImage(ImageLoader.getBowserRightRunImages()[((Bowser) enemy).getRunningFrameNumber()],(int)(enemy.getX() +drawingInteger + 150),(int) enemy.getY(),enemy.getWidth(),enemy.getHeight(),this);
+                                            if (iterator%Bowser.getFrameDelay()==0){
+                                                ((Bowser) enemy).addRunningFrame();
+                                            }
                                         }
                                     }
                                 }
