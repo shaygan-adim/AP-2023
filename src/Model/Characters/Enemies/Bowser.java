@@ -2,6 +2,7 @@ package Model.Characters.Enemies;
 
 import Logic.Stopwatch;
 import Model.Shots.BowserFireBall;
+import Model.Shots.Nuke;
 import Model.Shots.Shot;
 
 import java.util.Random;
@@ -12,6 +13,7 @@ public class Bowser extends Enemy{
     private int firingFrameNumber = 0;
     private int cutSceneFrameNumber = 0;
     private int phase2FireFrameNumber = 0;
+    private int nukeFrameNumber = 0;
     private static int frameDelay = 20;
     private final double restingX,restingY;
     private boolean triggered = false;
@@ -30,6 +32,9 @@ public class Bowser extends Enemy{
     private boolean fireBallAttacking = false;
     private boolean phase2Activated = false;
     private boolean phase2Fire = false;
+    private boolean nukeAttacking = false;
+    private boolean nukeAppearance = false;
+    private Nuke nuke = null;
 
     // Constructor
     public Bowser(int lives, double[] coordinates) {
@@ -89,6 +94,16 @@ public class Bowser extends Enemy{
     public void addPhase2FireFrame(){
         phase2FireFrameNumber++;
         phase2FireFrameNumber%=4;
+    }
+    public void addNukeFrame(){
+        if (nukeFrameNumber==3){
+            nukeAppearance=true;
+            nukeFrameNumber=0;
+            setNukeAttacking(false);
+        }
+        else{
+            nukeFrameNumber++;
+        }
     }
     public void addRightTry(){
         runTries[0]++;
@@ -157,8 +172,20 @@ public class Bowser extends Enemy{
     public void setPhase2Activated(boolean phase2Activated) {
         this.phase2Activated = phase2Activated;
     }
-    public void setPhase2Fire(boolean phase2Fire) {
-        this.phase2Fire = phase2Fire;
+    public void setNuke(Nuke nuke) {
+        this.nuke = nuke;
+    }
+    public void setNukeAttacking(boolean nukeAttacking) {
+        this.nukeAttacking = nukeAttacking;
+        if (nukeAttacking){
+            width=203;
+        }
+        else{
+            width=293;
+        }
+    }
+    public void setNukeAppearance(boolean nukeAppearance) {
+        this.nukeAppearance = nukeAppearance;
     }
 
     // Getters
@@ -226,5 +253,17 @@ public class Bowser extends Enemy{
     }
     public int getPhase2FireFrameNumber() {
         return phase2FireFrameNumber;
+    }
+    public int getNukeFrameNumber() {
+        return nukeFrameNumber;
+    }
+    public boolean isNukeAttacking() {
+        return nukeAttacking;
+    }
+    public Nuke getNuke() {
+        return nuke;
+    }
+    public boolean isNukeAppearance() {
+        return nukeAppearance;
     }
 }

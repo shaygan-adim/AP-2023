@@ -2,6 +2,10 @@ package Model.Characters.Heroes;
 
 import Model.Characters.Character;
 import Logic.Stopwatch;
+import Model.Shots.Shot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 abstract public class Hero extends Character {
     // Fields
@@ -16,6 +20,10 @@ abstract public class Hero extends Character {
     private final Stopwatch stopwatchForShield = new Stopwatch(1);
     private final Stopwatch stopwatchForTransitioning = new Stopwatch(1000);
     private final Stopwatch stopwatchForLightning = new Stopwatch(1000);
+    private final Stopwatch stopwatchForFireball = new Stopwatch(1000);
+    {
+        stopwatchForFireball.start();
+    }
     private final Stopwatch stopwatchForCooldown = new Stopwatch(1000);
     {
         stopwatchForCooldown.start();
@@ -30,6 +38,7 @@ abstract public class Hero extends Character {
     private boolean bossTrapped = false;
     private int[] bossBoundries = null;
     private boolean dizzy = false;
+    private List<Shot> shots = new ArrayList<>();
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -151,4 +160,8 @@ abstract public class Hero extends Character {
     public Stopwatch getStopwatchForDizzy() {
         return stopwatchForDizzy;
     }
+    public Stopwatch getStopwatchForFireball() {
+        return stopwatchForFireball;
+    }
+    public List<Shot> getShots() {return shots;}
 }

@@ -52,6 +52,8 @@ abstract public class ImageLoader {
     private static Image bowserLeftFireBall1Image,bowserLeftFireBall2Image,bowserLeftFireBall3Image,bowserLeftFireBall4Image;
     private static Image bowserCutSceneRight1Image,bowserCutSceneRight2Image,bowserCutSceneRight3Image,bowserCutSceneRight4Image;
     private static Image bowserCutSceneLeft1Image,bowserCutSceneLeft2Image,bowserCutSceneLeft3Image,bowserCutSceneLeft4Image;
+    private static Image bowserNukingRight2Image,bowserNukingRight3Image,bowserNukingRight4Image;
+    private static Image bowserNukingLeft2Image,bowserNukingLeft3Image,bowserNukingLeft4Image;
     private static Image plantImage;
     private static Image itemBlock,regularBlock,emptyBlock,slimeBlock;
     private static Image levelBackground;
@@ -77,6 +79,7 @@ abstract public class ImageLoader {
     private static Image fireBallImage,fireBallTaleImage;
     private static Image BowserFireBallImage;
     private static Image bossfightFireGround1,bossfightFireGround2,bossfightFireGround3,bossfightFireGround4;
+    private static Image nukeImage;
     private static Image swordImage;
     private static Image lightning1Image,lightning2Image,lightning3Image,lightning4Image;
     private static Image HPInnerImage,HPOuterImage;
@@ -240,6 +243,14 @@ abstract public class ImageLoader {
         ImageLoader.bowserCutSceneLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/CutsceneBowserLeft3.png"));
         ImageLoader.bowserCutSceneLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/CutsceneBowserLeft10.png"));
 
+        ImageLoader.bowserNukingRight2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserRight2.png"));
+        ImageLoader.bowserNukingRight3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserRight3.png"));
+        ImageLoader.bowserNukingRight4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserRight4.png"));
+
+        ImageLoader.bowserNukingLeft2Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserLeft2.png"));
+        ImageLoader.bowserNukingLeft3Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserLeft3.png"));
+        ImageLoader.bowserNukingLeft4Image = ImageIO.read(new File("src/Loading/Graphics/Characters/Bowser/NukingBowserLeft4.png"));
+
         ImageLoader.marioJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioJump.png"));
         ImageLoader.marioSeatImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Mario/MarioSeat.png"));
         ImageLoader.luigiJumpImage = ImageIO.read(new File("src/Loading/Graphics/Characters/Luigi/LuigiJump.png"));
@@ -294,6 +305,7 @@ abstract public class ImageLoader {
         ImageLoader.bossfightFireGround2 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Floor2.png"));
         ImageLoader.bossfightFireGround3 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Floor3.png"));
         ImageLoader.bossfightFireGround4 = ImageIO.read(new File("src/Loading/Graphics/Other/Fire/Floor4.png"));
+        ImageLoader.nukeImage = ImageIO.read(new File("src/Loading/Graphics/Other/Nuke.png"));
         ImageLoader.swordImage = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Sword.png"));
         ImageLoader.lightning1Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning1.png"));
         ImageLoader.lightning2Image = ImageIO.read(new File("src/Loading/Graphics/Other/Sword/Lightning2.png"));
@@ -429,6 +441,12 @@ abstract public class ImageLoader {
     public static Image[] getBowserCutSceneLeftImage(){
         return new Image[]{bowserCutSceneLeft1Image,bowserCutSceneLeft2Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft3Image,bowserCutSceneLeft4Image};
     }
+    public static Image[] getBowserNukingRightImages(){
+        return new Image[]{bowserNukingRight3Image,bowserNukingRight2Image,bowserNukingRight3Image,bowserNukingRight4Image};
+    }
+    public static Image[] getBowserNukingLeftImages(){
+        return new Image[]{bowserNukingLeft3Image,bowserNukingLeft2Image,bowserNukingLeft3Image,bowserNukingLeft4Image};
+    }
     public static Image getMarioJumpImage() {
         return marioJumpImage;
     }
@@ -480,6 +498,9 @@ abstract public class ImageLoader {
     }
     public static Image[] getBossfightFireGroundImages(){
         return new Image[]{bossfightFireGround1,bossfightFireGround2,bossfightFireGround3,bossfightFireGround4};
+    }
+    public static Image getNukeImage() {
+        return nukeImage;
     }
     public static Image getSwordImage() {return swordImage;}
     public static Image[] getLightningImages(){

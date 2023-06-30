@@ -11,6 +11,7 @@ import Model.Physics.BlockType;
 import Model.Physics.Floor;
 import Model.Physics.Pipe;
 import Model.Shots.FireBall;
+import Model.Shots.Nuke;
 import Model.Shots.Shot;
 import Model.Shots.Sword;
 import Model.User;
@@ -38,11 +39,11 @@ public class PhysicsHandler {
         changed = false;
         // Physics of shots
         if (level.getActivePart().getHeroes()[0].isSwordActivated() && level.getActivePart().getHeroes()[0].getStopwatchForLightning().passedTime()>800){
-            int x = (int)level.getActivePart().getHeroes()[0].getX()+60;
+            int x = (int)level.getActivePart().getHeroes()[0].getX()+20;
             int y = (int)level.getActivePart().getHeroes()[0].getY()+50;
             if (level.getActivePart().getHeroes()[0].getMode() == HeroMode.MINI){
                 y = (int)level.getActivePart().getHeroes()[0].getY()+20;
-                x = (int)level.getActivePart().getHeroes()[0].getX()+30;
+                x = (int)level.getActivePart().getHeroes()[0].getX()+10;
             }
             level.getActivePart().getHeroes()[0].getShots().add(new Sword(new int[]{x,y}));
             level.getActivePart().getHeroes()[0].setSwordActivated(false);
@@ -53,7 +54,7 @@ public class PhysicsHandler {
                     if (shot instanceof FireBall && shot.getStopwatch().passedTime()>FireBall.getPeriod()){
                         shot.setVisible(false);
                     }
-                    if (shot instanceof Sword && shot.getX()<hero.getX()+hero.getWidth()){
+                    if (shot instanceof Sword && shot.getX()<hero.getX()){
                         shot.setVisible(false);
                         hero.getStopwatchForCooldown().start();
                     }
@@ -70,6 +71,14 @@ public class PhysicsHandler {
             if (enemy instanceof Bowser){
                 if (((Bowser) enemy).getShot()!=null){
                     ((Bowser) enemy).getShot().addToX((int)(((Bowser) enemy).getShot().getVelocity()*dt));
+                }
+                if (((Bowser) enemy).isNukeAppearance()){
+                    ((Bowser) enemy).setNukeAppearance(false);
+                    ((Bowser) enemy).setNuke(new Nuke((int)level.getActivePart().getHeroes()[0].getX()+level.getActivePart().getHeroes()[0].getWidth()/3));
+                }
+                if (((Bowser) enemy).getNuke()!=null){
+                    ((Bowser) enemy).getNuke().setVelocity(((Bowser) enemy).getNuke().getVelocity()+g*dt);
+                    ((Bowser) enemy).getNuke().addToY(-(int)(((Bowser) enemy).getNuke().getVelocity()*dt));
                 }
             }
         }
@@ -732,11 +741,14 @@ public class PhysicsHandler {
                     if (shot instanceof FireBall && shot.isVisible()) shoot=false;
                 }
                 if (shoot){
-                    if (right){
-                        level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()+60,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
-                    }
-                    else{
-                        level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()-20,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
+                    if (level.getActivePart().getHeroes()[0].getStopwatchForFireball().passedTime()>1500){
+                        if (right){
+                            level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()+60,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
+                        }
+                        else{
+                            level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()-20,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
+                        }
+                        level.getActivePart().getHeroes()[0].getStopwatchForFireball().start();
                     }
                 }
             }
@@ -852,6 +864,40 @@ public class PhysicsHandler {
                     for (Pipe pipe : level.getActivePart().getPipes()){
                         if (shot.isVisible() && shot.getX()+ shot.getWidth()> pipe.getX() && shot.getX()< pipe.getX()+ pipe.getWidth() && shot.getY()+ shot.getHeight()> pipe.getY() && shot.getY()< pipe.getY()+ pipe.getHeight()){
                             ((Bowser) enemy).setShot(null);
+                        }
+                    }
+                }
+                if (((Bowser) enemy).getNuke()!=null){
+                    Nuke nuke = ((Bowser) enemy).getNuke();
+                    Hero hero1 = level.getActivePart().getHeroes()[0];
+                    // Heroes
+                    for (Hero hero : level.getActivePart().getHeroes()){
+                        if (hero.isVisible()  && nuke.getX()+ nuke.getWidth()> hero.getX() && nuke.getX()< hero.getX()+ hero.getWidth() && nuke.getY()+ nuke.getHeight()> hero.getY() && nuke.getY()< hero.getY()+ hero.getHeight()){
+                            ((Bowser) enemy).setNuke(null);
+                            ((Bowser) enemy).setNukeAppearance(false);
+                            die(hero);
+                        }
+                    }
+                    // Blocks
+                    for (Block block : level.getActivePart().getBlocks()){
+                        if (block.isVisible()  && nuke.getX()+ nuke.getWidth()> block.getX() && nuke.getX()< block.getX()+ block.getWidth() && nuke.getY()+ nuke.getHeight()> block.getY() && nuke.getY()< block.getY()+ block.getHeight()){
+                            ((Bowser) enemy).setNuke(null);
+                            if (Math.pow(nuke.getX()+nuke.getWidth()/2-hero1.getX()-hero1.getWidth()/2,2)+Math.pow(nuke.getY()+nuke.getHeight()/2-hero1.getY()-hero1.getHeight()/2,2)<=1){
+                                ((Bowser) enemy).setNukeAppearance(false);
+                                die(hero1);
+                            }
+                        }
+                    }
+                    // Floors
+                    for (Floor floor : level.getActivePart().getFloors()){
+                        if (nuke.getX()+ nuke.getWidth()> floor.getX() && nuke.getX()< floor.getX()+ floor.getWidth() && nuke.getY()+ nuke.getHeight()> floor.getY() && nuke.getY()< floor.getY()+ floor.getHeight()){
+                            ((Bowser) enemy).setNuke(null);
+                            if (Math.pow(nuke.getX()+nuke.getWidth()/2-hero1.getX()-hero1.getWidth()/2,2)+Math.pow(nuke.getY()+nuke.getHeight()/2-hero1.getY()-hero1.getHeight()/2,2)<=1){
+                                ((Bowser) enemy).setNukeAppearance(false);
+
+
+                                die(hero1);
+                            }
                         }
                     }
                 }
@@ -985,7 +1031,6 @@ public class PhysicsHandler {
                                         if (level.getActivePart().getEnemies()[i].getLives()<=13 && !((Bowser) level.getActivePart().getEnemies()[i]).isPhase2Activated()){
                                             ((Bowser) level.getActivePart().getEnemies()[i]).setDizzy(false);
                                             ((Bowser) level.getActivePart().getEnemies()[i]).setPhase2Activated(true);
-                                            System.out.println(((Bowser) level.getActivePart().getEnemies()[i]).isDizzy());
                                             ((Bowser) level.getActivePart().getEnemies()[i]).getAttackReloadStopwatch().start();
                                             stop();
                                             stand();
@@ -1088,35 +1133,44 @@ public class PhysicsHandler {
                     bowser.setGrabHero(false);
                     bowser.setGrabAttacking(false);
                 }
-                if (!bowser.isGrabAttacking() && !bowser.isJumpAttacking() && !bowser.isFireBallAttacking() && bowser.getAttackReloadStopwatch().passedTime()>1500 && bowser.isTriggered()){
+                if (bowser.isStandingOnSomething() && !bowser.isGrabAttacking() && !bowser.isJumpAttacking() && !bowser.isFireBallAttacking() && !bowser.isNukeAttacking() && bowser.getAttackReloadStopwatch().passedTime()>1500 && bowser.isTriggered()){
                     if (hero.getX()+hero.getWidth()/2<bowser.getX()+bowser.getWidth()/2){
                         bowser.setToLeft(true);
                     }
                     else {
                         bowser.setToLeft(false);
                     }
+                    // Nuke attack
+                    if (bowser.isPhase2Fire() && new Random().nextDouble()<0.35){
+                        if (bowser.getReloadStopwatches()[3].passedTime()>3500){
+                            bowser.setNukeAttacking(true);
+                            bowser.getReloadStopwatches()[3].start();
+                        }
+                    }
                     // Fireball attack
                     if (bowser.getReloadStopwatches()[2].passedTime()>2700){
-                        if (bowser.isToLeft()){
-                            if (Math.abs(bowser.getX()-hero.getX())>6*level.getActivePart().getBlocks()[0].getWidth()){
-                                bowser.setVx(0);
-                                bowser.setFireBallAttacking(true);
+                        if (!bowser.isNukeAttacking()){
+                            if (bowser.isToLeft()){
+                                if (Math.abs(bowser.getX()-hero.getX())>6*level.getActivePart().getBlocks()[0].getWidth()){
+                                    bowser.setVx(0);
+                                    bowser.setFireBallAttacking(true);
+                                }
                             }
-                        }
-                        else {
-                            if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())>6*level.getActivePart().getBlocks()[0].getWidth()){
-                                bowser.setVx(0);
-                                bowser.setFireBallAttacking(true);
+                            else {
+                                if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())>6*level.getActivePart().getBlocks()[0].getWidth()){
+                                    bowser.setVx(0);
+                                    bowser.setFireBallAttacking(true);
+                                }
                             }
+                            bowser.getReloadStopwatches()[2].start();
                         }
                     }
                     // Grab attack
                     if (bowser.getReloadStopwatches()[0].passedTime()>5000){
-                        if (!bowser.isFireBallAttacking()){
+                        if (!bowser.isFireBallAttacking() && !bowser.isNukeAttacking()){
                             if (bowser.isToLeft()){
                                 if (Math.abs(bowser.getX()-hero.getX())<2.5*level.getActivePart().getBlocks()[0].getWidth()){
                                     bowser.setGrabAttacking(true);
-                                    bowser.getReloadStopwatches()[0].start();
                                     bowser.setVy(35);
                                     bowser.setVx(-20);
                                 }
@@ -1124,16 +1178,16 @@ public class PhysicsHandler {
                             else {
                                 if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())<2.5*level.getActivePart().getBlocks()[0].getWidth()){
                                     bowser.setGrabAttacking(true);
-                                    bowser.getReloadStopwatches()[0].start();
                                     bowser.setVy(35);
                                     bowser.setVx(20);
                                 }
                             }
+                            bowser.getReloadStopwatches()[0].start();
                         }
                     }
                     // Jump attack
                     if (bowser.getReloadStopwatches()[1].passedTime()>4500){
-                        if (!bowser.isGrabAttacking() && !bowser.isFireBallAttacking()){
+                        if (!bowser.isGrabAttacking() && !bowser.isFireBallAttacking() && !bowser.isNukeAttacking()){
                             if (hero.isStandingOnSomething() && bowser.isStandingOnSomething()){
                                 bowser.setVx(0);
                                 bowser.setJumpAttacking(true);
@@ -1144,7 +1198,7 @@ public class PhysicsHandler {
                         }
                     }
                 }
-                if (!bowser.isGrabAttacking() && !bowser.isJumpAttacking() && !bowser.isFireBallAttacking()){
+                if (!bowser.isGrabAttacking() && !bowser.isJumpAttacking() && !bowser.isFireBallAttacking() && !bowser.isNukeAttacking()){
                     boolean swift = true;
                     if (bowser.isToLeft()){
                         if (Math.abs(bowser.getX()-hero.getX())<5*level.getActivePart().getBlocks()[0].getWidth()){
