@@ -15,6 +15,7 @@ public class Plant extends Enemy {
         super(lives, null, 55, 77, null);
         this.pipe = pipe;
         this.timePeriod = timePeriod;
+        getStopwatch().start();
     }
 
     // Setters

@@ -26,6 +26,9 @@ public class Controller implements KeyListener{
         if (e.getKeyChar() == ','){
             this.physicsHandler.shoot(false);
         }
+        if (e.getKeyChar()=='\u001B'){
+            this.physicsHandler.setPaused(true);
+        }
     }
     @Override
     public void keyPressed(KeyEvent e) {

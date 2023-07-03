@@ -1,6 +1,8 @@
 package Model.Items;
 
-abstract public class Item {
+import java.io.Serializable;
+
+abstract public class Item implements Serializable {
     private double[] coordinates;
     private final double[] velocity = {0,0};
     private final int width,height;

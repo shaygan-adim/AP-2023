@@ -1,11 +1,8 @@
 package Model.Characters;
 
-import Model.Shots.Shot;
+import java.io.Serializable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-abstract public class Character {
+abstract public class Character implements Serializable {
     // Fields
     private int lives;
     private double[] coordinates;

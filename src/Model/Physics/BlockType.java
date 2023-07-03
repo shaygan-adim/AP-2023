@@ -1,3 +1,5 @@
 package Model.Physics;
 
-public enum BlockType {SIMPLE,COIN,COINS,EMPTY,QUESTION,SLIME}
+import java.io.Serializable;
+
+public enum BlockType implements Serializable {SIMPLE,COIN,COINS,EMPTY,QUESTION,SLIME}

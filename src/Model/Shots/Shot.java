@@ -3,7 +3,9 @@ package Model.Shots;
 import Model.Physics.PhysicalObject;
 import Logic.Stopwatch;
 
-abstract public class Shot extends PhysicalObject {
+import java.io.Serializable;
+
+abstract public class Shot extends PhysicalObject implements Serializable {
     // Fields
     private double velocity;
     private final Stopwatch stopwatch = new Stopwatch(1000);

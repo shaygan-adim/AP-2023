@@ -9,11 +9,12 @@ import Model.Physics.Floor;
 import Model.Physics.Pipe;
 import Logic.Stopwatch;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Part {
+public class Part implements Serializable {
     // Fields
     private final int id;
     private final Block[] blocks;
@@ -23,20 +24,21 @@ public class Part {
     private final Hero[] heroes;
     private Coin[] coins;
     private final List<Item> items =  new ArrayList<>();
-    private final int[] endY;
+//    private final int[] endY;
     private final int time;
     private final Stopwatch stopwatch = new Stopwatch(1);
     private int finalScore = 0;
 
     // Constructor
-    public Part(int id,Block[] blocks, Floor[] floors, Pipe[] pipes, Enemy[] enemies, Hero[] heroes, int coinsNumber,int[] endY,int time) {
+    public Part(int id,Block[] blocks, Floor[] floors, Pipe[] pipes, Enemy[] enemies, Hero[] heroes, int coinsNumber,int time) {
         this.id = id;
         this.blocks = blocks;
         this.floors = floors;
         this.pipes = pipes;
         this.enemies = enemies;
         this.heroes = heroes;
-        this.endY = endY;
+//        this.endY = endY;
+
         this.time = time;
 
         // Putting coins in the world randomly
@@ -123,7 +125,7 @@ public class Part {
     public Enemy[] getEnemies() {return enemies;}
     public Hero[] getHeroes() {return heroes;}
     public List<Item> getItems() {return items;}
-    public int[] getEndY() {return endY;}
+//    public int[] getEndY() {return endY;}
     public int getFinalScore() {return finalScore;}
     public Stopwatch getStopwatch() {return stopwatch;}
     public int getTime() {return time;}

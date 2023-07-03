@@ -1,3 +1,5 @@
 package Model.Characters.Heroes;
 
-public enum HeroName { MARIO , LUIGI , PRINCESS , YOSHI , TOAD}
+import java.io.Serializable;
+
+public enum HeroName implements Serializable { MARIO , LUIGI , PRINCESS , YOSHI , TOAD}

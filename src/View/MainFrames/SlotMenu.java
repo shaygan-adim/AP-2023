@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class SlotMenu extends MainFrame {
     // Fields
@@ -52,40 +51,49 @@ public class SlotMenu extends MainFrame {
         slot3Button2.setFocusPainted(false);
         backButton.setFocusPainted(false);
 
-        if (this.user.getPartNames()[0]==null){
+        if (this.user.getSavedLevels()[0]==null){
             slot1Label.setText("Slot 1 : Empty");
             slot1Button2.setEnabled(false);
         }
         else{
-            if (this.user.getPartNames()[0]== PartName.L1P1){
+            if (this.user.getSavedLevels()[0].getActivePart().getId()==0){
                 slot1Label.setText("Slot 1 : 1-1");
             }
-            if (this.user.getPartNames()[0]== PartName.L1P2){
+            if (this.user.getSavedLevels()[0].getActivePart().getId()==1){
                 slot1Label.setText("Slot 1 : 1-2");
             }
+            if (this.user.getSavedLevels()[0].getActivePart().getId()==2){
+                slot1Label.setText("Slot 1 : 1-3");
+            }
         }
-        if (this.user.getPartNames()[1]==null){
+        if (this.user.getSavedLevels()[1]==null){
             slot2Label.setText("Slot 2 : Empty");
             slot2Button2.setEnabled(false);
         }
         else{
-            if (this.user.getPartNames()[1]== PartName.L1P1){
+            if (this.user.getSavedLevels()[1].getActivePart().getId()==0){
                 slot2Label.setText("Slot 2 : 1-1");
             }
-            if (this.user.getPartNames()[1]== PartName.L1P2){
+            if (this.user.getSavedLevels()[1].getActivePart().getId()==1){
                 slot2Label.setText("Slot 2 : 1-2");
             }
+            if (this.user.getSavedLevels()[1].getActivePart().getId()==2){
+                slot2Label.setText("Slot 2 : 1-3");
+            }
         }
-        if (this.user.getPartNames()[2]==null){
+        if (this.user.getSavedLevels()[2]==null){
             slot3Label.setText("Slot 3 : Empty");
             slot3Button2.setEnabled(false);
         }
         else{
-            if (this.user.getPartNames()[2]== PartName.L1P1){
+            if (this.user.getSavedLevels()[2].getActivePart().getId()==0){
                 slot3Label.setText("Slot 3 : 1-1");
             }
-            if (this.user.getPartNames()[2]== PartName.L1P2){
+            if (this.user.getSavedLevels()[2].getActivePart().getId()==1){
                 slot3Label.setText("Slot 3 : 1-2");
+            }
+            if (this.user.getSavedLevels()[2].getActivePart().getId()==2){
+                slot3Label.setText("Slot 3 : 1-3");
             }
         }
 
@@ -127,12 +135,12 @@ public class SlotMenu extends MainFrame {
                 if (user.getActiveHero()==HeroName.TOAD){
                     heroes[0] = new Toad(3);
                 }
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
+                Level level = new Level(new Part[]{LevelLoader.getPart(heroes,PartName.L1P1),LevelLoader.getPart(heroes,PartName.L1P2),LevelLoader.getPart(heroes,PartName.L1P3)},0);
                 user.setActiveSlot(1);
-                user.setPart1(null);
+                user.getSavedLevels()[0]=null;
                 try {
                     user.save();
-                } catch (IOException ex) {}
+                } catch (Exception ex) {}
                 new Game(level,user);
                 SlotMenu.super.dispose();
             }
@@ -140,33 +148,7 @@ public class SlotMenu extends MainFrame {
         slot1Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Hero[] heroes = new Hero[1];
-                if (user.getActiveHero()==HeroName.MARIO){
-                    heroes[0] = new Mario(user.getPartHeart()[0]);
-                }
-                if (user.getActiveHero()==HeroName.LUIGI){
-                    heroes[0] = new Luigi(user.getPartHeart()[0]);
-                }
-                if (user.getActiveHero()==HeroName.PRINCESS){
-                    heroes[0] = new Princess(user.getPartHeart()[0]);
-                }
-                if (user.getActiveHero()==HeroName.YOSHI){
-                    heroes[0] = new Yoshi(user.getPartHeart()[0]);
-                }
-                if (user.getActiveHero()==HeroName.TOAD){
-                    heroes[0] = new Toad(user.getPartHeart()[0]);
-                }
-                heroes[0].addCoin(user.getPartCoin()[0]);
-                heroes[0].setScore(user.getPartScore()[0]);
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
-                if (user.getPartNames()[0]==PartName.L1P1){
-                    level.setActivePart(level.getParts()[0]);
-                }
-                if (user.getPartNames()[0]==PartName.L1P2){
-                    level.setActivePart(level.getParts()[1]);
-                }
-
-                new Game(level,user);
+                new Game(user.getSavedLevels()[0], user);
                 SlotMenu.super.dispose();
             }
         });
@@ -189,12 +171,12 @@ public class SlotMenu extends MainFrame {
                 if (user.getActiveHero()==HeroName.TOAD){
                     heroes[0] = new Toad(3);
                 }
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
+                Level level = new Level(new Part[]{LevelLoader.getPart(heroes,PartName.L1P1),LevelLoader.getPart(heroes,PartName.L1P2),LevelLoader.getPart(heroes,PartName.L1P3)},0);
                 user.setActiveSlot(2);
-                user.setPart2(null);
+                user.getSavedLevels()[1]=null;
                 try {
                     user.save();
-                } catch (IOException ex) {}
+                } catch (Exception ex) {}
                 new Game(level,user);
                 SlotMenu.super.dispose();
             }
@@ -202,33 +184,7 @@ public class SlotMenu extends MainFrame {
         slot2Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Hero[] heroes = new Hero[1];
-                if (user.getActiveHero()==HeroName.MARIO){
-                    heroes[0] = new Mario(user.getPartHeart()[1]);
-                }
-                if (user.getActiveHero()==HeroName.LUIGI){
-                    heroes[0] = new Luigi(user.getPartHeart()[1]);
-                }
-                if (user.getActiveHero()==HeroName.PRINCESS){
-                    heroes[0] = new Princess(user.getPartHeart()[1]);
-                }
-                if (user.getActiveHero()==HeroName.YOSHI){
-                    heroes[0] = new Yoshi(user.getPartHeart()[1]);
-                }
-                if (user.getActiveHero()==HeroName.TOAD){
-                    heroes[0] = new Toad(user.getPartHeart()[1]);
-                }
-                heroes[0].addCoin(user.getPartCoin()[1]);
-                heroes[0].setScore(user.getPartScore()[1]);
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
-                if (user.getPartNames()[1]==PartName.L1P1){
-                    level.setActivePart(level.getParts()[0]);
-                }
-                if (user.getPartNames()[1]==PartName.L1P2){
-                    level.setActivePart(level.getParts()[1]);
-                }
-
-                new Game(level,user);
+                new Game(user.getSavedLevels()[1], user);
                 SlotMenu.super.dispose();
             }
         });
@@ -251,12 +207,12 @@ public class SlotMenu extends MainFrame {
                 if (user.getActiveHero()==HeroName.TOAD){
                     heroes[0] = new Toad(3);
                 }
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
+                Level level = new Level(new Part[]{LevelLoader.getPart(heroes,PartName.L1P1),LevelLoader.getPart(heroes,PartName.L1P2),LevelLoader.getPart(heroes,PartName.L1P3)},0);
                 user.setActiveSlot(3);
-                user.setPart3(null);
+                user.getSavedLevels()[2]=null;
                 try {
                     user.save();
-                } catch (IOException ex) {}
+                } catch (Exception ex) {}
                 new Game(level,user);
                 SlotMenu.super.dispose();
             }
@@ -264,33 +220,8 @@ public class SlotMenu extends MainFrame {
         slot3Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Hero[] heroes = new Hero[1];
-                if (user.getActiveHero()==HeroName.MARIO){
-                    heroes[0] = new Mario(user.getPartHeart()[2]);
-                }
-                if (user.getActiveHero()==HeroName.LUIGI){
-                    heroes[0] = new Luigi(user.getPartHeart()[2]);
-                }
-                if (user.getActiveHero()==HeroName.PRINCESS){
-                    heroes[0] = new Princess(user.getPartHeart()[2]);
-                }
-                if (user.getActiveHero()==HeroName.YOSHI){
-                    heroes[0] = new Yoshi(user.getPartHeart()[2]);
-                }
-                if (user.getActiveHero()==HeroName.TOAD){
-                    heroes[0] = new Toad(user.getPartHeart()[2]);
-                }
-                heroes[0].addCoin(user.getPartCoin()[2]);
-                heroes[0].setScore(user.getPartScore()[2]);
-                Level level = new Level(new Part[]{LevelLoader.newL1P1(heroes),LevelLoader.newL1P2(heroes)},0);
-                if (user.getPartNames()[2]==PartName.L1P1){
-                    level.setActivePart(level.getParts()[0]);
-                }
-                if (user.getPartNames()[2]==PartName.L1P2){
-                    level.setActivePart(level.getParts()[1]);
-                }
 
-                new Game(level,user);
+                new Game(user.getSavedLevels()[2], user);
                 SlotMenu.super.dispose();
             }
         });

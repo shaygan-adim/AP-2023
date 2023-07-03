@@ -1,6 +1,8 @@
 package Model.Levels;
 
-public class Level {
+import java.io.Serializable;
+
+public class Level implements Serializable {
     // Fields
     private final int id;
     private final Part[] parts;

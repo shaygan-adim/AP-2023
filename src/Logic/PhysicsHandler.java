@@ -16,7 +16,7 @@ import Model.Shots.Shot;
 import Model.Shots.Sword;
 import Model.User;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.management.BufferPoolMXBean;
 import java.util.Random;
 
@@ -27,6 +27,7 @@ public class PhysicsHandler {
     private static int g = -5;
     private static final double dt = 0.1D;
     private boolean changed;
+    private boolean paused = false;
 
     // Constructor
     public PhysicsHandler(Level level, User user){
@@ -179,6 +180,9 @@ public class PhysicsHandler {
                     if (item instanceof Star){
                         ((Star) item).setStandingOnSomething(false);
                     }
+                }
+                if (item.getX()+item.getVx()*dt<150){
+                    item.setVx(item.getVy()*-1);
                 }
                 item.addY(-item.getVy()*dt);
                 item.addX(item.getVx()*dt);
@@ -351,6 +355,7 @@ public class PhysicsHandler {
                         enemy.setVx(-enemy.getVx());
                     }
                 }
+
                 enemy.addY(-enemy.getVy()*dt);
                 if (enemy instanceof Bowser && ((Bowser) enemy).isTriggered()){
                     if (enemy.getX()+enemy.getWidth()+enemy.getVx()*dt>level.getActivePart().getHeroes()[0].getBossBoundries()[1]-level.getActivePart().getBlocks()[0].getWidth()*3){
@@ -513,54 +518,54 @@ public class PhysicsHandler {
         itemsCollisionCheck();
         updatePlants();
         updateActivePart();
-        if (changed){
-            if (level.getActivePart().getId()==0){
-                if (this.user.getActiveSlot()==1){
-                    this.user.setPart1(PartName.L1P1);
-                    this.user.setPartScore1(0);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                if (this.user.getActiveSlot()==2){
-                    this.user.setPart2(PartName.L1P1);
-                    this.user.setPartScore2(0);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                if (this.user.getActiveSlot()==3){
-                    this.user.setPart3(PartName.L1P1);
-                    this.user.setPartScore3(0);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                try {
-                    user.save();
-                } catch (IOException e) {}
-            }
-            else{
-                if (this.user.getActiveSlot()==1){
-                    this.user.setPart1(PartName.L1P2);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartScore1(this.level.getActivePart().getHeroes()[0].getScore());
-                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                if (this.user.getActiveSlot()==2){
-                    this.user.setPart2(PartName.L1P2);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartScore2(this.level.getActivePart().getHeroes()[0].getScore());
-                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                if (this.user.getActiveSlot()==3){
-                    this.user.setPart3(PartName.L1P2);
-                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-                    this.user.setPartScore3(this.level.getActivePart().getHeroes()[0].getScore());
-                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
-                }
-                try {
-                    user.save();
-                } catch (IOException e) {}
-            }
-        }
+//        if (changed){
+//            if (level.getActivePart().getId()==0){
+//                if (this.user.getActiveSlot()==1){
+//                    this.user.setPart1(PartName.L1P1);
+//                    this.user.setPartScore1(0);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                if (this.user.getActiveSlot()==2){
+//                    this.user.setPart2(PartName.L1P1);
+//                    this.user.setPartScore2(0);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                if (this.user.getActiveSlot()==3){
+//                    this.user.setPart3(PartName.L1P1);
+//                    this.user.setPartScore3(0);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                try {
+//                    user.save();
+//                } catch (Exception e) {}
+//            }
+//            else{
+//                if (this.user.getActiveSlot()==1){
+//                    this.user.setPart1(PartName.L1P2);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartScore1(this.level.getActivePart().getHeroes()[0].getScore());
+//                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                if (this.user.getActiveSlot()==2){
+//                    this.user.setPart2(PartName.L1P2);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartScore2(this.level.getActivePart().getHeroes()[0].getScore());
+//                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                if (this.user.getActiveSlot()==3){
+//                    this.user.setPart3(PartName.L1P2);
+//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
+//                    this.user.setPartScore3(this.level.getActivePart().getHeroes()[0].getScore());
+//                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
+//                }
+//                try {
+//                    user.save();
+//                } catch (Exception e) {}
+//            }
+//        }
     }
     public void jump(){
         boolean beStill = false;
@@ -808,6 +813,12 @@ public class PhysicsHandler {
                                     }
                                     enemy.setLives(enemy.getLives()-1);
                                 }
+                                else{
+                                    enemy.setVisible(false);
+                                    hero.addCoin(50);
+                                    hero.addScore(500);
+                                    updateActivePart();
+                                }
                             }
                             else{
                                 if (enemy.getLives()>2){
@@ -820,6 +831,12 @@ public class PhysicsHandler {
                                         hero.setMode(HeroMode.FIRE);
                                     }
                                     enemy.setLives(enemy.getLives()-2);
+                                }
+                                else{
+                                    enemy.setVisible(false);
+                                    hero.addCoin(50);
+                                    hero.addScore(500);
+                                    updateActivePart();
                                 }
                             }
                             enemy.setVx(0);
@@ -976,7 +993,6 @@ public class PhysicsHandler {
                         if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX()-60 && level.getActivePart().getEnemies()[i].getX()< hero.getX()-60+ 200 && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> hero.getY()-40 && level.getActivePart().getEnemies()[i].getY()< hero.getY()-40+ 200){
                             if (!(level.getActivePart().getEnemies()[i] instanceof Bowser)){
                                 (level.getActivePart().getEnemies()[i]).setVisible(false);
-                                hero.setShieldActivated(false);
                                 if (level.getActivePart().getEnemies()[i] instanceof Goomba){
                                     hero.addScore(100);
                                 }
@@ -991,6 +1007,7 @@ public class PhysicsHandler {
                                     hero.addScore(300);
                                 }
                             }
+                            hero.setShieldActivated(false);
                         }
                     }
                     else{
@@ -1051,6 +1068,12 @@ public class PhysicsHandler {
                                         }
                                         bowser.setVx(0);
                                         bowser.setVy(0);
+                                    }
+                                    else{
+                                        level.getActivePart().getEnemies()[i].setVisible(false);
+                                        hero.addCoin(50);
+                                        hero.addScore(500);
+                                        updateActivePart();
                                     }
                                 }
                                 if (level.getActivePart().getEnemies()[i] instanceof Bowser && ((Bowser) level.getActivePart().getEnemies()[i]).isGrabAttacking()){
@@ -1141,7 +1164,7 @@ public class PhysicsHandler {
                         bowser.setToLeft(false);
                     }
                     // Nuke attack
-                    if (bowser.isPhase2Fire() && new Random().nextDouble()<0.35){
+                    if (bowser.isPhase2Fire() && new Random().nextDouble()<0.3){
                         if (bowser.getReloadStopwatches()[3].passedTime()>3500){
                             bowser.setNukeAttacking(true);
                             bowser.getReloadStopwatches()[3].start();
@@ -1169,14 +1192,14 @@ public class PhysicsHandler {
                     if (bowser.getReloadStopwatches()[0].passedTime()>5000){
                         if (!bowser.isFireBallAttacking() && !bowser.isNukeAttacking()){
                             if (bowser.isToLeft()){
-                                if (Math.abs(bowser.getX()-hero.getX())<2.5*level.getActivePart().getBlocks()[0].getWidth()){
+                                if (Math.abs(bowser.getX()-hero.getX())<3*level.getActivePart().getBlocks()[0].getWidth()){
                                     bowser.setGrabAttacking(true);
                                     bowser.setVy(35);
                                     bowser.setVx(-20);
                                 }
                             }
                             else {
-                                if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())<2.5*level.getActivePart().getBlocks()[0].getWidth()){
+                                if (Math.abs(bowser.getX()+bowser.getWidth()-hero.getX())<3*level.getActivePart().getBlocks()[0].getWidth()){
                                     bowser.setGrabAttacking(true);
                                     bowser.setVy(35);
                                     bowser.setVx(20);
@@ -1193,7 +1216,7 @@ public class PhysicsHandler {
                                 bowser.setJumpAttacking(true);
                                 bowser.getReloadStopwatches()[1].start();
                                 bowser.setVy(60);
-                                bowser.addY(-70);
+                                bowser.addY(-100);
                             }
                         }
                     }
@@ -1279,7 +1302,15 @@ public class PhysicsHandler {
         }
     }
     public void updateActivePart(){
-       if (this.level.getActivePart().getHeroes()[0].getX()>5019 && this.level.getActivePart().getHeroes()[0].getY()>this.level.getActivePart().getEndY()[0] && this.level.getActivePart().getHeroes()[0].getY()+this.level.getActivePart().getHeroes()[0].getHeight()/2<this.level.getActivePart().getEndY()[1]){
+        boolean bossIsDead = false;
+        for(Enemy enemy : level.getActivePart().getEnemies()){
+            if (enemy instanceof Bowser){
+                if (!(enemy.isVisible())){
+                    bossIsDead=true;
+                }
+            }
+        }
+       if (bossIsDead || (this.level.getActivePart().getHeroes()[0].getX()+this.level.getActivePart().getHeroes()[0].getWidth()/2>this.level.getActivePart().getFloors()[this.level.getActivePart().getFloors().length-1].getX()+this.level.getActivePart().getFloors()[this.level.getActivePart().getFloors().length-1].getWidth())){
            if (this.level.getActivePart().getId()==this.level.getParts().length-1){
                this.level.addTime((int)this.level.getActivePart().getStopwatch().passedTime());
                this.level.getActivePart().getHeroes()[0].addScore((this.level.getActivePart().getTime()-(int)this.level.getActivePart().getStopwatch().passedTime())*50);
@@ -1289,18 +1320,10 @@ public class PhysicsHandler {
                if (this.user.getHighscore()<this.level.getActivePart().getHeroes()[0].getScore()){
                    this.user.setHighscore(this.level.getActivePart().getHeroes()[0].getScore());
                }
-               if (user.getActiveSlot()==1){
-                   user.setPart1(null);
-               }
-               if (user.getActiveSlot()==2){
-                   user.setPart2(null);
-               }
-               if (user.getActiveSlot()==3){
-                   user.setPart3(null);
-               }
+               user.getSavedLevels()[user.getActiveSlot()-1] = null;
                try {
                    this.user.save();
-               } catch (IOException e) {}
+               } catch (Exception e) {}
                this.level.setDone(1);
            }
            else{
@@ -1311,12 +1334,36 @@ public class PhysicsHandler {
                this.level.addCoin(this.level.getActivePart().getHeroes()[0].getCoin());
                this.level.getActivePart().getHeroes()[0].emptyCoin();
                this.level.getActivePart().setFinalScore(this.level.getActivePart().getHeroes()[0].getScore());
-               try {
-                   this.user.save();
-               } catch (IOException e) {}
                this.level.setActivePart(this.level.getParts()[this.level.getActivePart().getId()+1]);
                this.level.getActivePart().getHeroes()[0].setCoordinates(new double[]{150,200});
                this.level.getActivePart().getStopwatch().start();
+               user.getSavedLevels()[user.getActiveSlot()-1] = this.level;
+               this.level.getActivePart().getHeroes()[0].setVx(0);
+               Bowser bowser = null;
+               for (Enemy enemy : level.getActivePart().getEnemies()) {
+                   if (enemy instanceof Bowser) bowser = (Bowser) enemy;
+               }
+               if (bowser!=null){
+                   bowser.getAttackReloadStopwatch().pause();
+                   bowser.getDizzyStopwatch().pause();
+                   bowser.getGrabAttackStopwatch().pause();
+                   if (bowser.getReloadStopwatches()[0]!=null){
+                       bowser.getReloadStopwatches()[0].pause();
+                       bowser.getReloadStopwatches()[1].pause();
+                       bowser.getReloadStopwatches()[2].pause();
+                       bowser.getReloadStopwatches()[3].pause();
+                   }
+               }
+               level.getActivePart().getStopwatch().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForFireball().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForDizzy().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForLightning().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForCooldown().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForShield().pause();
+               level.getActivePart().getHeroes()[0].getStopwatchForTransitioning().pause();
+               try {
+                   this.user.save();
+               } catch (Exception e) {}
            }
        }
     }
@@ -1351,21 +1398,22 @@ public class PhysicsHandler {
             }
             else{
                 this.level.addTime((int)this.level.getActivePart().getStopwatch().passedTime());
-                if (this.user.getActiveSlot()==1){
-                    this.user.setPart1(null);
-                }
-                if (this.user.getActiveSlot()==2){
-                    this.user.setPart2(null);
-                }
-                if (this.user.getActiveSlot()==3){
-                    this.user.setPart3(null);
-                }
+                user.getSavedLevels()[user.getActiveSlot()-1]=null;
                 try {
                     this.user.save();
-                } catch (IOException e) {}
+                } catch (Exception e) {}
                 this.level.setDone(2);
             }
             this.changed = true;
         }
     }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
 }

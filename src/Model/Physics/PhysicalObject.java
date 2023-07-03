@@ -1,6 +1,8 @@
 package Model.Physics;
 
-abstract public class PhysicalObject {
+import java.io.Serializable;
+
+abstract public class PhysicalObject implements Serializable {
     // Fields
     private int[] coordinates;
     private final int height,width;

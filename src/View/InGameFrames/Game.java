@@ -4,6 +4,7 @@ import Controller.Controller;
 import Loading.ImageLoader;
 import Logic.PhysicsHandler;
 import Model.*;
+import Model.Characters.Enemies.Bowser;
 import Model.Characters.Enemies.Plant;
 import Model.Characters.Enemies.Enemy;
 import Model.Levels.Level;
@@ -145,7 +146,27 @@ public class Game extends JFrame {
                 ((Plant) enemy).getStopwatch().start();
             }
         }
-        this.level.getActivePart().getStopwatch().start();
+        Bowser bowser = null;
+        for (Enemy enemy : level.getActivePart().getEnemies()) {
+            if (enemy instanceof Bowser) bowser = (Bowser) enemy;
+        }
+        if (bowser!=null){
+            bowser.getAttackReloadStopwatch().resume();
+            bowser.getDizzyStopwatch().resume();
+            bowser.getGrabAttackStopwatch().resume();
+            bowser.getReloadStopwatches()[0].resume();
+            bowser.getReloadStopwatches()[1].resume();
+            bowser.getReloadStopwatches()[2].resume();
+            bowser.getReloadStopwatches()[3].resume();
+        }
+        level.getActivePart().getHeroes()[0].getStopwatchForShield().resume();
+        level.getActivePart().getHeroes()[0].getStopwatchForTransitioning().resume();
+        if (this.level.getActivePart().getStopwatch().isStarted()){
+            this.level.getActivePart().getStopwatch().resume();
+        }
+        else{
+            this.level.getActivePart().getStopwatch().start();
+        }
     }
 
     // Getters
@@ -162,4 +183,8 @@ public class Game extends JFrame {
     public JButton getHomeButton() {return homeButton;}
     public JButton getPlayAgainButton() {return playAgainButton;}
     public JButton getNextLevelButton() {return nextLevelButton;}
+
+    public User getUser() {
+        return user;
+    }
 }

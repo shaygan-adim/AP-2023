@@ -2,6 +2,8 @@ package Model.Physics;
 
 import Model.Items.Item;
 
+import java.io.Serializable;
+
 public class Block extends PhysicalObject {
     // Fields
     private Item[] itemsInside;

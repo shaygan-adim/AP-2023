@@ -1,8 +1,11 @@
 package Logic;
 
-public class Stopwatch {
+import java.io.Serializable;
+
+public class Stopwatch implements Serializable {
     // Fields
     private long startTime;
+    private long pauseTime;
     private final int unit;
     private boolean started = false;
 
@@ -28,6 +31,14 @@ public class Stopwatch {
     }
     public void stop(){
         started = false;
+    }
+    public void pause(){
+        pauseTime = System.currentTimeMillis();
+    }
+    public void resume(){
+        if (isStarted()){
+            startTime += System.currentTimeMillis()-pauseTime;
+        }
     }
 
     // Getters

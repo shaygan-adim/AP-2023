@@ -1,3 +1,5 @@
 package Model.Characters.Heroes;
 
-public enum HeroMode {MINI , MEGA , FIRE}
+import java.io.Serializable;
+
+public enum HeroMode implements Serializable {MINI , MEGA , FIRE}

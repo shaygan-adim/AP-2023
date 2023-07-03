@@ -110,7 +110,7 @@ public class ShopPage extends MainFrame {
                         user.setOwnedHeroes(heroNames);
                         try {
                             user.save();
-                        } catch (IOException ex) {}
+                        } catch (Exception ex) {}
                         heroesButtons.get(0).setText("Owned");
                         heroesButtons.get(0).setEnabled(false);
                         JOptionPane.showMessageDialog(null,"Luigi is added to your characters !","Successful purchase",JOptionPane.INFORMATION_MESSAGE);
@@ -134,7 +134,7 @@ public class ShopPage extends MainFrame {
                         user.setOwnedHeroes(heroNames);
                         try {
                             user.save();
-                        } catch (IOException ex) {}
+                        } catch (Exception ex) {}
                         heroesButtons.get(1).setText("Owned");
                         heroesButtons.get(1).setEnabled(false);
                         JOptionPane.showMessageDialog(null,"Princess is added to your characters !","Successful purchase",JOptionPane.INFORMATION_MESSAGE);
@@ -158,7 +158,7 @@ public class ShopPage extends MainFrame {
                         user.setOwnedHeroes(heroNames);
                         try {
                             user.save();
-                        } catch (IOException ex) {}
+                        } catch (Exception ex) {}
                         heroesButtons.get(2).setText("Owned");
                         heroesButtons.get(2).setEnabled(false);
                         JOptionPane.showMessageDialog(null,"Yoshi is added to your characters !","Successful purchase",JOptionPane.INFORMATION_MESSAGE);
@@ -182,7 +182,7 @@ public class ShopPage extends MainFrame {
                         user.setOwnedHeroes(heroNames);
                         try {
                             user.save();
-                        } catch (IOException ex) {}
+                        } catch (Exception ex) {}
                         heroesButtons.get(3).setText("Owned");
                         heroesButtons.get(3).setEnabled(false);
                         JOptionPane.showMessageDialog(null,"Toad is added to your characters !","Successful purchase",JOptionPane.INFORMATION_MESSAGE);

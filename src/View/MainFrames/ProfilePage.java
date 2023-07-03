@@ -142,7 +142,7 @@ public class ProfilePage extends MainFrame {
                             user.setActiveHero(user.getOwnedHeroes()[(i-30)/110]);
                             try {
                                 user.save();
-                            } catch (IOException ex) {}
+                            } catch (Exception ex) {}
                         }
                     }
                     else{
@@ -150,7 +150,7 @@ public class ProfilePage extends MainFrame {
                             user.setActiveHero(user.getOwnedHeroes()[(30+((i-30)/110)%4*110-30)/110+4]);
                             try {
                                 user.save();
-                            } catch (IOException ex) {}
+                            } catch (Exception ex) {}
                         }
                     }
                 }

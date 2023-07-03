@@ -14,6 +14,7 @@ import Model.Physics.Pipe;
 import Model.Shots.FireBall;
 import Model.Shots.Shot;
 import Model.Shots.Sword;
+import Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,6 +59,29 @@ public class AnimationPanel extends JPanel {
     protected void paintComponent(Graphics g){
         iterator++;
         super.paintComponent(g);
+        if (physicsHandler.isPaused()){
+            physicsHandler.setPaused(false);
+            stopTheAnimation();
+            Bowser bowser = null;
+            for (Enemy enemy : level.getActivePart().getEnemies()) {
+                if (enemy instanceof Bowser) bowser = (Bowser) enemy;
+            }
+            if (bowser!=null){
+                bowser.getAttackReloadStopwatch().pause();
+                bowser.getDizzyStopwatch().pause();
+                bowser.getGrabAttackStopwatch().pause();
+                if (bowser.getReloadStopwatches()[0]!=null){
+                    bowser.getReloadStopwatches()[0].pause();
+                    bowser.getReloadStopwatches()[1].pause();
+                    bowser.getReloadStopwatches()[2].pause();
+                    bowser.getReloadStopwatches()[3].pause();
+                }
+            }
+            level.getActivePart().getStopwatch().pause();
+            level.getActivePart().getHeroes()[0].getStopwatchForShield().pause();
+            level.getActivePart().getHeroes()[0].getStopwatchForTransitioning().pause();
+            new PauseMenu(this,game.getUser(),level);
+        }
 
         if (this.level.getDone()==0){
             // Updating the labels
@@ -80,14 +104,6 @@ public class AnimationPanel extends JPanel {
 
             g.drawImage(ImageLoader.getLevelBackground(),0,0,1280,800,this);
 
-            // Drawing boss fight fire
-            for (Enemy enemy : level.getActivePart().getEnemies()){
-                if (enemy instanceof Bowser){
-                    if (((Bowser) enemy).isPhase2Fire()){
-                        ///////////////////////////////////////////////
-                    }
-                }
-            }
 
             // Drawing the Pits
             for (int i = 0 ; i<level.getActivePart().getFloors().length-1 ; i++){
@@ -113,19 +129,20 @@ public class AnimationPanel extends JPanel {
             // Drawing the enemies
             for (Enemy enemy : level.getActivePart().getEnemies()){
                 if (enemy.isVisible()) {
+
                     if (enemy instanceof Plant) {
-                        g.drawImage(ImageLoader.getPlantImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                        g.drawImage(ImageLoader.getPlantImage(), (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                     }
                     if (enemy instanceof Goomba) {
                         if (((Goomba) enemy).isDeadActivated()){
-                            g.drawImage(ImageLoader.getGoombaDeadImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            g.drawImage(ImageLoader.getGoombaDeadImage(), (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                         }
                         else{
                             if (enemy.getVx()>0){
-                                g.drawImage(ImageLoader.getGoombaRightImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getGoombaRightImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             else {
-                                g.drawImage(ImageLoader.getGoombaLeftImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getGoombaLeftImages()[((Goomba) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             if (iterator%Goomba.getFrameDelay()==0){
                                 ((Goomba) enemy).addFrame();
@@ -134,14 +151,14 @@ public class AnimationPanel extends JPanel {
                     }
                     if (enemy instanceof Koopa){
                         if (((Koopa) enemy).isDeadActivated()){
-                            g.drawImage(ImageLoader.getKoopaShellImage(), (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                            g.drawImage(ImageLoader.getKoopaShellImage(), (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                         }
                         else{
                             if (enemy.getVx()>0){
-                                g.drawImage(ImageLoader.getKoopaRightImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getKoopaRightImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             else {
-                                g.drawImage(ImageLoader.getKoopaLeftImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getKoopaLeftImages()[((Koopa) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             if (iterator%Koopa.getFrameDelay()==0){
                                 ((Koopa) enemy).addFrame();
@@ -151,10 +168,10 @@ public class AnimationPanel extends JPanel {
                     if (enemy instanceof Spiny){
                         if (((Spiny) enemy).isRunActivated()){
                             if (enemy.getVx()>0){
-                                g.drawImage(ImageLoader.getSpinyRightRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getSpinyRightRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             else {
-                                g.drawImage(ImageLoader.getSpinyLeftRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getSpinyLeftRunImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             if (iterator%(Spiny.getFrameDelay()-8)==0){
                                 ((Spiny) enemy).addFrame();
@@ -162,10 +179,10 @@ public class AnimationPanel extends JPanel {
                         }
                         else {
                             if (enemy.getVx()>0){
-                                g.drawImage(ImageLoader.getSpinyRightImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getSpinyRightImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             else {
-                                g.drawImage(ImageLoader.getSpinyLeftImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() - (int) level.getActivePart().getHeroes()[0].getX() + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
+                                g.drawImage(ImageLoader.getSpinyLeftImages()[((Spiny) enemy).getFrameNumber()], (int) (enemy.getX() +drawingInteger + 150), (int) enemy.getY(), enemy.getWidth(), enemy.getHeight(), this);
                             }
                             if (iterator%Spiny.getFrameDelay()==0){
                                 ((Spiny) enemy).addFrame();
@@ -636,5 +653,9 @@ public class AnimationPanel extends JPanel {
     public void update(){
         physicsHandler.updatePhysics();
         this.repaint();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
