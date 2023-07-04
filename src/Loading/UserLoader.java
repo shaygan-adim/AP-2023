@@ -33,8 +33,6 @@ public abstract class UserLoader {
                     FileOutputStream fileOut = new FileOutputStream("src/Loading/Users/UsersData.ser");
                     ObjectOutputStream out = new ObjectOutputStream(fileOut);
                     List<User> list = new ArrayList<>();
-                    User user = new User("admin","admin");
-                    list.add(user);
                     out.writeObject(list);
                     out.close();
                     fileOut.close();
@@ -62,5 +60,7 @@ public abstract class UserLoader {
     }
 
     // Getters
-    public static User[] getUsers() {return users;}
+    public static User[] getUsers() {
+        return users;
+    }
 }

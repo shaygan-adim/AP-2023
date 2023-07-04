@@ -118,6 +118,7 @@ public class AnimationPanel extends JPanel {
             level.getActivePart().getStopwatch().pause();
             level.getActivePart().getHeroes()[0].getStopwatchForShield().pause();
             level.getActivePart().getHeroes()[0].getStopwatchForTransitioning().pause();
+            level.getActivePart().getHeroes()[0].getRunningSound().stop();
             if (game.isFirePlaying()){
                 game.setFirePlaying(false);
                 game.getFireSound().stop();
