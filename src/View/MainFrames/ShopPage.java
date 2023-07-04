@@ -1,5 +1,6 @@
 package View.MainFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Model.*;
 import Model.Characters.Heroes.HeroName;
@@ -13,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,6 +90,7 @@ public class ShopPage extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new MainPage(user);
                 ShopPage.super.dispose();
             }
@@ -98,9 +99,11 @@ public class ShopPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (user.getCoin()<Luigi.getPrice()){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"You miss "+(Luigi.getPrice()-user.getCoin())+" coins to buy this character.","Not Enough Coins",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
+                    AudioLoader.getButtonSound().start();
                     int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to pay "+Luigi.getPrice()+" coins ?", "Confirm purchase", JOptionPane.YES_NO_OPTION);
                     if (dialogResult==JOptionPane.YES_OPTION){
                         user.setCoin(user.getCoin()-Luigi.getPrice());
@@ -122,9 +125,11 @@ public class ShopPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (user.getCoin()<Princess.getPrice()){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"You miss "+(Princess.getPrice()-user.getCoin())+" coins to buy this character.","Not Enough Coins",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
+                    AudioLoader.getButtonSound().start();
                     int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to pay "+Princess.getPrice()+" coins ?", "Confirm purchase", JOptionPane.YES_NO_OPTION);
                     if (dialogResult==JOptionPane.YES_OPTION){
                         user.setCoin(user.getCoin()-Princess.getPrice());
@@ -146,9 +151,11 @@ public class ShopPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (user.getCoin()<Yoshi.getPrice()){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"You miss "+(Yoshi.getPrice()-user.getCoin())+" coins to buy this character.","Not Enough Coins",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
+                    AudioLoader.getButtonSound().start();
                     int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to pay "+Yoshi.getPrice()+" coins ?", "Confirm purchase", JOptionPane.YES_NO_OPTION);
                     if (dialogResult==JOptionPane.YES_OPTION){
                         user.setCoin(user.getCoin()-Yoshi.getPrice());
@@ -170,9 +177,11 @@ public class ShopPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (user.getCoin()<Toad.getPrice()){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"You miss "+(Toad.getPrice()-user.getCoin())+" coins to buy this character.","Not Enough Coins",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
+                    AudioLoader.getButtonSound().start();
                     int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to pay "+Toad.getPrice()+" coins ?", "Confirm purchase", JOptionPane.YES_NO_OPTION);
                     if (dialogResult==JOptionPane.YES_OPTION){
                         user.setCoin(user.getCoin()-Toad.getPrice());

@@ -1,5 +1,6 @@
 package Logic;
 
+import Loading.AudioLoader;
 import Model.Characters.Enemies.*;
 import Model.Characters.Heroes.Hero;
 import Model.Characters.Heroes.HeroMode;
@@ -16,6 +17,7 @@ import Model.Shots.Shot;
 import Model.Shots.Sword;
 import Model.User;
 
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.lang.management.BufferPoolMXBean;
 import java.util.Random;
@@ -28,6 +30,7 @@ public class PhysicsHandler {
     private static final double dt = 0.1D;
     private boolean changed;
     private boolean paused = false;
+    private boolean mute = false;
 
     // Constructor
     public PhysicsHandler(Level level, User user){
@@ -47,6 +50,9 @@ public class PhysicsHandler {
                 x = (int)level.getActivePart().getHeroes()[0].getX()+10;
             }
             level.getActivePart().getHeroes()[0].getShots().add(new Sword(new int[]{x,y}));
+            if (!isMute()){
+                AudioLoader.getSwordSound().start();
+            }
             level.getActivePart().getHeroes()[0].setSwordActivated(false);
         }
         for (Hero hero : level.getActivePart().getHeroes()){
@@ -395,6 +401,9 @@ public class PhysicsHandler {
             for (Block block : level.getActivePart().getBlocks()){
                     if (block.isVisible() && hero.getY()-hero.getVy()*dt>=block.getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<block.getY()+block.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()) {
                         if (block.getBlockType() == BlockType.SLIME && Math.abs(hero.getVy())>5) {
+                            if (!isMute()){
+                                AudioLoader.getSlimeSound().start();
+                            }
                             n++;
                             if (Math.abs(hero.getVy())<45){
                                 hero.setVy(-hero.getVy()*1.2);
@@ -413,6 +422,9 @@ public class PhysicsHandler {
                     if (block.isVisible() && hero.getY()- hero.getVy()*dt<block.getY()+block.getHeight() && hero.getY()>=block.getY()-hero.getHeight() && hero.getX()>block.getX()-hero.getWidth() && hero.getX()<block.getX()+ block.getWidth()){
                         hero.setVy(0);
                         hero.setY(hero.getY()+5);
+                        if (!isMute()){
+                            AudioLoader.getBlockSound().start();
+                        }
                         if (block.getBlockType()==BlockType.SIMPLE && hero.getMode()!=HeroMode.MINI){
                             hero.addScore(100);
                             block.setVisible(false);
@@ -518,54 +530,6 @@ public class PhysicsHandler {
         itemsCollisionCheck();
         updatePlants();
         updateActivePart();
-//        if (changed){
-//            if (level.getActivePart().getId()==0){
-//                if (this.user.getActiveSlot()==1){
-//                    this.user.setPart1(PartName.L1P1);
-//                    this.user.setPartScore1(0);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                if (this.user.getActiveSlot()==2){
-//                    this.user.setPart2(PartName.L1P1);
-//                    this.user.setPartScore2(0);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                if (this.user.getActiveSlot()==3){
-//                    this.user.setPart3(PartName.L1P1);
-//                    this.user.setPartScore3(0);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                try {
-//                    user.save();
-//                } catch (Exception e) {}
-//            }
-//            else{
-//                if (this.user.getActiveSlot()==1){
-//                    this.user.setPart1(PartName.L1P2);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartScore1(this.level.getActivePart().getHeroes()[0].getScore());
-//                    this.user.setPartHeart1(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                if (this.user.getActiveSlot()==2){
-//                    this.user.setPart2(PartName.L1P2);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartScore2(this.level.getActivePart().getHeroes()[0].getScore());
-//                    this.user.setPartHeart2(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                if (this.user.getActiveSlot()==3){
-//                    this.user.setPart3(PartName.L1P2);
-//                    this.user.setPartCoin1(this.level.getActivePart().getHeroes()[0].getCoin());
-//                    this.user.setPartScore3(this.level.getActivePart().getHeroes()[0].getScore());
-//                    this.user.setPartHeart3(this.level.getActivePart().getHeroes()[0].getLives());
-//                }
-//                try {
-//                    user.save();
-//                } catch (Exception e) {}
-//            }
-//        }
     }
     public void jump(){
         boolean beStill = false;
@@ -591,6 +555,9 @@ public class PhysicsHandler {
                         }
                     }
                     else{
+                        if (!isMute()){
+                            AudioLoader.getJumpSound().start();
+                        }
                         level.getActivePart().getHeroes()[0].setY(level.getActivePart().getHeroes()[0].getY()-5);
                         level.getActivePart().getHeroes()[0].setVy(45);
                         level.getActivePart().getHeroes()[0].setJumping(true);
@@ -637,6 +604,21 @@ public class PhysicsHandler {
                         }
                     }
                     else{
+                        if (level.getActivePart().getHeroes()[0].isStandingOnSomething()){
+                            if (!level.getActivePart().getHeroes()[0].isRunningSoundStarted()){
+                                if (!isMute()){
+                                    level.getActivePart().getHeroes()[0].getRunningSound().loop(500);
+                                    level.getActivePart().getHeroes()[0].setRunningSoundStarted(true);
+                                }
+                            }
+                        }
+                        else{
+                            if (level.getActivePart().getHeroes()[0].isRunningSoundStarted()){
+                                level.getActivePart().getHeroes()[0].getRunningSound().stop();
+                                level.getActivePart().getHeroes()[0].reloadRunSound();
+                                level.getActivePart().getHeroes()[0].setRunningSoundStarted(false);
+                            }
+                        }
                         level.getActivePart().getHeroes()[0].setVx(40);
                     }
                 }
@@ -652,6 +634,9 @@ public class PhysicsHandler {
             }
         }
         level.getActivePart().getHeroes()[0].setVx(0);
+        level.getActivePart().getHeroes()[0].getRunningSound().stop();
+        level.getActivePart().getHeroes()[0].reloadRunSound();
+        level.getActivePart().getHeroes()[0].setRunningSoundStarted(false);
     }
     public void left(){
         boolean beStill = false;
@@ -690,6 +675,21 @@ public class PhysicsHandler {
                     }
                 }
                 else{
+                    if (level.getActivePart().getHeroes()[0].isStandingOnSomething()){
+                        if (!level.getActivePart().getHeroes()[0].isRunningSoundStarted()){
+                            if (!isMute()){
+                                level.getActivePart().getHeroes()[0].getRunningSound().loop(500);
+                                level.getActivePart().getHeroes()[0].setRunningSoundStarted(true);
+                            }
+                        }
+                    }
+                    else{
+                        if (level.getActivePart().getHeroes()[0].isRunningSoundStarted()){
+                            level.getActivePart().getHeroes()[0].getRunningSound().stop();
+                            level.getActivePart().getHeroes()[0].reloadRunSound();
+                            level.getActivePart().getHeroes()[0].setRunningSoundStarted(false);
+                        }
+                    }
                     level.getActivePart().getHeroes()[0].setVx(-40);
                 }
             }
@@ -747,6 +747,9 @@ public class PhysicsHandler {
                 }
                 if (shoot){
                     if (level.getActivePart().getHeroes()[0].getStopwatchForFireball().passedTime()>1500){
+                        if (!isMute()){
+                            AudioLoader.getHeroFireballSound().start();
+                        }
                         if (right){
                             level.getActivePart().getHeroes()[0].getShots().add(new FireBall(new int[]{(int)level.getActivePart().getHeroes()[0].getX()+60,(int)level.getActivePart().getHeroes()[0].getY()+20},right));
                         }
@@ -774,6 +777,9 @@ public class PhysicsHandler {
             if (!level.getActivePart().getHeroes()[0].isSwordActivated() && level.getActivePart().getHeroes()[0].getStopwatchForCooldown().passedTime()>3000){
                 if (level.getActivePart().getHeroes()[0].getCoin()>=3){
                     level.getActivePart().getHeroes()[0].addCoin(-3);
+                    if (!isMute()){
+                        AudioLoader.getLightningSound().start();
+                    }
                     level.getActivePart().getHeroes()[0].setSwordActivated(true);
                 }
             }
@@ -785,6 +791,9 @@ public class PhysicsHandler {
                 // Enemies
                 for (Enemy enemy : level.getActivePart().getEnemies()){
                     if (enemy.isVisible() && shot.isVisible() && shot.getX()+ shot.getWidth()> enemy.getX() && shot.getX()< enemy.getX()+ enemy.getWidth() && shot.getY()+ shot.getHeight()> enemy.getY() && shot.getY()< enemy.getY()+ enemy.getHeight()){
+                        if (!isMute()){
+                            AudioLoader.getEnemyDeathSound().start();
+                        }
                         if (!(enemy instanceof Bowser)){
                             enemy.setVisible(false);
                             if (enemy instanceof Goomba){
@@ -804,6 +813,9 @@ public class PhysicsHandler {
                             if (shot instanceof FireBall){
                                 if (enemy.getLives()>1){
                                     if (enemy.getLives()<=11 && !((Bowser) enemy).isPhase2Activated()){
+                                        if (!isMute()){
+                                            AudioLoader.getRoarSound().start();
+                                        }
                                         ((Bowser) enemy).setPhase2Activated(true);
                                         ((Bowser) enemy).setDizzy(false);
                                         ((Bowser) enemy).getAttackReloadStopwatch().start();
@@ -823,6 +835,9 @@ public class PhysicsHandler {
                             else{
                                 if (enemy.getLives()>2){
                                     if (enemy.getLives()<=12 && !((Bowser) enemy).isPhase2Activated()){
+                                        if (!isMute()){
+                                            AudioLoader.getRoarSound().start();
+                                        }
                                         ((Bowser) enemy).setPhase2Activated(true);
                                         ((Bowser) enemy).setDizzy(false);
                                         ((Bowser) enemy).getAttackReloadStopwatch().start();
@@ -898,6 +913,9 @@ public class PhysicsHandler {
                     // Blocks
                     for (Block block : level.getActivePart().getBlocks()){
                         if (block.isVisible()  && nuke.getX()+ nuke.getWidth()> block.getX() && nuke.getX()< block.getX()+ block.getWidth() && nuke.getY()+ nuke.getHeight()> block.getY() && nuke.getY()< block.getY()+ block.getHeight()){
+                            if (!isMute()){
+                                AudioLoader.getNukeSound().start();
+                            }
                             ((Bowser) enemy).setNuke(null);
                             if (Math.pow(nuke.getX()+nuke.getWidth()/2-hero1.getX()-hero1.getWidth()/2,2)+Math.pow(nuke.getY()+nuke.getHeight()/2-hero1.getY()-hero1.getHeight()/2,2)<=1){
                                 ((Bowser) enemy).setNukeAppearance(false);
@@ -908,11 +926,12 @@ public class PhysicsHandler {
                     // Floors
                     for (Floor floor : level.getActivePart().getFloors()){
                         if (nuke.getX()+ nuke.getWidth()> floor.getX() && nuke.getX()< floor.getX()+ floor.getWidth() && nuke.getY()+ nuke.getHeight()> floor.getY() && nuke.getY()< floor.getY()+ floor.getHeight()){
+                            if (!isMute()){
+                                AudioLoader.getNukeSound().start();
+                            }
                             ((Bowser) enemy).setNuke(null);
                             if (Math.pow(nuke.getX()+nuke.getWidth()/2-hero1.getX()-hero1.getWidth()/2,2)+Math.pow(nuke.getY()+nuke.getHeight()/2-hero1.getY()-hero1.getHeight()/2,2)<=1){
                                 ((Bowser) enemy).setNukeAppearance(false);
-
-
                                 die(hero1);
                             }
                         }
@@ -929,6 +948,9 @@ public class PhysicsHandler {
             for (int i = 0; i< level.getActivePart().getItems().size() ; i++){
                 if (hero.isVisible() && level.getActivePart().getItems().get(i).isVisible() && level.getActivePart().getItems().get(i).getX()+ level.getActivePart().getItems().get(i).getWidth()> hero.getX() && level.getActivePart().getItems().get(i).getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getItems().get(i).getY()+ level.getActivePart().getItems().get(i).getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getItems().get(i).getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
                     level.getActivePart().getItems().get(i).setVisible(false);
+                    if (!isMute()){
+                        AudioLoader.getItemSound().start();
+                    }
                     if (level.getActivePart().getItems().get(i) instanceof Coin) {
                         hero.addCoin();
                     }
@@ -1007,6 +1029,9 @@ public class PhysicsHandler {
                                     hero.addScore(300);
                                 }
                             }
+                            if (!isMute()){
+                                AudioLoader.getShieldExplosionSound().start();
+                            }
                             hero.setShieldActivated(false);
                         }
                     }
@@ -1026,6 +1051,9 @@ public class PhysicsHandler {
                         }
                         if ((level.getActivePart().getEnemies()[i]).isVisible() && level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth()> hero.getX() && level.getActivePart().getEnemies()[i].getX()< hero.getX()+ hero.getWidth() && level.getActivePart().getEnemies()[i].getY()+ level.getActivePart().getEnemies()[i].getHeight()> level.getActivePart().getHeroes()[0].getY() && level.getActivePart().getEnemies()[i].getY()< level.getActivePart().getHeroes()[0].getY()+ level.getActivePart().getHeroes()[0].getHeight()){
                             if (hero.getY()+ hero.getHeight()-10<level.getActivePart().getEnemies()[i].getY() && !(level.getActivePart().getEnemies()[i] instanceof Plant || level.getActivePart().getEnemies()[i] instanceof Spiny) && (hero.getY()-hero.getVy()*dt>=level.getActivePart().getEnemies()[i].getY()-hero.getHeight() && hero.getY()+ hero.getHeight()<level.getActivePart().getEnemies()[i].getY()+level.getActivePart().getEnemies()[i].getHeight() && hero.getX()>level.getActivePart().getEnemies()[i].getX()-hero.getWidth() && hero.getX()<level.getActivePart().getEnemies()[i].getX()+ level.getActivePart().getEnemies()[i].getWidth())) {
+                                if (!isMute()){
+                                    AudioLoader.getEnemyDeathSound().start();
+                                }
                                 if (level.getActivePart().getEnemies()[i] instanceof Goomba){
                                     ((Goomba) level.getActivePart().getEnemies()[i]).getDeathStopwatch().start();
                                     ((Goomba) level.getActivePart().getEnemies()[i]).setDeadActivated(true);
@@ -1046,12 +1074,16 @@ public class PhysicsHandler {
                                     if (level.getActivePart().getEnemies()[i].getLives()>3){
                                         Bowser bowser = (Bowser) level.getActivePart().getEnemies()[i];
                                         if (level.getActivePart().getEnemies()[i].getLives()<=13 && !((Bowser) level.getActivePart().getEnemies()[i]).isPhase2Activated()){
+                                            if (!isMute()){
+                                                AudioLoader.getRoarSound().start();
+                                            }
                                             ((Bowser) level.getActivePart().getEnemies()[i]).setDizzy(false);
                                             ((Bowser) level.getActivePart().getEnemies()[i]).setPhase2Activated(true);
                                             ((Bowser) level.getActivePart().getEnemies()[i]).getAttackReloadStopwatch().start();
                                             stop();
                                             stand();
                                             hero.setMode(HeroMode.FIRE);
+
                                         }
                                         else{
                                             bowser.setDizzy(true);
@@ -1163,6 +1195,7 @@ public class PhysicsHandler {
                     else {
                         bowser.setToLeft(false);
                     }
+
                     // Nuke attack
                     if (bowser.isPhase2Fire() && new Random().nextDouble()<0.3){
                         if (bowser.getReloadStopwatches()[3].passedTime()>3500){
@@ -1184,6 +1217,9 @@ public class PhysicsHandler {
                                     bowser.setVx(0);
                                     bowser.setFireBallAttacking(true);
                                 }
+                            }
+                            if (!isMute()){
+                                AudioLoader.getBowserFireballSound().start();
                             }
                             bowser.getReloadStopwatches()[2].start();
                         }
@@ -1325,6 +1361,7 @@ public class PhysicsHandler {
                    this.user.save();
                } catch (Exception e) {}
                this.level.setDone(1);
+
            }
            else{
                this.level.addTime((int)this.level.getActivePart().getStopwatch().passedTime());
@@ -1339,6 +1376,9 @@ public class PhysicsHandler {
                this.level.getActivePart().getStopwatch().start();
                user.getSavedLevels()[user.getActiveSlot()-1] = this.level;
                this.level.getActivePart().getHeroes()[0].setVx(0);
+               if (!isMute()){
+                   AudioLoader.getSectionSound().start();
+               }
                Bowser bowser = null;
                for (Enemy enemy : level.getActivePart().getEnemies()) {
                    if (enemy instanceof Bowser) bowser = (Bowser) enemy;
@@ -1393,6 +1433,9 @@ public class PhysicsHandler {
             }
             hero.setBossTrapped(false);
             if (hero.getLives()>=2){
+                if (!isMute()){
+                    AudioLoader.getDeathSound().start();
+                }
                 hero.setLives(hero.getLives()-1);
                 hero.setCoordinates(new double[]{150,200});
             }
@@ -1416,4 +1459,11 @@ public class PhysicsHandler {
         this.paused = paused;
     }
 
+    public boolean isMute() {
+        return mute;
+    }
+
+    public void setMute(boolean mute) {
+        this.mute = mute;
+    }
 }

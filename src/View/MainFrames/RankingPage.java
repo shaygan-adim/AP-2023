@@ -1,5 +1,6 @@
 package View.MainFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Model.User;
 import View.MainFrame;
@@ -88,6 +89,7 @@ public class RankingPage extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new MainPage(user);
                 RankingPage.super.dispose();
             }

@@ -1,9 +1,11 @@
 package Model.Characters.Heroes;
 
+import Loading.AudioLoader;
 import Model.Characters.Character;
 import Logic.Stopwatch;
 import Model.Shots.Shot;
 
+import javax.sound.sampled.Clip;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,8 @@ abstract public class Hero extends Character {
     private int[] bossBoundries = null;
     private boolean dizzy = false;
     private List<Shot> shots = new ArrayList<>();
+    private transient Clip runningSound = AudioLoader.getRunSound();
+    private transient boolean runningSoundStarted = false;
 
     // Constructor
     public Hero(int lives, int height, int width) {
@@ -75,9 +79,11 @@ abstract public class Hero extends Character {
         lightningFrameNumber++;
         lightningFrameNumber%=4;
     }
+    public void reloadRunSound(){
+        runningSound = AudioLoader.getRunSound();
+    }
 
     // Setters
-    public void setScore(int score) {this.score = score;}
     public void setStandingOnSomething(boolean standingOnSomething) {this.standingOnSomething = standingOnSomething;}
     public void setJumping(boolean jumping) {this.jumping = jumping;}
     public void setSeating(boolean seating) {
@@ -127,6 +133,10 @@ abstract public class Hero extends Character {
         this.dizzy = dizzy;
     }
 
+    public void setRunningSoundStarted(boolean runningSoundStarted) {
+        this.runningSoundStarted = runningSoundStarted;
+    }
+
     // Getters
     public int getScore() {return score;}
     public int getCoin() {return coin;}
@@ -164,4 +174,13 @@ abstract public class Hero extends Character {
         return stopwatchForFireball;
     }
     public List<Shot> getShots() {return shots;}
+    public Clip getRunningSound() {
+        if (runningSound==null){
+            runningSound=AudioLoader.getRunSound();
+        }
+        return runningSound;
+    }
+    public boolean isRunningSoundStarted() {
+        return runningSoundStarted;
+    }
 }

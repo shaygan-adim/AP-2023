@@ -1,5 +1,6 @@
 package View.MainFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Model.Characters.Heroes.HeroName;
 import Model.User;
@@ -13,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +84,7 @@ public class ProfilePage extends MainFrame {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure ?", "", JOptionPane.YES_NO_OPTION);
                 if (dialogResult==JOptionPane.YES_OPTION){
                     new FirstPage();
@@ -94,6 +95,7 @@ public class ProfilePage extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new MainPage(user);
                 ProfilePage.super.dispose();
             }

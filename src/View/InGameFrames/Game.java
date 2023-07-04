@@ -1,6 +1,7 @@
 package View.InGameFrames;
 
 import Controller.Controller;
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Logic.PhysicsHandler;
 import Model.*;
@@ -11,6 +12,7 @@ import Model.Levels.Level;
 import View.MainFrames.MainPage;
 import View.MainFrames.SlotMenu;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,6 +27,13 @@ public class Game extends JFrame {
     private final PhysicsHandler physicsHandler;
     private JLabel coinImage,coinLabel,heartImage,heartLabel,scoreImage,scoreLabel,timeImage,timeLabel,levelLabel,summaryLabel;
     private JButton homeButton, playAgainButton,nextLevelButton;
+    private transient Clip themeSound = AudioLoader.getThemeSound();
+    private transient Clip themeBossfightSound = AudioLoader.getBossfightSound();
+    private transient Clip fireSound = AudioLoader.getFireSound();
+    private boolean themePlaying = false;
+    private boolean firePlaying = false;
+    private boolean bossPlaying = false;
+    private boolean mute = false;
 
     //  Constructor
     public Game(Level level, User user){
@@ -169,6 +178,21 @@ public class Game extends JFrame {
         }
     }
 
+    // Setters
+    public void setThemePlaying(boolean themePlaying) {
+        this.themePlaying = themePlaying;
+    }
+    public void setFirePlaying(boolean firePlaying) {
+        this.firePlaying = firePlaying;
+    }
+    public void setMute(boolean mute) {
+        this.mute = mute;
+    }
+
+    public void setBossPlaying(boolean bossPlaying) {
+        this.bossPlaying = bossPlaying;
+    }
+
     // Getters
     public JLabel getCoinImage() {return coinImage;}
     public JLabel getCoinLabel() {return coinLabel;}
@@ -183,8 +207,34 @@ public class Game extends JFrame {
     public JButton getHomeButton() {return homeButton;}
     public JButton getPlayAgainButton() {return playAgainButton;}
     public JButton getNextLevelButton() {return nextLevelButton;}
-
     public User getUser() {
         return user;
+    }
+    public Clip getThemeSound() {
+        return themeSound;
+    }
+
+    public Clip getThemeBossfightSound() {
+        return themeBossfightSound;
+    }
+
+    public Clip getFireSound() {
+        return fireSound;
+    }
+
+    public boolean isThemePlaying() {
+        return themePlaying;
+    }
+
+    public boolean isFirePlaying() {
+        return firePlaying;
+    }
+
+    public boolean isMute() {
+        return mute;
+    }
+
+    public boolean isBossPlaying() {
+        return bossPlaying;
     }
 }

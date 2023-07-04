@@ -1,5 +1,6 @@
 package View.MainFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Loading.LevelLoader;
 import Model.*;
@@ -112,6 +113,7 @@ public class SlotMenu extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new MainPage(user);
                 SlotMenu.super.dispose();
             }
@@ -119,6 +121,7 @@ public class SlotMenu extends MainFrame {
         slot1Button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 Hero[] heroes = new Hero[1];
                 if (user.getActiveHero()== HeroName.MARIO){
                     heroes[0] = new Mario(3);
@@ -148,6 +151,7 @@ public class SlotMenu extends MainFrame {
         slot1Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new Game(user.getSavedLevels()[0], user);
                 SlotMenu.super.dispose();
             }
@@ -155,6 +159,7 @@ public class SlotMenu extends MainFrame {
         slot2Button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 Hero[] heroes = new Hero[1];
                 if (user.getActiveHero()==HeroName.MARIO){
                     heroes[0] = new Mario(3);
@@ -184,6 +189,7 @@ public class SlotMenu extends MainFrame {
         slot2Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new Game(user.getSavedLevels()[1], user);
                 SlotMenu.super.dispose();
             }
@@ -191,6 +197,7 @@ public class SlotMenu extends MainFrame {
         slot3Button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 Hero[] heroes = new Hero[1];
                 if (user.getActiveHero()==HeroName.MARIO){
                     heroes[0] = new Mario(3);
@@ -220,7 +227,7 @@ public class SlotMenu extends MainFrame {
         slot3Button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                AudioLoader.getButtonSound().start();
                 new Game(user.getSavedLevels()[2], user);
                 SlotMenu.super.dispose();
             }

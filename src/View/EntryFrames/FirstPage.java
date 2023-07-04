@@ -1,5 +1,6 @@
 package View.EntryFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import View.MainFrame;
 
@@ -35,12 +36,14 @@ public class FirstPage extends MainFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 FirstPage.super.dispose();
             }
         });
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new RegisterPage();
                 FirstPage.super.dispose();
             }
@@ -48,6 +51,7 @@ public class FirstPage extends MainFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new LoginPage();
                 FirstPage.super.dispose();
             }

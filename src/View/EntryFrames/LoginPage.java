@@ -1,5 +1,6 @@
 package View.EntryFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Loading.UserLoader;
 import Model.User;
@@ -43,6 +44,7 @@ public class LoginPage extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new FirstPage();
                 LoginPage.super.dispose();
             }
@@ -51,24 +53,27 @@ public class LoginPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (usernameField.getText().equals("") || new String(passwordField.getPassword()).equals("")){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"Empty inputs are not acceptable. Try again.","Empty Input Error",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
                     try {
                         UserLoader.loadUsers();
                     } catch (IOException ignored) {}
-                    User thisUser=null;
+                    User thisUser;
                     boolean found = false;
                     User[] users = UserLoader.getUsers();
                     if (users!=null){
                         for (User user : users){
                             if (user.getUsername().equals(usernameField.getText())){
                                 if (user.getPassword().equals(new String(passwordField.getPassword()))){
+                                    AudioLoader.getButtonSound().start();
                                     thisUser = user;
                                     new MainPage(thisUser);
                                     LoginPage.super.dispose();
                                 }
                                 else{
+                                    AudioLoader.getErrorSound().start();
                                     JOptionPane.showMessageDialog(null,"Password is wrong. Try again.","Wrong Password",JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 found=true;
@@ -77,6 +82,7 @@ public class LoginPage extends MainFrame {
                         }
                     }
                     if (!found){
+                        AudioLoader.getErrorSound().start();
                         JOptionPane.showMessageDialog(null,"Username not found. Try again.","Username Not Found",JOptionPane.INFORMATION_MESSAGE);
                     }
                 }

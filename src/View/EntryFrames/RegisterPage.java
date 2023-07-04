@@ -1,5 +1,6 @@
 package View.EntryFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Loading.UserLoader;
 import Model.User;
@@ -63,6 +64,7 @@ public class RegisterPage extends MainFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new FirstPage();
                 RegisterPage.super.dispose();
             }
@@ -71,17 +73,21 @@ public class RegisterPage extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (usernameField.getText().equals("") || new String(passwordField.getPassword()).equals("")){
+                    AudioLoader.getErrorSound().start();
                     JOptionPane.showMessageDialog(null,"Empty inputs are not acceptable. Try again.","Empty Input Error",JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
                     if (!yUsernameImage.isVisible()){
+                        AudioLoader.getErrorSound().start();
                         JOptionPane.showMessageDialog(null,"Username is taken. Please choose another username.","Username Error",JOptionPane.INFORMATION_MESSAGE);
                     }
                     else{
                         if (!yPasswordConfirmImage.isVisible()){
+                            AudioLoader.getErrorSound().start();
                             JOptionPane.showMessageDialog(null,"Confirm field is not equal to the password. Try again.","Password Error",JOptionPane.INFORMATION_MESSAGE);
                         }
                         else{
+                            AudioLoader.getButtonSound().start();
                             new User(usernameField.getText(),new String(passwordField.getPassword()));
                             JOptionPane.showMessageDialog(null,"User created successfully.","",JOptionPane.INFORMATION_MESSAGE);
                             new FirstPage();

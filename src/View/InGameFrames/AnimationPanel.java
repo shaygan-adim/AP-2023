@@ -1,5 +1,6 @@
 package View.InGameFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Logic.PhysicsHandler;
 import Model.Characters.Enemies.*;
@@ -59,13 +60,50 @@ public class AnimationPanel extends JPanel {
     protected void paintComponent(Graphics g){
         iterator++;
         super.paintComponent(g);
+        Bowser bowser = null;
+        for (Enemy enemy : level.getActivePart().getEnemies()){
+            if (enemy instanceof Bowser){
+                bowser = (Bowser)enemy;
+            }
+        }
+        if (game.isMute()){
+            game.getThemeBossfightSound().stop();
+            game.getThemeSound().stop();
+            game.getFireSound().stop();
+        }
+        else{
+            if (level.getActivePart().getHeroes()[0].isBossTrapped()){
+                if (!game.isBossPlaying()){
+                    game.setThemePlaying(false);
+                    game.getThemeSound().stop();
+                    game.getThemeBossfightSound().loop(50);
+                    game.setBossPlaying(true);
+                }
+                if (bowser!=null){
+                    if (bowser.isPhase2Fire()){
+                        if(!game.isFirePlaying()){
+                            game.setFirePlaying(true);
+                            game.getFireSound().loop(100);
+                        }
+                    }
+                }
+            }
+            else{
+                if (!game.isThemePlaying()){
+                    game.setThemePlaying(true);
+                    game.getThemeBossfightSound().stop();
+                    game.setBossPlaying(false);
+                    game.getThemeSound().loop(50);
+                }
+                if (game.isFirePlaying()){
+                    game.setFirePlaying(false);
+                    game.getFireSound().stop();
+                }
+            }
+        }
         if (physicsHandler.isPaused()){
             physicsHandler.setPaused(false);
             stopTheAnimation();
-            Bowser bowser = null;
-            for (Enemy enemy : level.getActivePart().getEnemies()) {
-                if (enemy instanceof Bowser) bowser = (Bowser) enemy;
-            }
             if (bowser!=null){
                 bowser.getAttackReloadStopwatch().pause();
                 bowser.getDizzyStopwatch().pause();
@@ -80,6 +118,18 @@ public class AnimationPanel extends JPanel {
             level.getActivePart().getStopwatch().pause();
             level.getActivePart().getHeroes()[0].getStopwatchForShield().pause();
             level.getActivePart().getHeroes()[0].getStopwatchForTransitioning().pause();
+            if (game.isFirePlaying()){
+                game.setFirePlaying(false);
+                game.getFireSound().stop();
+            }
+            if (game.isThemePlaying()){
+                game.getThemeSound().stop();
+                game.setThemePlaying(false);
+            }
+            if (game.isBossPlaying()){
+                game.getThemeBossfightSound().stop();
+                game.setBossPlaying(false);
+            }
             new PauseMenu(this,game.getUser(),level);
         }
 
@@ -586,7 +636,10 @@ public class AnimationPanel extends JPanel {
         }
         else if (this.level.getDone()==1){
             stopTheAnimation();
-
+            game.getThemeSound().stop();
+            game.getFireSound().stop();
+            game.getThemeBossfightSound().stop();
+            AudioLoader.getWinSound().start();
             this.homeButton.setVisible(true);
             this.playAgainButton.setVisible(true);
             this.nextLevelButton.setVisible(true);
@@ -619,6 +672,10 @@ public class AnimationPanel extends JPanel {
         }
         else{
             stopTheAnimation();
+            game.getThemeSound().stop();
+            game.getFireSound().stop();
+            game.getThemeBossfightSound().stop();
+            AudioLoader.getGameOverSound().start();
 
             this.heartImage.setVisible(false);
             this.heartLabel.setVisible(false);
@@ -657,5 +714,9 @@ public class AnimationPanel extends JPanel {
 
     public Game getGame() {
         return game;
+    }
+
+    public PhysicsHandler getPhysicsHandler() {
+        return physicsHandler;
     }
 }

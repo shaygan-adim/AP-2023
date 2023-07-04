@@ -1,5 +1,6 @@
 package View.MainFrames;
 
+import Loading.AudioLoader;
 import Loading.ImageLoader;
 import Model.Characters.Heroes.HeroName;
 import Model.User;
@@ -62,6 +63,7 @@ public class MainPage extends MainFrame {
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new ProfilePage(user);
                 MainPage.super.dispose();
             }
@@ -69,6 +71,7 @@ public class MainPage extends MainFrame {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new SlotMenu(user);
                 MainPage.super.dispose();
             }
@@ -76,6 +79,7 @@ public class MainPage extends MainFrame {
         leaderboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new RankingPage(user);
                 MainPage.super.dispose();
             }
@@ -83,6 +87,7 @@ public class MainPage extends MainFrame {
         shopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AudioLoader.getButtonSound().start();
                 new ShopPage(user);
                 MainPage.super.dispose();
             }
